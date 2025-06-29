@@ -1,12 +1,9 @@
-/* css/style.css */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* defines our color palette and fonts using css variables */
 :root {
     --bg-color: #1e1e1e;
     --sidebar-color: #252526;
@@ -21,15 +18,12 @@ body {
     font-family: var(--font-main);
 }
 
-/* the main grid container for the ide layout */
 .ide-container {
     display: grid;
-    /* defines 3 columns: 50px, 250px, and 1fr (fills remaining space) */
     grid-template-columns: 50px 250px 1fr;
-    height: 100vh; /* make the container fill the full viewport height */
+    height: 100vh;
 }
 
-/* styling for the 3 main sections */
 .activity-bar {
     background-color: var(--activity-bar-color);
 }
@@ -39,10 +33,9 @@ body {
 }
 
 .main-content {
-    padding: 20px; /* add some space inside the main content area */
+    padding: 20px;
 }
 
-/* === sidebar styling === */
 .file-explorer {
     padding: 10px;
 }
@@ -51,117 +44,134 @@ body {
     font-size: 11px;
     color: var(--text-color);
     margin-bottom: 10px;
-    letter-spacing: 1px; /* spreads out the letters a bit */
+    letter-spacing: 1px;
 }
 
 .file-list {
-    list-style-type: none; /* removes the default list bullets */
+    list-style-type: none;
 }
 
 .file-item {
     padding: 5px 10px;
-    cursor: pointer; /* changes the mouse cursor to a pointer on hover */
+    cursor: pointer;
     font-size: 14px;
 }
 
-/* style for the currently "active" file */
 .file-item.active {
-    background-color: rgba(255, 255, 255, 0.1); /* a semi-transparent white */
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* add a subtle hover effect to all file items */
 .file-item:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-
-/* === main content styling === */
-.code-editor {
-    counter-reset: line;
-}
-
-.line {
-    padding-left: 60px; /* increased padding to make room for line numbers */
-    position: relative;
-    line-height: 1.5;
-    font-size: 16px;
-}
-
-/* the pseudo-element that creates the line numbers */
-.line .line-number {
-    display: inline-block;
-    width: 30px;
-    text-align: right;
-    margin-right: 20px;
-    color: #858585; /* a dimmer color for the line numbers */
-    position: absolute;
-    left: 0;
-}
-
-/* syntax highlighting colors */
-.html-tag {
-    color: #569cd6; /* a blue color for html tags */
-}
-
-.html-text {
-    color: var(--text-color); /* uses our main text color */
-}
-
-/* === activity bar styling === */
 .activity-bar {
     display: flex;
-    flex-direction: column; /* stack items vertically */
-    justify-content: space-between; /* push lists to top and bottom */
-    align-items: center; /* center icons horizontally */
-    padding: 20px 0; /* add padding to the top and bottom */
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
 }
 
 .nav-list, .social-list {
-    list-style-type: none; /* remove bullet points */
+    list-style-type: none;
 }
 
 .social-list .nav-item a {
-    color: inherit; /* makes the link use the color of its parent (.nav-item) */
+    color: inherit;
 }
 
 .nav-item {
-    padding: 15px 0; /* add vertical space between icons */
-    font-size: 24px; /* make the icons bigger */
-    color: #858585; /* dim the inactive icons */
+    padding: 15px 0;
+    font-size: 24px;
+    color: #858585;
     cursor: pointer;
 }
 
 .nav-item:hover {
-    color: var(--text-color); /* brighten icons on hover */
+    color: var(--text-color);
 }
 
 .nav-item.active-nav {
-    color: var(--text-color); /* make the active icon bright */
-    border-left: 2px solid var(--text-color); /* add the little active indicator line */
-    padding-left: 12px; /* adjust padding to make room for the border */
+    color: var(--text-color);
+    border-left: 2px solid var(--text-color);
+    padding-left: 12px;
 }
 
-/* === page visibility === */
 .page {
-    display: none; /* hide all pages by default */
+    display: none;
 }
 
 .page.active {
-    display: block; /* show only the active page */
+    display: block;
 }
 
+.about-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    padding-top: 20px;
+}
 
-/* === projects page styling === */
+.about-text {
+    flex-basis: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.about-text h1 {
+    font-size: 42px;
+    color: var(--text-color);
+    margin-bottom: -10px;
+}
+
+.about-text .subtitle {
+    font-size: 18px;
+    color: #569cd6;
+    margin-bottom: 20px;
+}
+
+.about-text h3 {
+    color: #569cd6;
+    margin-bottom: -5px;
+}
+
+.about-text p {
+    line-height: 1.7;
+    color: #cccccc;
+}
+
+.about-photo {
+    flex-basis: 40%;
+    align-self: center;
+    padding: 5px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--sidebar-color), #569cd6);
+}
+
+.about-photo img {
+    max-width: 100%;
+    border-radius: 50%;
+    border: 5px solid var(--bg-color);
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.about-photo img:hover {
+    transform: scale(1.03);
+}
+
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* create a responsive grid */
-    gap: 20px; /* space between cards */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
     padding-top: 20px;
 }
 
 .project-card {
-    background-color: var(--sidebar-color); /* reuse a color from our theme */
-    border-left: 3px solid #569cd6; /* use the same blue as our html tags for an accent */
+    background-color: var(--sidebar-color);
+    border-left: 3px solid #569cd6;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -169,8 +179,8 @@ body {
 
 .project-description {
     margin: 15px 0;
-    flex-grow: 1; /* this makes the description take up available space, pushing the link to the bottom */
-    color: #cccccc; /* slightly lighter text for the description */
+    flex-grow: 1;
+    color: #cccccc;
 }
 
 .project-tech-list {
@@ -182,8 +192,8 @@ body {
 }
 
 .project-tech-list li {
-    background-color: rgba(86, 156, 214, 0.2); /* use a transparent version of the accent color */
-    color: #569cd6; /* use the accent color for the text */
+    background-color: rgba(86, 156, 214, 0.2);
+    color: #569cd6;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 12px;
@@ -193,14 +203,13 @@ body {
     color: var(--text-color);
     text-decoration: none;
     font-weight: bold;
-    align-self: flex-end; /* push the link to the right */
+    align-self: flex-end;
 }
 
 .project-link:hover {
     text-decoration: underline;
 }
 
-/* === resume page styling === */
 .resume-container {
     padding-top: 20px;
 }
@@ -208,154 +217,29 @@ body {
 .download-button {
     display: inline-block;
     padding: 12px 20px;
-    background-color: #569cd6; /* use our accent blue */
+    background-color: #569cd6;
     color: #ffffff;
     text-decoration: none;
     font-weight: bold;
     border-radius: 5px;
     margin-bottom: 20px;
-    transition: background-color 0.3s ease; /* smooth transition for hover effect */
+    transition: background-color 0.3s ease;
 }
 
 .download-button:hover {
-    background-color: #4a8ac9; /* a slightly darker blue for hover */
+    background-color: #4a8ac9;
 }
 
 .download-button i {
-    margin-left: 8px; /* space between text and icon */
+    margin-left: 8px;
 }
 
 .resume-embed {
     width: 100%;
-    height: 75vh; /* 75% of the viewport height */
+    height: 75vh;
     border: 1px solid var(--activity-bar-color);
 }
 
-/* === mobile responsiveness === */
-/* this block applies only to screens 768px wide or smaller */
-@media (max-width: 768px) {
-
-    /* 1. change the main layout to a single column */
-    .ide-container {
-        grid-template-columns: 1fr; 
-        grid-template-rows: 1fr auto;
-        grid-template-areas: 
-            "main"
-            "nav";
-    }
-
-    /* 2. hide the sidebar completely on mobile */
-    .sidebar {
-        display: none;
-    }
-
-    /* 3. re-assign grid areas and restyle the activity bar */
-    .main-content {
-        grid-area: main;
-        padding-bottom: 80px;
-    }
-
-    .activity-bar {
-        grid-area: nav;
-        width: 100%;
-        padding: 0;
-        border-top: 1px solid var(--sidebar-color);
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        z-index: 1000;
-        /* we will control the icon layout from the .nav-list now */
-    }
-
-    /* new rule to make the icons horizontal */
-    .activity-bar .nav-list {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around; /* this spreads the icons out evenly */
-        align-items: center;
-        width: 100%;
-    }
-
-    /* adjust the nav items for the new horizontal layout */
-    .nav-item {
-        padding: 15px;
-        border-left: none;
-        border-top: 3px solid transparent; /* prepare for active state */
-    }
-
-    .nav-item.active-nav {
-        border-left: none;
-        padding-left: 15px;
-        border-top: 3px solid var(--text-color); /* use a top border for active state */
-    }
-
-    /* hide the social links on mobile to save space */
-    .social-list {
-        display: none;
-    }
-
-    /* adjust project cards to ensure they are single column */
-    .projects-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* adjust resume embed height for vertical screens */
-    .resume-embed {
-        height: 60vh;
-    }
-}
-
-/* === about page styling === */
-.about-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 40px;
-    padding-top: 20px;
-}
-
-.about-text {
-    flex-basis: 60%; /* text takes up 60% of the width */
-}
-
-.about-text h3 {
-    color: #569cd6;
-    margin-bottom: 10px;
-    margin-top: 20px;
-}
-
-.about-text p {
-    line-height: 1.7;
-}
-
-/* new styles for the about page photo */
-.about-photo {
-    flex-basis: 40%;
-    align-self: center; /* helps with vertical alignment */
-    padding: 5px; /* creates space for the gradient border */
-    border-radius: 50%; /* makes the container a circle */
-    background: linear-gradient(45deg, var(--sidebar-color), #569cd6); /* gradient background */
-}
-
-.about-photo img {
-    max-width: 100%;
-    border-radius: 50%; /* makes the image a circle */
-    border: 5px solid var(--bg-color); /* creates the "cutout" effect over the gradient */
-    vertical-align: middle; /* fixes potential alignment issues */
-    transition: transform 0.3s ease; /* smooth transition for hover effect */
-}
-
-.about-photo img:hover {
-    transform: scale(1.03); /* slight zoom on hover */
-}
-
-/* you'll also need to adjust the text container slightly */
-.about-text {
-    flex-basis: 60%;
-    /* we can add a bit more top padding if needed */
-    padding-top: 20px; 
-}
-
-/* === contact page styling === */
 .contact-content {
     padding-top: 20px;
 }
@@ -385,9 +269,68 @@ body {
     color: #ffffff;
 }
 
-/* adjust about page for mobile */
 @media (max-width: 768px) {
+    .ide-container {
+        grid-template-columns: 1fr; 
+        grid-template-rows: 1fr auto;
+        grid-template-areas: 
+            "main"
+            "nav";
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        grid-area: main;
+        padding-bottom: 80px;
+    }
+
+    .activity-bar {
+        grid-area: nav;
+        width: 100%;
+        padding: 0;
+        border-top: 1px solid var(--sidebar-color);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .activity-bar .nav-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+    }
+
+    .nav-item {
+        padding: 15px;
+        border-left: none;
+        border-top: 3px solid transparent;
+    }
+
+    .nav-item.active-nav {
+        border-left: none;
+        padding-left: 15px;
+        border-top: 3px solid var(--text-color);
+    }
+
+    .social-list {
+        display: none;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resume-embed {
+        height: 60vh;
+    }
+    
     .about-content {
-        flex-direction: column; /* stack text and photo vertically */
+        flex-direction: column;
     }
 }
