@@ -106,3 +106,33 @@ body {
 .html-text {
     color: var(--text-color); /* uses our main text color */
 }
+
+/* === activity bar styling === */
+.activity-bar {
+    display: flex;
+    flex-direction: column; /* stack items vertically */
+    justify-content: space-between; /* push lists to top and bottom */
+    align-items: center; /* center icons horizontally */
+    padding: 20px 0; /* add padding to the top and bottom */
+}
+
+.nav-list, .social-list {
+    list-style-type: none; /* remove bullet points */
+}
+
+.nav-item {
+    padding: 15px 0; /* add vertical space between icons */
+    font-size: 24px; /* make the icons bigger */
+    color: #858585; /* dim the inactive icons */
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    color: var(--text-color); /* brighten icons on hover */
+}
+
+.nav-item.active-nav {
+    color: var(--text-color); /* make the active icon bright */
+    border-left: 2px solid var(--text-color); /* add the little active indicator line */
+    padding-left: 12px; /* adjust padding to make room for the border */
+}
