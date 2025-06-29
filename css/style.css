@@ -149,3 +149,53 @@ body {
 .page.active {
     display: block; /* show only the active page */
 }
+
+
+/* === projects page styling === */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* create a responsive grid */
+    gap: 20px; /* space between cards */
+    padding-top: 20px;
+}
+
+.project-card {
+    background-color: var(--sidebar-color); /* reuse a color from our theme */
+    border-left: 3px solid #569cd6; /* use the same blue as our html tags for an accent */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-description {
+    margin: 15px 0;
+    flex-grow: 1; /* this makes the description take up available space, pushing the link to the bottom */
+    color: #cccccc; /* slightly lighter text for the description */
+}
+
+.project-tech-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.project-tech-list li {
+    background-color: rgba(86, 156, 214, 0.2); /* use a transparent version of the accent color */
+    color: #569cd6; /* use the accent color for the text */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.project-link {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: bold;
+    align-self: flex-end; /* push the link to the right */
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}
