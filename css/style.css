@@ -120,6 +120,10 @@ body {
     list-style-type: none; /* remove bullet points */
 }
 
+.social-list .nav-item a {
+    color: inherit; /* makes the link use the color of its parent (.nav-item) */
+}
+
 .nav-item {
     padding: 15px 0; /* add vertical space between icons */
     font-size: 24px; /* make the icons bigger */
