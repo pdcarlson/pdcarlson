@@ -1,42 +1,64 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* === SIDEBAR STYLING === */
+.file-explorer {
+    padding: 10px;
 }
 
-:root {
-    --bg-color: #1e1e1e;
-    --sidebar-color: #252526;
-    --activity-bar-color: #333333;
-    --text-color: #d4d4d4;
-    --font-main: 'Courier New', Courier, monospace;
-}
-
-body {
-    background-color: var(--bg-color);
+.explorer-title {
+    font-size: 11px;
     color: var(--text-color);
-    font-family: var(--font-main);
+    margin-bottom: 10px;
+    letter-spacing: 1px; /* Spreads out the letters a bit */
 }
 
-.ide-container {
-    display: grid;
-    /* Defines 3 columns: 
-       - 1st is 50px wide (activity bar)
-       - 2nd is 250px wide (sidebar)
-       - 3rd takes up the remaining space (main content) */
-    grid-template-columns: 50px 250px 1fr;
-    height: 100vh; /* Make the container fill the full viewport height */
+.file-list {
+    list-style-type: none; /* Removes the default list bullets */
 }
 
-/* Styling for the 3 main sections */
-.activity-bar {
-    background-color: var(--activity-bar-color);
+.file-item {
+    padding: 5px 10px;
+    cursor: pointer; /* Changes the mouse cursor to a pointer on hover */
+    font-size: 14px;
 }
 
-.sidebar {
-    background-color: var(--sidebar-color);
+/* Style for the currently "active" file */
+.file-item.active {
+    background-color: rgba(255, 255, 255, 0.1); /* A semi-transparent white */
 }
 
-.main-content {
-    padding: 20px; /* Add some space inside the main content area */
+/* Add a subtle hover effect to all file items */
+.file-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+
+/* === MAIN CONTENT STYLING === */
+.code-editor {
+    counter-reset: line; /* Initializes a CSS counter for line numbers */
+}
+
+.line {
+    padding-left: 20px;
+    position: relative; /* Needed for positioning the line numbers */
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+/* The pseudo-element that creates the line numbers */
+.line .line-number {
+    display: inline-block;
+    width: 30px;
+    text-align: right;
+    margin-right: 20px;
+    color: #858585; /* A dimmer color for the line numbers */
+    position: absolute;
+    left: 0;
+}
+
+/* Syntax Highlighting Colors */
+.html-tag {
+    color: #569cd6; /* A blue color for HTML tags */
+}
+
+.html-text {
+    color: var(--text-color); /* Uses our main text color */
 }
