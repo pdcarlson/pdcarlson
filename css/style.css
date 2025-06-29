@@ -136,3 +136,12 @@ body {
     border-left: 2px solid var(--text-color); /* add the little active indicator line */
     padding-left: 12px; /* adjust padding to make room for the border */
 }
+
+/* === page visibility === */
+.page {
+    display: none; /* hide all pages by default */
+}
+
+.page.active {
+    display: block; /* show only the active page */
+}

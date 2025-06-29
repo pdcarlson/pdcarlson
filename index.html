@@ -12,50 +12,66 @@
 
         <nav class="activity-bar">
             <ul class="nav-list">
-                <li class="nav-item active-nav"><i class="fa-solid fa-file-code"></i></li>
-                <li class="nav-item"><i class="fa-solid fa-user"></i></li>
-                <li class="nav-item"><i class="fa-solid fa-folder-open"></i></li>
-                <li class="nav-item"><i class="fa-solid fa-file-lines"></i></li>
-                <li class="nav-item"><i class="fa-solid fa-envelope"></i></li>
+                <li class="nav-item active-nav" data-page="home"><i class="fa-solid fa-file-code"></i></li>
+                <li class="nav-item" data-page="about"><i class="fa-solid fa-user"></i></li>
+                <li class="nav-item" data-page="projects"><i class="fa-solid fa-folder-open"></i></li>
+                <li class="nav-item" data-page="resume"><i class="fa-solid fa-file-lines"></i></li>
+                <li class="nav-item" data-page="contact"><i class="fa-solid fa-envelope"></i></li>
             </ul>
-
             <ul class="social-list">
-                <li class="nav-item"><i class="fa-brands fa-github"></i></li>
-                <li class="nav-item"><i class="fa-brands fa-linkedin"></i></li>
+                <li class="nav-item"><a href="https://github.com/your-username" target="_blank"><i class="fa-brands fa-github"></i></a></li>
+                <li class="nav-item"><a href="https://linkedin.com/in/your-profile" target="_blank"><i class="fa-brands fa-linkedin"></i></a></li>
             </ul>
         </nav>
+
         <aside class="sidebar">
             <div class="file-explorer">
                 <p class="explorer-title">EXPLORER</p>
                 <ul class="file-list">
-                    <li class="file-item active">home.html</li>
-                    <li class="file-item">about.md</li>
-                    <li class="file-item">projects.js</li>
-                    <li class="file-item">contact.css</li>
+                    <li class="file-item active" data-page="home">home.html</li>
+                    <li class="file-item" data-page="about">about.md</li>
+                    <li class="file-item" data-page="projects">projects.js</li>
+                    <li class="file-item" data-page="resume">resume.txt</li>
+                    <li class="file-item" data-page="contact">contact.css</li>
                 </ul>
             </div>
         </aside>
 
         <main class="main-content">
-            <div class="code-editor">
-                <div class="line">
-                    <span class="line-number">1</span>
-                    <span class="html-tag">&lt;h1&gt;</span>
-                    <span class="html-text">Paul Carlson</span>
-                    <span class="html-tag">&lt;/h1&gt;</span>
+            <section class="page active" id="home">
+                <div class="code-editor">
+                    <div class="line">
+                        <span class="line-number">1</span> <span class="html-tag">&lt;h1&gt;</span> Paul Carlson <span class="html-tag">&lt;/h1&gt;</span>
+                    </div>
+                    <div class="line"><span class="line-number">2</span></div>
+                    <div class="line">
+                        <span class="line-number">3</span> <span class="html-tag">&lt;p&gt;</span> Aspiring Software Developer & RPI Student. <span class="html-tag">&lt;/p&gt;</span>
+                    </div>
                 </div>
-                <div class="line">
-                    <span class="line-number">2</span>
-                </div>
-                <div class="line">
-                    <span class="line-number">3</span>
-                    <span class="html-tag">&lt;p&gt;</span>
-                    <span class="html-text">Aspiring Software Developer & RPI Student.</span>
-                    <span class="html-tag">&lt;/p&gt;</span>
-                </div>
-            </div>
+            </section>
+
+            <section class="page" id="about">
+                <h2>about.md</h2>
+                <p>this is the about page. here you can write about your background, passions, and interests like skiing and fraternity leadership.</p>
+            </section>
+
+            <section class="page" id="projects">
+                <h2>projects.js</h2>
+                <p>this is the projects page. you'll list your projects here, like the ev charger tool.</p>
+            </section>
+
+            <section class="page" id="resume">
+                <h2>resume.txt</h2>
+                <p>this is the resume page. you can embed your pdf and list your skills here.</p>
+            </section>
+
+            <section class="page" id="contact">
+                <h2>contact.css</h2>
+                <p>this is the contact page, with your email and links to professional profiles.</p>
+            </section>
         </main>
 
     </div>
+    <script src="js/main.js" defer></script>
 </body>
 </html>
