@@ -237,9 +237,8 @@ body {
 
     /* 1. change the main layout to a single column */
     .ide-container {
-        /* switch to rows instead of columns */
         grid-template-columns: 1fr; 
-        grid-template-rows: 1fr auto; /* main content on top, nav bar on bottom */
+        grid-template-rows: 1fr auto;
         grid-template-areas: 
             "main"
             "nav";
@@ -250,36 +249,44 @@ body {
         display: none;
     }
 
-    /* 3. re-assign grid areas and restyle the activity bar as a bottom tab bar */
+    /* 3. re-assign grid areas and restyle the activity bar */
     .main-content {
-        grid-area: main; /* assign main content to the "main" area */
-        padding-bottom: 80px; /* add padding to prevent content from hiding behind the new nav bar */
+        grid-area: main;
+        padding-bottom: 80px;
     }
 
     .activity-bar {
-        grid-area: nav; /* assign activity bar to the "nav" area */
-        flex-direction: row; /* change from vertical to horizontal */
-        justify-content: space-around; /* space out icons evenly */
+        grid-area: nav;
         width: 100%;
         padding: 0;
-        border-top: 1px solid var(--sidebar-color); /* add a top border */
-        position: fixed; /* fix it to the bottom */
+        border-top: 1px solid var(--sidebar-color);
+        position: fixed;
         bottom: 0;
         left: 0;
-        z-index: 1000; /* ensure it stays on top of other content */
+        z-index: 1000;
+        /* we will control the icon layout from the .nav-list now */
+    }
+
+    /* new rule to make the icons horizontal */
+    .activity-bar .nav-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around; /* this spreads the icons out evenly */
+        align-items: center;
+        width: 100%;
     }
 
     /* adjust the nav items for the new horizontal layout */
     .nav-item {
         padding: 15px;
-        border-left: none; /* remove the vertical border */
-        border-top: 2px solid transparent; /* prepare for active state */
+        border-left: none;
+        border-top: 3px solid transparent; /* prepare for active state */
     }
 
     .nav-item.active-nav {
         border-left: none;
-        padding-left: 15px; /* reset the padding */
-        border-top: 2px solid var(--text-color); /* use a top border for active state */
+        padding-left: 15px;
+        border-top: 3px solid var(--text-color); /* use a top border for active state */
     }
 
     /* hide the social links on mobile to save space */
@@ -289,7 +296,7 @@ body {
 
     /* adjust project cards to ensure they are single column */
     .projects-grid {
-        grid-template-columns: 1fr; /* force a single column layout */
+        grid-template-columns: 1fr;
     }
 
     /* adjust resume embed height for vertical screens */
