@@ -327,15 +327,32 @@ body {
     line-height: 1.7;
 }
 
+/* new styles for the about page photo */
 .about-photo {
     flex-basis: 40%;
-    text-align: center;
+    align-self: center; /* helps with vertical alignment */
+    padding: 5px; /* creates space for the gradient border */
+    border-radius: 50%; /* makes the container a circle */
+    background: linear-gradient(45deg, var(--sidebar-color), #569cd6); /* gradient background */
 }
 
 .about-photo img {
     max-width: 100%;
-    border-radius: 5px;
-    border: 1px solid var(--sidebar-color);
+    border-radius: 50%; /* makes the image a circle */
+    border: 5px solid var(--bg-color); /* creates the "cutout" effect over the gradient */
+    vertical-align: middle; /* fixes potential alignment issues */
+    transition: transform 0.3s ease; /* smooth transition for hover effect */
+}
+
+.about-photo img:hover {
+    transform: scale(1.03); /* slight zoom on hover */
+}
+
+/* you'll also need to adjust the text container slightly */
+.about-text {
+    flex-basis: 60%;
+    /* we can add a bit more top padding if needed */
+    padding-top: 20px; 
 }
 
 /* === contact page styling === */

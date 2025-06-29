@@ -47,6 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // initially, set the home page as active
-    changePage('home');
+    // initially, set the about page as active
+    changePage('about');
 });
