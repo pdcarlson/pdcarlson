@@ -81,7 +81,7 @@ body {
 }
 
 .line {
-    padding-left: 20px;
+    padding-left: 60px; /* increased padding to make room for line numbers */
     position: relative;
     line-height: 1.5;
     font-size: 16px;
@@ -302,5 +302,75 @@ body {
     /* adjust resume embed height for vertical screens */
     .resume-embed {
         height: 60vh;
+    }
+}
+
+/* === about page styling === */
+.about-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    padding-top: 20px;
+}
+
+.about-text {
+    flex-basis: 60%; /* text takes up 60% of the width */
+}
+
+.about-text h3 {
+    color: #569cd6;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.about-text p {
+    line-height: 1.7;
+}
+
+.about-photo {
+    flex-basis: 40%;
+    text-align: center;
+}
+
+.about-photo img {
+    max-width: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--sidebar-color);
+}
+
+/* === contact page styling === */
+.contact-content {
+    padding-top: 20px;
+}
+
+.contact-content h3 {
+    color: #569cd6;
+    margin-bottom: 10px;
+}
+
+.contact-content p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.email-link {
+    display: inline-block;
+    padding: 12px 20px;
+    border: 1px solid #569cd6;
+    color: #569cd6;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.email-link:hover {
+    background-color: #569cd6;
+    color: #ffffff;
+}
+
+/* adjust about page for mobile */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column; /* stack text and photo vertically */
     }
 }
