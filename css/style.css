@@ -1,4 +1,48 @@
-/* === SIDEBAR STYLING === */
+/* css/style.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* defines our color palette and fonts using css variables */
+:root {
+    --bg-color: #1e1e1e;
+    --sidebar-color: #252526;
+    --activity-bar-color: #333333;
+    --text-color: #d4d4d4;
+    --font-main: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+}
+
+/* the main grid container for the ide layout */
+.ide-container {
+    display: grid;
+    /* defines 3 columns: 50px, 250px, and 1fr (fills remaining space) */
+    grid-template-columns: 50px 250px 1fr;
+    height: 100vh; /* make the container fill the full viewport height */
+}
+
+/* styling for the 3 main sections */
+.activity-bar {
+    background-color: var(--activity-bar-color);
+}
+
+.sidebar {
+    background-color: var(--sidebar-color);
+}
+
+.main-content {
+    padding: 20px; /* add some space inside the main content area */
+}
+
+/* === sidebar styling === */
 .file-explorer {
     padding: 10px;
 }
@@ -7,58 +51,58 @@
     font-size: 11px;
     color: var(--text-color);
     margin-bottom: 10px;
-    letter-spacing: 1px; /* Spreads out the letters a bit */
+    letter-spacing: 1px; /* spreads out the letters a bit */
 }
 
 .file-list {
-    list-style-type: none; /* Removes the default list bullets */
+    list-style-type: none; /* removes the default list bullets */
 }
 
 .file-item {
     padding: 5px 10px;
-    cursor: pointer; /* Changes the mouse cursor to a pointer on hover */
+    cursor: pointer; /* changes the mouse cursor to a pointer on hover */
     font-size: 14px;
 }
 
-/* Style for the currently "active" file */
+/* style for the currently "active" file */
 .file-item.active {
-    background-color: rgba(255, 255, 255, 0.1); /* A semi-transparent white */
+    background-color: rgba(255, 255, 255, 0.1); /* a semi-transparent white */
 }
 
-/* Add a subtle hover effect to all file items */
+/* add a subtle hover effect to all file items */
 .file-item:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
 
-/* === MAIN CONTENT STYLING === */
+/* === main content styling === */
 .code-editor {
-    counter-reset: line; /* Initializes a CSS counter for line numbers */
+    counter-reset: line;
 }
 
 .line {
     padding-left: 20px;
-    position: relative; /* Needed for positioning the line numbers */
+    position: relative;
     line-height: 1.5;
     font-size: 16px;
 }
 
-/* The pseudo-element that creates the line numbers */
+/* the pseudo-element that creates the line numbers */
 .line .line-number {
     display: inline-block;
     width: 30px;
     text-align: right;
     margin-right: 20px;
-    color: #858585; /* A dimmer color for the line numbers */
+    color: #858585; /* a dimmer color for the line numbers */
     position: absolute;
     left: 0;
 }
 
-/* Syntax Highlighting Colors */
+/* syntax highlighting colors */
 .html-tag {
-    color: #569cd6; /* A blue color for HTML tags */
+    color: #569cd6; /* a blue color for html tags */
 }
 
 .html-text {
-    color: var(--text-color); /* Uses our main text color */
+    color: var(--text-color); /* uses our main text color */
 }
