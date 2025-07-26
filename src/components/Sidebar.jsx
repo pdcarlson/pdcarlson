@@ -1,6 +1,5 @@
 import React from 'react';
 
-// Note: We've added `activePage` to the props
 function Sidebar({ activePage, setActivePage }) {
   const handleFileClick = (page) => {
     setActivePage(page);

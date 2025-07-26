@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="ide-container">
       <ActivityBar activePage={activePage} setActivePage={setActivePage} />
-      <Sidebar setActivePage={setActivePage} />
+      <Sidebar activePage={activePage} setActivePage={setActivePage} />
       <main className="main-content">
         {renderPage()}
       </main>

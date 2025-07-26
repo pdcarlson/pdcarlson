@@ -89,6 +89,8 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
+    border-left: 2px solid transparent;
+    transition: all 0.2s ease-in-out;
 }
 
 .nav-item:hover {
@@ -98,15 +100,6 @@ body {
 .nav-item.active-nav {
     color: var(--text-color);
     border-left: 2px solid var(--text-color);
-    padding-left: 12px;
-}
-
-.page {
-    display: none;
-}
-
-.page.active {
-    display: block;
 }
 
 .about-content {
