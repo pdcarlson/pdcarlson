@@ -6,36 +6,7 @@ function Projects() {
       <h2>projects.js</h2>
       <div className="projects-grid">
 
-        <div className="project-card">
-          <h3>Munsell Color Mapper</h3>
-          <p className="project-description">
-            A full-stack mobile application (Python and Swift) designed to identify Munsell soil colors from a photograph, featuring complete offline functionality for field use.
-          </p>
-          <ul className="project-tech-list">
-            <li>Python</li>
-            <li>Swift</li>
-            <li>Mobile App</li>
-          </ul>
-          <a href="#" className="project-link" target="_blank" rel="noopener noreferrer">
-            View Code &rarr;
-          </a>
-        </div>
-
-        <div className="project-card">
-          <h3>EV Charging Site Analysis</h3>
-          <p className="project-description">
-            Developed a Python tool at HackRPI 2024 to analyze geospatial data and identify optimal locations for new Electric Vehicle (EV) charging stations based on various criteria.
-          </p>
-          <ul className="project-tech-list">
-            <li>Python</li>
-            <li>Geospatial</li>
-            <li>Data Analysis</li>
-          </ul>
-          <a href="#" className="project-link" target="_blank" rel="noopener noreferrer">
-            View Code &rarr;
-          </a>
-        </div>
-        
+        {/* ESE MAP VIEWER */}
         <div className="project-card">
           <h3>Interactive Web Map</h3>
           <p className="project-description">
@@ -50,6 +21,32 @@ function Projects() {
           <a href="https://github.com/East-SouthEast-LLC/ese-map-viewer" className="project-link" target="_blank" rel="noopener noreferrer">
             View Code &rarr;
           </a>
+        </div>
+
+        {/* MUNSELL COLOR MAPPER */}
+        <div className="project-card">
+          <h3>Munsell Color Mapper</h3>
+          <p className="project-description">
+            The Munsell Color Mapper is a mobile app I'm developing to replace the expensive, cumbersome process of manually identifying soil color in the field. I am building a Python-based backend with custom algorithms that can analyze a photo of a soil sample and instantly find the closest Munsell color match. The final app, deployed on iOS using Swift, is being built to work offline and will eventually include a cloud database to log sample locations and images.
+          </p>
+          <ul className="project-tech-list">
+            <li>Python</li>
+            <li>Swift</li>
+            <li>Mobile App</li>
+          </ul>
+        </div>
+
+        {/* EV CHARGING SITE ANALYSIS */}
+        <div className="project-card">
+          <h3>EV Charging Site Analysis</h3>
+          <p className="project-description">
+            In response to the HackRPI "Urban Upgrades" challenge, my teammate and I developed a Python tool to analyze ideal placement for new EV charging stations. The goal was to find a data-driven way to maximize the impact of new infrastructure investments. Our solution processed datasets on population density and existing charger locations to produce an interactive map, providing a foundational proof-of-concept for strategic urban planning.
+          </p>
+          <ul className="project-tech-list">
+            <li>Python</li>
+            <li>Geospatial</li>
+            <li>Data Analysis</li>
+          </ul>
         </div>
 
       </div>
