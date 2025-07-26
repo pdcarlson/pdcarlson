@@ -18,9 +18,14 @@ function Projects() {
             <li>Mapbox</li>
             <li>QGIS</li>
           </ul>
-          <a href="https://github.com/East-SouthEast-LLC/ese-map-viewer" className="project-link" target="_blank" rel="noopener noreferrer">
-            View Code &rarr;
-          </a>
+          <div className="project-card-footer">
+            <a href="https://ese-llc.com/toc" className="project-link" target="_blank" rel="noopener noreferrer">
+              View Live &rarr;
+            </a>
+            <a href="https://github.com/East-SouthEast-LLC/ese-map-viewer" className="project-link" target="_blank" rel="noopener noreferrer">
+              View Code &rarr;
+            </a>
+          </div>
         </div>
 
         {/* MUNSELL COLOR MAPPER */}

@@ -207,6 +207,14 @@ body {
     text-decoration: underline;
 }
 
+.project-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: auto; /* Pushes the footer to the bottom */
+    padding-top: 15px; /* Adds space above the links */
+}
+
 .resume-container {
     padding-top: 20px;
 }
