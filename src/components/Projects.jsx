@@ -10,7 +10,7 @@ function Projects() {
         <div className="project-card">
           <h3>Interactive Web Map</h3>
           <p className="project-description">
-            This project involved a complete overhaul of a legacy web map system used by 9 different towns. I re-architected the front-end, migrating the code to a clean, centralized GitHub repository to make updates instant and consistent. Beyond this modernization, I developed a suite of professional-grade features to transform the tool for power users. Key additions include a dynamic legend that only shows visible map items, a robust bookmarking system, and an advanced, multi-page printing utility. This print feature allows users to generate custom reports with specific layer combinations and save their company information, a core component designed for future monetization.
+            This project involved a complete overhaul of a legacy web map system used by 9 different towns. I re-architected the front-end, migrating the code to a clean, centralized GitHub repository to make updates instant and consistent. Beyond this modernization, I developed a suite of professional-grade features to transform the tool for users. Key additions include a dynamic legend that only shows visible map items, a robust bookmarking system, and an advanced, multi-page printing utility. This print feature allows users to generate custom reports with specific layer combinations and save their company information, a core component designed for future monetization.
           </p>
           <ul className="project-tech-list">
             <li>HTML/CSS</li>
@@ -19,11 +19,37 @@ function Projects() {
             <li>QGIS</li>
           </ul>
           <div className="project-card-footer">
-            <a href="https://ese-llc.com/toc" className="project-link" target="_blank" rel="noopener noreferrer">
-              View Live &rarr;
+            <a href="https://ese-llc.com/toc" className="project-link-button" target="_blank" rel="noopener noreferrer">
+              View Live
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
-            <a href="https://github.com/East-SouthEast-LLC/ese-map-viewer" className="project-link" target="_blank" rel="noopener noreferrer">
-              View Code &rarr;
+            <a href="https://github.com/East-SouthEast-LLC/ese-map-viewer" className="project-link-button" target="_blank" rel="noopener noreferrer">
+              View Code
+              <i class="fa-solid fa-code"></i>
+            </a>
+          </div>
+        </div>
+
+        {/* REACT MOVIE APP */}
+        <div className="project-card">
+          <h3>Movie App</h3>
+          <p className="project-description">
+            A responsive movie discovery web app that allows users to search for films using the TMDB API. To practice new technologies, I built this project following a tutorial, focusing on a modern React workflow with Vite for a fast development experience and Tailwind CSS for styling. A key feature is the "Trending Searches" section, which is powered by a custom Appwrite backend that logs and ranks user search queries, demonstrating my ability to integrate a front-end application with a database.
+          </p>
+          <ul className="project-tech-list">
+            <li>React</li>
+            <li>Database</li>
+            <li>Appwrite</li>
+            <li>API</li>
+          </ul>
+          <div className="project-card-footer">
+            <a href="https://movies.pdcarlson.dev" className="project-link-button" target="_blank" rel="noopener noreferrer">
+              View Live
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <a href="https://github.com/pdcarlson/react-movie-app" className="project-link-button" target="_blank" rel="noopener noreferrer">
+              View Code
+              <i class="fa-solid fa-code"></i>
             </a>
           </div>
         </div>
