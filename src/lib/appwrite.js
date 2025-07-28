@@ -1,10 +1,23 @@
-import { Client, Account, Databases } from "appwrite";
+import { Client, Databases } from "appwrite";
 
+// import enviornment variables
+const APPWRITE_ENDPOINT = import.meta.env.VITE_APPWRITE_ENDPOINT;
+const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
+const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
+const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
+
+// setup client
 const client = new Client()
-    .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-    .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID);
+    .setEndpoint(APPWRITE_ENDPOINT)
+    .setProject(PROJECT_ID);
 
-const account = new Account(client);
-const databases = new Databases(client);
+const database = new Databases(client);
 
-export { client, account, databases };
+export const getProjects = async () => {
+    try {
+        const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [])
+        return result.documents;
+    } catch (e) {
+        console.log(e);
+    }
+}
