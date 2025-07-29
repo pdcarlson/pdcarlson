@@ -398,3 +398,14 @@ body {
 .project-actions button {
     background-color: #c94040;
 }
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.logout-button {
+    background-color: #555;
+}
