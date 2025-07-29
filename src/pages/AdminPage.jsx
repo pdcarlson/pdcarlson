@@ -11,6 +11,7 @@ const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
 const AdminPage = () => {
   const { logout } = useAuth();
   const navigate = useNavigate(); 
+  const [editingProject, setEditingProject] = useState(null); 
   const [projects, setProjects] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
@@ -20,37 +21,64 @@ const AdminPage = () => {
     codeLink: ''
   });
 
-  const handleAddProject = async (e) => {
+  const handleEditClick = (project) => {
+    setEditingProject(project); // Set the project we're editing
+    // Populate the form with the project's current data
+    setFormData({
+    title: project.title,
+    desc: project.desc,
+    tech: project.tech.join(', '), // Convert the array back to a string for the input
+    liveLink: project.liveLink,
+    codeLink: project.codeLink,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const techArray = formData.tech.split(',').map(item => item.trim());
+    const payload = {
+      title: formData.title,
+      desc: formData.desc,
+      tech: techArray,
+      liveLink: formData.liveLink,
+      codeLink: formData.codeLink,
+    };
+
     try {
-      const techArray = formData.tech.split(',').map(item => item.trim());
-
-      const payload = {
-        title: formData.title,
-        desc: formData.desc,
-        tech: techArray,
-        liveLink: formData.liveLink,
-        codeLink: formData.codeLink,
-      };
-
-      const newProject = await database.createDocument(
-        DATABASE_ID,
-        COLLECTION_ID,
-        'unique()',
-        payload
-      );
-
-      // Add the new project to the top of the local list for an instant update
-      setProjects(prevProjects => [newProject, ...prevProjects]);
-
-      // Clear the form fields
+      if (editingProject) {
+        // --- UPDATE LOGIC ---
+        const updatedProject = await database.updateDocument(
+          DATABASE_ID,
+          COLLECTION_ID,
+          editingProject.$id, // The ID of the document to update
+          payload
+        );
+        // Update the project in our local list
+        setProjects(projects.map(p => p.$id === editingProject.$id ? updatedProject : p));
+        setEditingProject(null); // Exit editing mode
+      } else {
+        // --- CREATE LOGIC (your existing code) ---
+        const newProject = await database.createDocument(
+          DATABASE_ID,
+          COLLECTION_ID,
+          'unique()',
+          payload
+        );
+        setProjects(prevProjects => [newProject, ...prevProjects]);
+      }
+      // Clear the form after either action
       setFormData({ title: '', desc: '', tech: '', liveLink: '', codeLink: '' });
-
     } catch (error) {
-      console.error("Failed to add project:", error);
-      alert("Error: Could not add project.");
+      console.error("Failed to save project:", error);
+      alert("Error: Could not save project.");
     }
-};
+  };
+
+  // Add a function to cancel editing
+  const handleCancelEdit = () => {
+    setEditingProject(null);
+    setFormData({ title: '', desc: '', tech: '', liveLink: '', codeLink: '' });
+  };
 
   // Fetch existing projects when the component loads
   useEffect(() => {
@@ -97,24 +125,33 @@ const AdminPage = () => {
     };
 
   return (
-   <div className="admin-page">
+    <div className="admin-page">
       <div className="admin-header">
-        <h2>Admin Panel</h2>
+        {/* Conditionally render the title */}
+        <h2>{editingProject ? 'Edit Project' : 'Admin Panel'}</h2>
         <button onClick={handleLogout} className="logout-button">Logout</button>
       </div>
 
-      {/* Add Project Form */}
-      <form onSubmit={handleAddProject} className="admin-form">
-        <h3>Add New Project</h3>
+      {/* Change the onSubmit to the new handleSubmit function */}
+      <form onSubmit={handleSubmit} className="admin-form">
+        <h3>{editingProject ? `Editing: ${editingProject.title}` : 'Add New Project'}</h3>
         <input name="title" value={formData.title} onChange={handleInputChange} placeholder="Title" required />
         <textarea name="desc" value={formData.desc} onChange={handleInputChange} placeholder="Description" required />
         <input name="tech" value={formData.tech} onChange={handleInputChange} placeholder="Technologies (comma-separated)" required />
         <input name="liveLink" value={formData.liveLink} onChange={handleInputChange} placeholder="Live Link URL" type="url" />
         <input name="codeLink" value={formData.codeLink} onChange={handleInputChange} placeholder="Code Link URL" type="url" />
-        <button type="submit">Add Project</button>
+        <div className="form-buttons">
+          {/* Conditionally render the button text */}
+          <button type="submit">{editingProject ? 'Update Project' : 'Add Project'}</button>
+          {/* Show a Cancel button only when editing */}
+          {editingProject && (
+            <button type="button" onClick={handleCancelEdit} className="cancel-button">
+              Cancel
+            </button>
+          )}
+        </div>
       </form>
 
-      {/* Existing Projects List */}
       <div className="existing-projects">
         <h3>Existing Projects</h3>
         {projects.length > 0 ? (
@@ -123,7 +160,9 @@ const AdminPage = () => {
               <li key={project.$id}>
                 <span>{project.title}</span>
                 <div className="project-actions">
-                    <button onClick={() => handleDeleteProject(project.$id)}>Delete</button>
+                  {/* Add the Edit button here */}
+                  <button onClick={() => handleEditClick(project)} className="edit-button">Edit</button>
+                  <button onClick={() => handleDeleteProject(project.$id)}>Delete</button>
                 </div>
               </li>
             ))}

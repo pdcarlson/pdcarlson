@@ -422,3 +422,16 @@ body {
 .return-link:hover {
   text-decoration: underline;
 }
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.edit-button {
+  background-color: #3b82f6;
+}
+
+.cancel-button {
+  background-color: #6b7280;
+}
