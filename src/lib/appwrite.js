@@ -13,7 +13,7 @@ const client = new Client()
 
 const database = new Databases(client);
 
-export const getProjects = async () => {
+export const getMyProjects = async () => {
     try {
         const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [])
         return result.documents;
