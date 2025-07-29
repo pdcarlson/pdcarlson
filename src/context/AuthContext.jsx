@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    const session = await account.createEmailSession(email, password);
+    const session = await account.createEmailPasswordSession(email, password);
     const loggedInUser = await account.get();
     setUser(loggedInUser);
     return session;
