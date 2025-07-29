@@ -356,3 +356,45 @@ body {
         flex-direction: column;
     }
 }
+
+.admin-page {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #2a2a2a; /* Dark background for the form */
+  border-radius: 8px;
+}
+
+.admin-form input,
+.admin-form textarea {
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+.existing-projects ul {
+  list-style: none;
+  padding: 0;
+}
+
+.existing-projects li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #444;
+}
+
+.project-actions button {
+    background-color: #c94040;
+}

@@ -21,3 +21,5 @@ export const getMyProjects = async () => {
         console.log(e);
     }
 }
+
+export { client, database };
