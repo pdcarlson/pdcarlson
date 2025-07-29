@@ -10,11 +10,11 @@ const ProjectCard = ({project :
           <div className="project-card-footer">
             <a href={liveLink} className="project-link-button" target="_blank" rel="noopener noreferrer">
               View Live
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <i className="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
             <a href={codeLink} className="project-link-button" target="_blank" rel="noopener noreferrer">
               View Code
-              <i class="fa-solid fa-code"></i>
+              <i className="fa-solid fa-code"></i>
             </a>
           </div>
         </div>
