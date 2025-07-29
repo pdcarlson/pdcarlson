@@ -8,7 +8,7 @@ const ProjectCard = ({project :
           <p className="project-description">{desc}</p>
           <ul className="project-tech-list">
             {tech.map((techItem, index) => (
-              <li key={index} className="project-tech-item">{techItem}</li>
+              <li key={index}>{techItem}</li>
             ))}
           </ul>
           <div className="project-card-footer">
