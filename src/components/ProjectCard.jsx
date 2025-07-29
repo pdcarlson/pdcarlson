@@ -12,14 +12,18 @@ const ProjectCard = ({project :
             ))}
           </ul>
           <div className="project-card-footer">
-            <a href={liveLink} className="project-link-button" target="_blank" rel="noopener noreferrer">
-              View Live
-              <i className="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
-            <a href={codeLink} className="project-link-button" target="_blank" rel="noopener noreferrer">
-              View Code
-              <i className="fa-solid fa-code"></i>
-            </a>
+            {liveLink && (
+              <a href={liveLink} className="project-link-button" target="_blank" rel="noopener noreferrer">
+                View Live
+                <i className="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            )}
+            {codeLink && (
+              <a href={codeLink} className="project-link-button" target="_blank" rel="noopener noreferrer">
+                View Code
+                <i className="fa-solid fa-code"></i>
+              </a>
+            )}
           </div>
         </div>
   )
