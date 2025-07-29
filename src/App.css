@@ -409,3 +409,16 @@ body {
 .logout-button {
     background-color: #555;
 }
+
+.return-link {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #9cdcfe;
+  text-decoration: none;
+  transition: text-decoration 0.2s ease-in-out;
+}
+
+.return-link:hover {
+  text-decoration: underline;
+}

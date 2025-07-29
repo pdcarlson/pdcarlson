@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { database } from '../lib/appwrite';
 import { useAuth } from '../context/AuthContext'; 
+import { useNavigate } from 'react-router-dom'; 
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
 
 
 const AdminPage = () => {
   const { logout } = useAuth();
+  const navigate = useNavigate(); 
   const [projects, setProjects] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
@@ -88,10 +90,9 @@ const AdminPage = () => {
 
     const handleLogout = async () => {
         try {
-        await logout();
-        navigate('/'); // Redirect to home page after logout
+            await logout();
         } catch (error) {
-        console.error("Failed to log out:", error);
+            console.error("Failed to log out:", error);
         }
     };
 

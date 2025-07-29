@@ -1,8 +1,8 @@
 // src/pages/LoginPage.jsx
 
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext'; 
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate, Link } from 'react-router-dom'; // 1. Import Link
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +14,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/admin'); // Redirect to admin page on successful login
+      navigate('/admin'); 
     } catch (error) {
       console.error("Failed to log in", error);
       alert("Login Failed: " + error.message);
@@ -41,6 +41,10 @@ const LoginPage = () => {
         />
         <button type="submit">Login</button>
       </form>
+
+      <Link to="/" className="return-link">
+        &larr; Return to Portfolio
+      </Link>
     </div>
   );
 };
