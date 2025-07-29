@@ -1,4 +1,4 @@
-import { Client, Databases } from "appwrite";
+import { Client, Databases, Account } from "appwrite";
 
 // import enviornment variables
 const APPWRITE_ENDPOINT = import.meta.env.VITE_APPWRITE_ENDPOINT;
@@ -12,6 +12,7 @@ const client = new Client()
     .setProject(PROJECT_ID);
 
 const database = new Databases(client);
+const account = new Account(client);
 
 export const getMyProjects = async () => {
     try {
@@ -22,4 +23,4 @@ export const getMyProjects = async () => {
     }
 }
 
-export { client, database };
+export { client, database, account };
