@@ -11,16 +11,16 @@ const client = new Client()
     .setEndpoint(APPWRITE_ENDPOINT)
     .setProject(PROJECT_ID);
 
-const database = new Databases(client);
+const databases = new Databases(client);
 const account = new Account(client);
 
 export const getMyProjects = async () => {
     try {
-        const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [])
+        const result = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [])
         return result.documents;
     } catch (e) {
         console.log(e);
     }
 }
 
-export { client, database, account };
+export { client, databases, account };

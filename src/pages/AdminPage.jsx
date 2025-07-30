@@ -1,9 +1,10 @@
 // src/pages/AdminPage.jsx
 
 import React, { useState, useEffect } from 'react';
-import { database } from '../lib/appwrite';
+import { databases } from '../lib/appwrite';
 import { useAuth } from '../context/AuthContext'; 
 import { useNavigate } from 'react-router-dom'; 
+import { Databases } from 'appwrite';
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
 
@@ -47,7 +48,7 @@ const AdminPage = () => {
     try {
       if (editingProject) {
         // --- UPDATE LOGIC ---
-        const updatedProject = await database.updateDocument(
+        const updatedProject = await databases.updateDocument(
           DATABASE_ID,
           COLLECTION_ID,
           editingProject.$id, // The ID of the document to update
@@ -58,7 +59,7 @@ const AdminPage = () => {
         setEditingProject(null); // Exit editing mode
       } else {
         // --- CREATE LOGIC (your existing code) ---
-        const newProject = await database.createDocument(
+        const newProject = await databases.createDocument(
           DATABASE_ID,
           COLLECTION_ID,
           'unique()',
@@ -84,7 +85,7 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await database.listDocuments(DATABASE_ID, COLLECTION_ID);
+        const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
         setProjects(response.documents);
       } catch (error) {
         console.error("Failed to fetch projects:", error);
@@ -105,7 +106,7 @@ const AdminPage = () => {
         }
     
         try {
-        await database.deleteDocument(DATABASE_ID, COLLECTION_ID, projectId);
+        await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, projectId);
 
         // Remove the deleted project from our local state
         setProjects(prevProjects => prevProjects.filter(p => p.$id !== projectId));
