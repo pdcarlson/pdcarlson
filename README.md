@@ -17,9 +17,8 @@ I'm a Web Development and Geospatial Technology Intern at East-SouthEast, LLC, a
 ### 🚀 My Projects
 
 #### 🗺️ ESE Map Viewer
-This was my main project with East-SouthEast, LLC. It's a Mapbox viewer with over 100GB of content hosted in the cloud and loaded dynamically as a self-implemented tileset to display the USGS map layer.
+I overhauled a complex web map for nine different towns, making it faster, more powerful, and easier to update. I rebuilt the user interface and introduced key features like a dynamic legend, a robust bookmarking system, and a tool for generating custom PDF reports, laying the groundwork for a future subscription service. The viewer handles over 100GB of content hosted in the cloud, loaded dynamically as a self-implemented tileset to display USGS map layers.
 
-- **Features**: Custom PDF exports of map layers, live-updating legends, and panorama photo hosting with auto-correction.
 - **Live Site**: [ese-llc.com/toc](https://ese-llc.com/toc)
 - **GitHub Repo**: [East-SouthEast-LLC/ese-map-viewer](https://github.com/East-SouthEast-LLC/ese-map-viewer)
 
