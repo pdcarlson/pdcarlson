@@ -6,18 +6,21 @@ import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
-
-function App() {
+const PageTracker = () => {
   const location = useLocation();
 
-  // This effect runs every time the page URL changes
   useEffect(() => {
-    // We track the pageview, sending the event type and the current path
-    trackEvent('pageview', location.pathname);
-  }, [location]); // The dependency array ensures it runs on location change
+    trackEvent('pageview', { path: location.pathname });
+  }, [location]);
 
+  return null;
+};
+
+
+function App() {
   return (
     <Router>
+      <PageTracker />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
