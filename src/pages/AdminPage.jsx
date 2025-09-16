@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { databases } from '../lib/appwrite';
 import { useAuth } from '../context/AuthContext'; 
 import { useNavigate } from 'react-router-dom'; 
-import { Databases } from 'appwrite';
+import { ID } from 'appwrite'; // import id
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
 
@@ -23,72 +23,75 @@ const AdminPage = () => {
   });
 
   const handleEditClick = (project) => {
-    setEditingProject(project); // Set the project we're editing
-    // Populate the form with the project's current data
+    setEditingProject(project); // set the project we're editing
+    // populate the form with the project's current data
     setFormData({
     title: project.title,
     desc: project.desc,
-    tech: project.tech.join(', '), // Convert the array back to a string for the input
-    liveLink: project.liveLink,
-    codeLink: project.codeLink,
+    tech: project.tech.join(', '), // convert the array back to a string for the input
+    liveLink: project.liveLink || '', // ensure null values from db don't break the form
+    codeLink: project.codeLink || '', // ensure null values from db don't break the form
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const techArray = formData.tech.split(',').map(item => item.trim());
+    
+    // if a link field is empty, send null; otherwise, send the value.
+    // this prevents appwrite from throwing a url format error on empty strings.
     const payload = {
       title: formData.title,
       desc: formData.desc,
       tech: techArray,
-      liveLink: formData.liveLink,
-      codeLink: formData.codeLink,
+      liveLink: formData.liveLink || null,
+      codeLink: formData.codeLink || null,
     };
 
     try {
       if (editingProject) {
-        // --- UPDATE LOGIC ---
+        // --- update logic ---
         const updatedProject = await databases.updateDocument(
           DATABASE_ID,
           COLLECTION_ID,
-          editingProject.$id, // The ID of the document to update
+          editingProject.$id, // the id of the document to update
           payload
         );
-        // Update the project in our local list
+        // update the project in our local list
         setProjects(projects.map(p => p.$id === editingProject.$id ? updatedProject : p));
-        setEditingProject(null); // Exit editing mode
+        setEditingProject(null); // exit editing mode
       } else {
-        // --- CREATE LOGIC (your existing code) ---
+        // --- create logic ---
         const newProject = await databases.createDocument(
           DATABASE_ID,
           COLLECTION_ID,
-          'unique()',
+          ID.unique(), // use the appwrite id utility
           payload
         );
         setProjects(prevProjects => [newProject, ...prevProjects]);
       }
-      // Clear the form after either action
+      // clear the form after either action
       setFormData({ title: '', desc: '', tech: '', liveLink: '', codeLink: '' });
     } catch (error) {
-      console.error("Failed to save project:", error);
-      alert("Error: Could not save project.");
+      console.error("failed to save project:", error);
+      alert("error: could not save project.");
     }
   };
 
-  // Add a function to cancel editing
+  // add a function to cancel editing
   const handleCancelEdit = () => {
     setEditingProject(null);
     setFormData({ title: '', desc: '', tech: '', liveLink: '', codeLink: '' });
   };
 
-  // Fetch existing projects when the component loads
+  // fetch existing projects when the component loads
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
         setProjects(response.documents);
       } catch (error) {
-        console.error("Failed to fetch projects:", error);
+        console.error("failed to fetch projects:", error);
       }
     };
     fetchProjects();
@@ -100,20 +103,20 @@ const AdminPage = () => {
   };
   
     const handleDeleteProject = async (projectId) => {
-        // Add a confirmation prompt to prevent accidental deletions
-        if (!window.confirm("Are you sure you want to delete this project?")) {
+        // add a confirmation prompt to prevent accidental deletions
+        if (!window.confirm("are you sure you want to delete this project?")) {
             return;
         }
     
         try {
         await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, projectId);
 
-        // Remove the deleted project from our local state
+        // remove the deleted project from our local state
         setProjects(prevProjects => prevProjects.filter(p => p.$id !== projectId));
 
         } catch (error) {
-        console.error("Failed to delete project:", error);
-        alert("Error: Could not delete project.");
+        console.error("failed to delete project:", error);
+        alert("error: could not delete project.");
         }
     };
 
@@ -121,55 +124,55 @@ const AdminPage = () => {
         try {
             await logout();
         } catch (error) {
-            console.error("Failed to log out:", error);
+            console.error("failed to log out:", error);
         }
     };
 
   return (
     <div className="admin-page">
       <div className="admin-header">
-        {/* Conditionally render the title */}
-        <h2>{editingProject ? 'Edit Project' : 'Admin Panel'}</h2>
-        <button onClick={handleLogout} className="logout-button">Logout</button>
+        {/* conditionally render the title */}
+        <h2>{editingProject ? 'edit project' : 'admin panel'}</h2>
+        <button onClick={handleLogout} className="logout-button">logout</button>
       </div>
 
-      {/* Change the onSubmit to the new handleSubmit function */}
+      {/* change the onsubmit to the new handlesubmit function */}
       <form onSubmit={handleSubmit} className="admin-form">
-        <h3>{editingProject ? `Editing: ${editingProject.title}` : 'Add New Project'}</h3>
-        <input name="title" value={formData.title} onChange={handleInputChange} placeholder="Title" required />
-        <textarea name="desc" value={formData.desc} onChange={handleInputChange} placeholder="Description" required />
-        <input name="tech" value={formData.tech} onChange={handleInputChange} placeholder="Technologies (comma-separated)" required />
-        <input name="liveLink" value={formData.liveLink} onChange={handleInputChange} placeholder="Live Link URL" type="url" />
-        <input name="codeLink" value={formData.codeLink} onChange={handleInputChange} placeholder="Code Link URL" type="url" />
+        <h3>{editingProject ? `editing: ${editingProject.title}` : 'add new project'}</h3>
+        <input name="title" value={formData.title} onChange={handleInputChange} placeholder="title" required />
+        <textarea name="desc" value={formData.desc} onChange={handleInputChange} placeholder="description" required />
+        <input name="tech" value={formData.tech} onChange={handleInputChange} placeholder="technologies (comma-separated)" required />
+        <input name="liveLink" value={formData.liveLink} onChange={handleInputChange} placeholder="live link url" type="url" />
+        <input name="codeLink" value={formData.codeLink} onChange={handleInputChange} placeholder="code link url" type="url" />
         <div className="form-buttons">
-          {/* Conditionally render the button text */}
-          <button type="submit">{editingProject ? 'Update Project' : 'Add Project'}</button>
-          {/* Show a Cancel button only when editing */}
+          {/* conditionally render the button text */}
+          <button type="submit">{editingProject ? 'update project' : 'add project'}</button>
+          {/* show a cancel button only when editing */}
           {editingProject && (
             <button type="button" onClick={handleCancelEdit} className="cancel-button">
-              Cancel
+              cancel
             </button>
           )}
         </div>
       </form>
 
       <div className="existing-projects">
-        <h3>Existing Projects</h3>
+        <h3>existing projects</h3>
         {projects.length > 0 ? (
           <ul>
             {projects.map(project => (
               <li key={project.$id}>
                 <span>{project.title}</span>
                 <div className="project-actions">
-                  {/* Add the Edit button here */}
-                  <button onClick={() => handleEditClick(project)} className="edit-button">Edit</button>
-                  <button onClick={() => handleDeleteProject(project.$id)}>Delete</button>
+                  {/* add the edit button here */}
+                  <button onClick={() => handleEditClick(project)} className="edit-button">edit</button>
+                  <button onClick={() => handleDeleteProject(project.$id)}>delete</button>
                 </div>
               </li>
             ))}
           </ul>
         ) : (
-          <p>No projects found.</p>
+          <p>no projects found.</p>
         )}
       </div>
     </div>
