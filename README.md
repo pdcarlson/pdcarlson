@@ -28,6 +28,7 @@ A full-stack web app I built to manage my fraternity's semester budget and suppl
 
 - **Features**: Role-based access for Admins & Members (Google OAuth). Dynamic budget tracking with intelligent spending projections. Member-driven suggestion and shopping list system.
 - **Tech**: React, JavaScript, Appwrite, Tailwind CSS, Vite
+- **Live Site**: [stewardship.pdcarlson.dev](https://stewardship.pdcarlson.dev)
 - **GitHub Repo**: [pdcarlson/stewardship-hub](https://github.com/pdcarlson/stewardship-hub)
 
 #### 🎬 React Movie App
