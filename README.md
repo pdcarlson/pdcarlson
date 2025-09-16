@@ -22,6 +22,14 @@ I overhauled a complex web map for nine different towns, making it faster, more 
 - **Live Site**: [ese-llc.com/toc](https://ese-llc.com/toc)
 - **GitHub Repo**: [East-SouthEast-LLC/ese-map-viewer](https://github.com/East-SouthEast-LLC/ese-map-viewer)
 
+
+#### 🛠️ Fraternity Stewardship Hub
+A full-stack web app I built to manage my fraternity's semester budget and supplies, now in active use by the chapter. It features an admin dashboard for financial tracking and a member portal for suggesting items.
+
+- **Features**: Role-based access for Admins & Members (Google OAuth). Dynamic budget tracking with intelligent spending projections. Member-driven suggestion and shopping list system.
+- **Tech**: React, JavaScript, Appwrite, Tailwind CSS, Vite
+- **GitHub Repo**: [pdcarlson/stewardship-hub](https://github.com/pdcarlson/stewardship-hub)
+
 #### 🎬 React Movie App
 A responsive movie discovery web app that allows users to search for films using the TMDB API. Built with Vite and Tailwind CSS.
 
