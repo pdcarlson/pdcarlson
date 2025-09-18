@@ -83,23 +83,19 @@ section { padding: 6rem 0; }
     gap: 6rem;
 }
 
-/* new flexbox implementation for project items */
 .project-item {
     display: flex;
     gap: 3rem;
     align-items: center;
 }
-
 .project-item.reverse {
     flex-direction: row-reverse;
 }
-
 .project-item-image,
 .project-item-content {
     flex: 1;
-    min-width: 0; /* prevents flex items from overflowing */
+    min-width: 0;
 }
-
 .project-item-image {
     background-color: #FFFFFF;
     border: 1px solid var(--border-color);
@@ -156,7 +152,7 @@ section { padding: 6rem 0; }
     color: var(--accent-color);
 }
 
-/* modal styles */
+/* final modal styles */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -165,20 +161,22 @@ section { padding: 6rem 0; }
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 1000;
-    display: none; /* hidden by default */
+    display: none;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
 }
 .modal-overlay.active {
-    display: flex; /* shown when the .active class is present */
+    display: flex;
 }
 .modal-content {
     background-color: #FFFFFF;
     padding: 2.5rem;
     border-radius: var(--border-radius);
-    width: 90%;
-    max-width: 600px;
+    width: 100%;
+    max-width: 1000px; /* wider for landscape feel */
     position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 .modal-close {
     position: absolute;
@@ -190,31 +188,61 @@ section { padding: 6rem 0; }
     font-size: 2rem;
     cursor: pointer;
     transition: color var(--transition-speed);
+    z-index: 10;
 }
 .modal-close:hover {
     color: var(--primary-text);
 }
-.modal-content h2 {
+.modal-title {
     color: var(--accent-color);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    padding-right: 2rem; /* space for close button */
 }
-.modal-body p {
-    margin-bottom: 0;
-    color: var(--secondary-text);
+.modal-body-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr; /* left column is smaller */
+    gap: 2.5rem;
+    align-items: flex-start;
 }
-.modal-tech {
-    margin: 1.5rem 0;
+.modal-left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* space between image, tech, and links */
+}
+.modal-image-container {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.modal-image-container img {
+    width: 100%;
+    display: block;
 }
 .modal-tech strong {
     color: var(--primary-text);
+    display: block;
+    margin-bottom: 1rem;
+    text-transform: capitalize;
 }
-.modal-tech p {
+.modal-tech-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.modal-tech-list li {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
     font-size: 0.9rem;
-    color: var(--secondary-text);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    color: var(--secondary-color);
 }
 .modal-footer {
-    margin-top: 2rem;
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 
@@ -263,12 +291,17 @@ section { padding: 6rem 0; }
 }
 
 /* responsive */
-@media (max-width: 768px) {
+@media (max-width: 850px) { /* adjusted breakpoint for the new modal */
     .about-content { grid-template-columns: 1fr; text-align: center; }
     .about-image { margin: 0 auto; }
     .main-nav { display: none; }
+    
     .project-item,
     .project-item.reverse {
-        flex-direction: column; /* stack items vertically on mobile */
+        flex-direction: column;
+    }
+    
+    .modal-body-grid {
+        grid-template-columns: 1fr; /* stack modal columns on mobile */
     }
 }
