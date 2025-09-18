@@ -69,6 +69,21 @@ section { padding: 6rem 0; }
 .hero { min-height: 80vh; display: flex; align-items: center; text-align: center; }
 .hero-title { max-width: 800px; margin: 0 auto 1.5rem; }
 .hero-subtitle { max-width: 600px; margin: 0 auto 2.5rem; font-size: 1.125rem; }
+.hero-subheadline {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--secondary-text);
+    margin: -1rem auto 1.5rem;
+    max-width: 800px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap; /* ensures buttons stack on small screens */
+}
+
 
 .about-section { background-color: var(--surface-color); }
 .about-content { display: grid; grid-template-columns: 200px 1fr; gap: 3rem; align-items: center; }

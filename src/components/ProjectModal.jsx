@@ -19,6 +19,7 @@ const ProjectModal = ({ project, onClose }) => {
               </div>
             )}
             <div className="modal-tech">
+              {/* capitalized label */}
               <strong>Technologies Used:</strong>
               <ul className="modal-tech-list">
                 {project.tech.map((techItem, index) => (
@@ -27,9 +28,8 @@ const ProjectModal = ({ project, onClose }) => {
               </ul>
             </div>
             <div className="modal-footer">
-              {/* capitalized button text */}
-              {project.liveLink && <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary">View Live Site</a>}
-              {project.codeLink && <a href={project.codeLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">View Code</a>}
+              <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary">View Live Site</a>
+              <a href={project.codeLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">View Code</a>
             </div>
           </div>
 

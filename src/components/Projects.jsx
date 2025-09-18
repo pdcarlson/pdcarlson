@@ -1,7 +1,7 @@
 // src/components/projects.jsx
 import React, { useState, useEffect } from 'react';
 import { getMyProjects } from '../lib/appwrite';
-import ProjectItem from './ProjectItem'; // import the new item component
+import ProjectItem from './ProjectItem';
 import Spinner from './Spinner';
 
 const Projects = ({ onProjectClick }) => {
@@ -25,7 +25,6 @@ const Projects = ({ onProjectClick }) => {
   }, []);
 
   useEffect(() => {
-    // sets up the intersection observer for the reveal animation
     if (!isLoading && projects.length > 0) {
       const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -48,10 +47,12 @@ const Projects = ({ onProjectClick }) => {
       return <div className="flex justify-center"><Spinner /></div>;
     }
     if (error) {
-      return <p style={{ textAlign: 'center' }}>could not load projects. please try again later.</p>;
+      // capitalized error message
+      return <p style={{ textAlign: 'center' }}>Could not load projects. Please try again later.</p>;
     }
     if (projects.length === 0) {
-      return <p style={{ textAlign: 'center' }}>there are no projects to display at this time.</p>;
+      // capitalized empty state message
+      return <p style={{ textAlign: 'center' }}>There are no projects to display at this time.</p>;
     }
     return (
       <div className="projects-list">
@@ -60,7 +61,6 @@ const Projects = ({ onProjectClick }) => {
             key={project.$id}
             project={project}
             onClick={() => onProjectClick(project)}
-            // reverses the layout for every other project
             isReversed={index % 2 !== 0}
           />
         ))}

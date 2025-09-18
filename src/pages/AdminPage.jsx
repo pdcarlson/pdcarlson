@@ -13,20 +13,18 @@ const AdminPage = () => {
   const navigate = useNavigate();
   const [editingProject, setEditingProject] = useState(null);
   const [projects, setProjects] = useState([]);
-  // add new fields to the form state
   const [formData, setFormData] = useState({
     title: '',
-    shortDesc: '', // new short description
-    desc: '', // this is the full description for the modal
+    shortDesc: '',
+    desc: '',
     tech: '',
     liveLink: '',
     codeLink: '',
-    imageUrl: '' // new image url field
+    imageUrl: ''
   });
 
   const handleEditClick = (project) => {
     setEditingProject(project);
-    // populate the form with the project's data
     setFormData({
       title: project.title,
       shortDesc: project.shortDesc || '',
@@ -42,7 +40,6 @@ const AdminPage = () => {
     e.preventDefault();
     const techArray = formData.tech.split(',').map(item => item.trim());
     
-    // add the new fields to the payload
     const payload = {
       title: formData.title,
       shortDesc: formData.shortDesc,
@@ -66,11 +63,11 @@ const AdminPage = () => {
         );
         setProjects(prevProjects => [newProject, ...prevProjects]);
       }
-      // reset the form
       setFormData({ title: '', shortDesc: '', desc: '', tech: '', liveLink: '', codeLink: '', imageUrl: '' });
     } catch (error) {
       console.error("failed to save project:", error);
-      alert("error: could not save project.");
+      // capitalized alert
+      alert("Error: Could not save project.");
     }
   };
   
@@ -78,7 +75,6 @@ const AdminPage = () => {
     setEditingProject(null);
     setFormData({ title: '', shortDesc: '', desc: '', tech: '', liveLink: '', codeLink: '', imageUrl: '' });
   };
-
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -98,15 +94,18 @@ const AdminPage = () => {
   };
 
   const handleDeleteProject = async (projectId) => {
-    if (!window.confirm("are you sure you want to delete this project?")) {
+    // capitalized confirmation
+    if (!window.confirm("Are you sure you want to delete this project?")) {
         return;
     }
     try {
       await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, projectId);
       setProjects(prevProjects => prevProjects.filter(p => p.$id !== projectId));
-    } catch (error) {
+    } catch (error)
+    {
       console.error("failed to delete project:", error);
-      alert("error: could not delete project.");
+      // capitalized alert
+      alert("Error: Could not delete project.");
     }
   };
 
@@ -144,7 +143,6 @@ const AdminPage = () => {
         </div>
       </form>
       
-      {/* the rest of the component (project list) remains the same */}
       <div style={{marginTop: '3rem'}}>
         <h3>Existing Projects</h3>
         {projects.length > 0 ? (
@@ -160,7 +158,8 @@ const AdminPage = () => {
             ))}
           </ul>
         ) : (
-          <p>no projects found.</p>
+          // capitalized message
+          <p>No projects found.</p>
         )}
       </div>
     </div>
