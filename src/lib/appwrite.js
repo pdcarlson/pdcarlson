@@ -1,4 +1,4 @@
-import { Client, Databases, Account } from "appwrite";
+import { Client, Databases, Account, Query } from "appwrite";
 
 // import enviornment variables
 const APPWRITE_ENDPOINT = import.meta.env.VITE_APPWRITE_ENDPOINT;
@@ -16,7 +16,11 @@ const account = new Account(client);
 
 export const getMyProjects = async () => {
     try {
-        const result = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, []);
+        const result = await databases.listDocuments(
+            DATABASE_ID,
+            COLLECTION_ID,
+            [Query.orderAsc("order")] // sort projects by the 'order' field
+        );
         return result.documents;
     } catch (e) {
         // use console.error for better error logging

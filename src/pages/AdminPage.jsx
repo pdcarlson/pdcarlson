@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { databases } from '../lib/appwrite';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { ID } from 'appwrite';
+import { ID, Query } from 'appwrite';
 
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
@@ -20,7 +20,8 @@ const AdminPage = () => {
     tech: '',
     liveLink: '',
     codeLink: '',
-    imageUrl: ''
+    imageUrl: '',
+    order: 0 // add order to state
   });
 
   const handleEditClick = (project) => {
@@ -32,7 +33,8 @@ const AdminPage = () => {
       tech: project.tech.join(', '),
       liveLink: project.liveLink || '',
       codeLink: project.codeLink || '',
-      imageUrl: project.imageUrl || ''
+      imageUrl: project.imageUrl || '',
+      order: project.order || 0 // populate order field
     });
   };
 
@@ -47,7 +49,8 @@ const AdminPage = () => {
       tech: techArray,
       liveLink: formData.liveLink || null,
       codeLink: formData.codeLink || null,
-      imageUrl: formData.imageUrl
+      imageUrl: formData.imageUrl,
+      order: Number(formData.order) // send order as a number
     };
 
     try {
@@ -55,15 +58,18 @@ const AdminPage = () => {
         const updatedProject = await databases.updateDocument(
           DATABASE_ID, COLLECTION_ID, editingProject.$id, payload
         );
-        setProjects(projects.map(p => p.$id === editingProject.$id ? updatedProject : p));
+        // refetch to ensure correct order
+        fetchProjects(); 
         setEditingProject(null);
       } else {
-        const newProject = await databases.createDocument(
+        await databases.createDocument(
           DATABASE_ID, COLLECTION_ID, ID.unique(), payload
         );
-        setProjects(prevProjects => [newProject, ...prevProjects]);
+        // refetch to ensure correct order
+        fetchProjects();
       }
-      setFormData({ title: '', shortDesc: '', desc: '', tech: '', liveLink: '', codeLink: '', imageUrl: '' });
+      // reset form
+      setFormData({ title: '', shortDesc: '', desc: '', tech: '', liveLink: '', codeLink: '', imageUrl: '', order: 0 });
     } catch (error) {
       console.error("failed to save project:", error);
       // capitalized alert
@@ -73,18 +79,23 @@ const AdminPage = () => {
   
   const handleCancelEdit = () => {
     setEditingProject(null);
-    setFormData({ title: '', shortDesc: '', desc: '', tech: '', liveLink: '', codeLink: '', imageUrl: '' });
+    setFormData({ title: '', shortDesc: '', desc: '', tech: '', liveLink: '', codeLink: '', imageUrl: '', order: 0 });
+  };
+
+  const fetchProjects = async () => {
+    try {
+      const response = await databases.listDocuments(
+        DATABASE_ID,
+        COLLECTION_ID,
+        [Query.orderAsc("order")] // sort here as well for the admin view
+      );
+      setProjects(response.documents);
+    } catch (error) {
+      console.error("failed to fetch projects:", error);
+    }
   };
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
-        setProjects(response.documents);
-      } catch (error) {
-        console.error("failed to fetch projects:", error);
-      }
-    };
     fetchProjects();
   }, []);
 
@@ -128,6 +139,8 @@ const AdminPage = () => {
         <h3>{editingProject ? `Editing: ${editingProject.title}` : 'Add New Project'}</h3>
         <input name="title" value={formData.title} onChange={handleInputChange} placeholder="Title" required />
         <input name="imageUrl" value={formData.imageUrl} onChange={handleInputChange} placeholder="Image URL (e.g., /assets/image.png)" required />
+        {/* add order input */}
+        <input name="order" type="number" value={formData.order} onChange={handleInputChange} placeholder="Order" required />
         <textarea name="shortDesc" value={formData.shortDesc} onChange={handleInputChange} placeholder="Short Description (for main page)" required rows="3" style={{resize: 'vertical'}}/>
         <textarea name="desc" value={formData.desc} onChange={handleInputChange} placeholder="Full Description (for modal)" required rows="6" style={{resize: 'vertical'}}/>
         <input name="tech" value={formData.tech} onChange={handleInputChange} placeholder="Technologies (comma-separated)" required />
@@ -148,8 +161,8 @@ const AdminPage = () => {
         {projects.length > 0 ? (
           <ul style={{listStyle: 'none', padding: 0}}>
             {projects.map(project => (
-              <li key={project.$id} style={{display: 'flex', justifyContent: 'space-between', padding: '1rem', borderBottom: '1px solid var(--border-color)'}}>
-                <span>{project.title}</span>
+              <li key={project.$id} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', borderBottom: '1px solid var(--border-color)'}}>
+                <span style={{fontWeight: 'bold'}}>#{project.order} - {project.title}</span>
                 <div style={{display: 'flex', gap: '1rem'}}>
                   <button onClick={() => handleEditClick(project)} className="btn btn-secondary" style={{padding: '0.2rem 0.8rem'}}>Edit</button>
                   <button onClick={() => handleDeleteProject(project.$id)} className="btn btn-secondary" style={{borderColor: '#aa8db9', color: '#aa8db9'}}>Delete</button>
