@@ -306,7 +306,7 @@ section { padding: 6rem 0; }
 }
 
 /* responsive */
-@media (max-width: 850px) { /* adjusted breakpoint for the new modal */
+@media (max-width: 850px) {
     .about-content { grid-template-columns: 1fr; text-align: center; }
     .about-image { margin: 0 auto; }
     .main-nav { display: none; }
@@ -314,9 +314,31 @@ section { padding: 6rem 0; }
     .project-item,
     .project-item.reverse {
         flex-direction: column;
+        align-items: stretch; /* ensures items are full-width */
+        gap: 1.5rem; /* reduces the gap on mobile */
+    }
+    
+    /* this is the key fix to prevent vertical stretching */
+    .project-item-image,
+    .project-item-content {
+        flex: none; /* disables flex-grow and flex-shrink */
+        width: 100%;
     }
     
     .modal-body-grid {
         grid-template-columns: 1fr; /* stack modal columns on mobile */
+    }
+}
+
+/* additional media query for smaller mobile phones */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.5rem; /* reduce hero title size */
+    }
+    .hero-subtitle {
+        font-size: 1rem; /* reduce hero subtitle size */
+    }
+    .hero {
+        min-height: 70vh; /* slightly reduce hero section height */
     }
 }
