@@ -1,6 +1,7 @@
+// src/components/projects.jsx
 import React, { useState, useEffect } from 'react';
 import { getMyProjects } from '../lib/appwrite';
-import ProjectCard from './ProjectCard';
+import ProjectItem from './ProjectItem'; // import the new item component
 import Spinner from './Spinner';
 
 const Projects = ({ onProjectClick }) => {
@@ -14,7 +15,7 @@ const Projects = ({ onProjectClick }) => {
         const myProjects = await getMyProjects();
         setProjects(myProjects || []);
       } catch (e) {
-        console.error("Error fetching projects:", e);
+        console.error("error fetching projects:", e);
         setError(e.message);
       } finally {
         setIsLoading(false);
@@ -24,6 +25,7 @@ const Projects = ({ onProjectClick }) => {
   }, []);
 
   useEffect(() => {
+    // sets up the intersection observer for the reveal animation
     if (!isLoading && projects.length > 0) {
       const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -34,7 +36,7 @@ const Projects = ({ onProjectClick }) => {
         });
       }, { threshold: 0.1 });
 
-      const revealElements = document.querySelectorAll('.project-card.reveal');
+      const revealElements = document.querySelectorAll('.project-item.reveal');
       revealElements.forEach(el => revealObserver.observe(el));
 
       return () => revealElements.forEach(el => revealObserver.unobserve(el));
@@ -46,18 +48,20 @@ const Projects = ({ onProjectClick }) => {
       return <div className="flex justify-center"><Spinner /></div>;
     }
     if (error) {
-      return <p style={{ textAlign: 'center' }}>Could not load projects. Please try again later.</p>;
+      return <p style={{ textAlign: 'center' }}>could not load projects. please try again later.</p>;
     }
     if (projects.length === 0) {
-      return <p style={{ textAlign: 'center' }}>There are no projects to display at this time.</p>;
+      return <p style={{ textAlign: 'center' }}>there are no projects to display at this time.</p>;
     }
     return (
-      <div className="projects-grid">
-        {projects.map((project) => (
-          <ProjectCard 
-            key={project.$id} 
-            project={project} 
+      <div className="projects-list">
+        {projects.map((project, index) => (
+          <ProjectItem
+            key={project.$id}
+            project={project}
             onClick={() => onProjectClick(project)}
+            // reverses the layout for every other project
+            isReversed={index % 2 !== 0}
           />
         ))}
       </div>
