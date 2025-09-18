@@ -1,16 +1,22 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate, Outlet } from 'react-router-dom';
+import Spinner from './Spinner'; // import the spinner here
 
 const ProtectedRoute = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth(); // get the loading state from our context
 
+  // while we're checking for a user, show a spinner
+  if (loading) {
+    return <Spinner />;
+  }
+
+  // after checking, if there's no user, redirect to login
   if (!user) {
-    // If no user is logged in, redirect to the login page
     return <Navigate to="/login" />;
   }
 
-  // If a user is logged in, show the child route
+  // if a user is logged in, show the child route (the admin page)
   return <Outlet />;
 };
 

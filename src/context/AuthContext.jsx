@@ -2,7 +2,8 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { account } from '../lib/appwrite';
-import Spinner from '../components/Spinner';
+// we no longer need the spinner here for the initial page load
+// import Spinner from '../components/Spinner';
 
 const AuthContext = createContext();
 
@@ -36,12 +37,15 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  // this block is removed so the app renders immediately
+  /*
   if (loading) {
     return <Spinner />;
   }
+  */
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
