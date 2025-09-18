@@ -8,7 +8,6 @@ const Projects = ({ onProjectClick }) => {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState(null);
 
-  // this useEffect fetches the data
   useEffect(() => {
     const loadMyProjects = async () => {
       try {
@@ -24,7 +23,6 @@ const Projects = ({ onProjectClick }) => {
     loadMyProjects();
   }, []);
 
-  // this new useEffect handles the animations *after* projects are loaded
   useEffect(() => {
     if (!isLoading && projects.length > 0) {
       const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -41,7 +39,7 @@ const Projects = ({ onProjectClick }) => {
 
       return () => revealElements.forEach(el => revealObserver.unobserve(el));
     }
-  }, [projects, isLoading]); // runs when projects or loading state changes
+  }, [projects, isLoading]);
 
   const renderContent = () => {
     if (isLoading) {
