@@ -1,32 +1,21 @@
-import React from 'react'
+import React from 'react';
 
-const ProjectCard = ({project : 
-    { title, desc, tech, liveLink, codeLink}} ) => {
+const ProjectCard = ({ project, onClick }) => {
   return (
-        <div className="project-card">
-          <h3>{title}</h3>
-          <p className="project-description">{desc}</p>
-          <ul className="project-tech-list">
-            {tech.map((techItem, index) => (
-              <li key={index}>{techItem}</li>
-            ))}
-          </ul>
-          <div className="project-card-footer">
-            {liveLink && (
-              <a href={liveLink} className="project-link-button" target="_blank" rel="noopener noreferrer">
-                View Live
-                <i className="fa-solid fa-arrow-up-right-from-square"></i>
-              </a>
-            )}
-            {codeLink && (
-              <a href={codeLink} className="project-link-button" target="_blank" rel="noopener noreferrer">
-                View Code
-                <i className="fa-solid fa-code"></i>
-              </a>
-            )}
-          </div>
-        </div>
-  )
-}
+    <div className="project-card reveal" onClick={onClick}>
+      {/* You can add an image here later if your DB supports it */}
+      {/* <img src="..." alt={project.title} className="project-image" /> */}
+      <div className="project-info">
+        <h3>{project.title}</h3>
+        <p>{project.desc}</p>
+        <ul className="tech-list">
+          {project.tech.map((techItem, index) => (
+            <li key={index}>{techItem}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
 
-export default ProjectCard
+export default ProjectCard;

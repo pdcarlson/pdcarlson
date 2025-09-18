@@ -1,10 +1,10 @@
-// src/pages/AdminPage.jsx
-
+// No functional changes needed here, but the styles from App.css will apply to the inputs and buttons
+// for a more consistent look. Here is the file again for completeness.
 import React, { useState, useEffect } from 'react';
 import { databases } from '../lib/appwrite';
 import { useAuth } from '../context/AuthContext'; 
 import { useNavigate } from 'react-router-dom'; 
-import { ID } from 'appwrite'; // import id
+import { ID } from 'appwrite';
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
 
@@ -23,14 +23,13 @@ const AdminPage = () => {
   });
 
   const handleEditClick = (project) => {
-    setEditingProject(project); // set the project we're editing
-    // populate the form with the project's current data
+    setEditingProject(project);
     setFormData({
     title: project.title,
     desc: project.desc,
-    tech: project.tech.join(', '), // convert the array back to a string for the input
-    liveLink: project.liveLink || '', // ensure null values from db don't break the form
-    codeLink: project.codeLink || '', // ensure null values from db don't break the form
+    tech: project.tech.join(', '),
+    liveLink: project.liveLink || '',
+    codeLink: project.codeLink || '',
     });
   };
 
@@ -38,8 +37,6 @@ const AdminPage = () => {
     e.preventDefault();
     const techArray = formData.tech.split(',').map(item => item.trim());
     
-    // if a link field is empty, send null; otherwise, send the value.
-    // this prevents appwrite from throwing a url format error on empty strings.
     const payload = {
       title: formData.title,
       desc: formData.desc,
@@ -50,48 +47,36 @@ const AdminPage = () => {
 
     try {
       if (editingProject) {
-        // --- update logic ---
         const updatedProject = await databases.updateDocument(
-          DATABASE_ID,
-          COLLECTION_ID,
-          editingProject.$id, // the id of the document to update
-          payload
+          DATABASE_ID, COLLECTION_ID, editingProject.$id, payload
         );
-        // update the project in our local list
         setProjects(projects.map(p => p.$id === editingProject.$id ? updatedProject : p));
-        setEditingProject(null); // exit editing mode
+        setEditingProject(null);
       } else {
-        // --- create logic ---
         const newProject = await databases.createDocument(
-          DATABASE_ID,
-          COLLECTION_ID,
-          ID.unique(), // use the appwrite id utility
-          payload
+          DATABASE_ID, COLLECTION_ID, ID.unique(), payload
         );
         setProjects(prevProjects => [newProject, ...prevProjects]);
       }
-      // clear the form after either action
       setFormData({ title: '', desc: '', tech: '', liveLink: '', codeLink: '' });
     } catch (error) {
-      console.error("failed to save project:", error);
-      alert("error: could not save project.");
+      console.error("Failed to save project:", error);
+      alert("Error: could not save project.");
     }
   };
 
-  // add a function to cancel editing
   const handleCancelEdit = () => {
     setEditingProject(null);
     setFormData({ title: '', desc: '', tech: '', liveLink: '', codeLink: '' });
   };
 
-  // fetch existing projects when the component loads
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
         setProjects(response.documents);
       } catch (error) {
-        console.error("failed to fetch projects:", error);
+        console.error("Failed to fetch projects:", error);
       }
     };
     fetchProjects();
@@ -103,20 +88,16 @@ const AdminPage = () => {
   };
   
     const handleDeleteProject = async (projectId) => {
-        // add a confirmation prompt to prevent accidental deletions
-        if (!window.confirm("are you sure you want to delete this project?")) {
+        if (!window.confirm("Are you sure you want to delete this project?")) {
             return;
         }
     
         try {
         await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, projectId);
-
-        // remove the deleted project from our local state
         setProjects(prevProjects => prevProjects.filter(p => p.$id !== projectId));
-
         } catch (error) {
-        console.error("failed to delete project:", error);
-        alert("error: could not delete project.");
+        console.error("Failed to delete project:", error);
+        alert("Error: could not delete project.");
         }
     };
 
@@ -124,55 +105,50 @@ const AdminPage = () => {
         try {
             await logout();
         } catch (error) {
-            console.error("failed to log out:", error);
+            console.error("Failed to log out:", error);
         }
     };
 
   return (
-    <div className="admin-page">
-      <div className="admin-header">
-        {/* conditionally render the title */}
-        <h2>{editingProject ? 'edit project' : 'admin panel'}</h2>
-        <button onClick={handleLogout} className="logout-button">logout</button>
-      </div>
+    <div className="auth-page">
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem'}}>
+            <h2>{editingProject ? 'Edit Project' : 'Admin Panel'}</h2>
+            <button onClick={handleLogout} className="btn btn-secondary">Logout</button>
+        </div>
 
-      {/* change the onsubmit to the new handlesubmit function */}
-      <form onSubmit={handleSubmit} className="admin-form">
-        <h3>{editingProject ? `editing: ${editingProject.title}` : 'add new project'}</h3>
-        <input name="title" value={formData.title} onChange={handleInputChange} placeholder="title" required />
-        <textarea name="desc" value={formData.desc} onChange={handleInputChange} placeholder="description" required />
-        <input name="tech" value={formData.tech} onChange={handleInputChange} placeholder="technologies (comma-separated)" required />
-        <input name="liveLink" value={formData.liveLink} onChange={handleInputChange} placeholder="live link url" type="url" />
-        <input name="codeLink" value={formData.codeLink} onChange={handleInputChange} placeholder="code link url" type="url" />
-        <div className="form-buttons">
-          {/* conditionally render the button text */}
-          <button type="submit">{editingProject ? 'update project' : 'add project'}</button>
-          {/* show a cancel button only when editing */}
+      <form onSubmit={handleSubmit} className="auth-form">
+        <h3>{editingProject ? `Editing: ${editingProject.title}` : 'Add New Project'}</h3>
+        <input name="title" value={formData.title} onChange={handleInputChange} placeholder="Title" required />
+        <textarea name="desc" value={formData.desc} onChange={handleInputChange} placeholder="Description" required rows="4" style={{resize: 'vertical'}}/>
+        <input name="tech" value={formData.tech} onChange={handleInputChange} placeholder="Technologies (comma-separated)" required />
+        <input name="liveLink" value={formData.liveLink} onChange={handleInputChange} placeholder="Live Link URL" type="url" />
+        <input name="codeLink" value={formData.codeLink} onChange={handleInputChange} placeholder="Code Link URL" type="url" />
+        <div style={{display: 'flex', gap: '1rem'}}>
+          <button type="submit" className="btn btn-primary">{editingProject ? 'Update Project' : 'Add Project'}</button>
           {editingProject && (
-            <button type="button" onClick={handleCancelEdit} className="cancel-button">
-              cancel
+            <button type="button" onClick={handleCancelEdit} className="btn btn-secondary">
+              Cancel
             </button>
           )}
         </div>
       </form>
 
-      <div className="existing-projects">
-        <h3>existing projects</h3>
+      <div style={{marginTop: '3rem'}}>
+        <h3>Existing Projects</h3>
         {projects.length > 0 ? (
-          <ul>
+          <ul style={{listStyle: 'none', padding: 0}}>
             {projects.map(project => (
-              <li key={project.$id}>
+              <li key={project.$id} style={{display: 'flex', justifyContent: 'space-between', padding: '1rem', borderBottom: '1px solid var(--border-color)'}}>
                 <span>{project.title}</span>
-                <div className="project-actions">
-                  {/* add the edit button here */}
-                  <button onClick={() => handleEditClick(project)} className="edit-button">edit</button>
-                  <button onClick={() => handleDeleteProject(project.$id)}>delete</button>
+                <div style={{display: 'flex', gap: '1rem'}}>
+                  <button onClick={() => handleEditClick(project)} className="btn btn-secondary" style={{padding: '0.2rem 0.8rem'}}>Edit</button>
+                  <button onClick={() => handleDeleteProject(project.$id)} className="btn btn-secondary" style={{borderColor: '#aa8db9', color: '#aa8db9'}}>Delete</button>
                 </div>
               </li>
             ))}
           </ul>
         ) : (
-          <p>no projects found.</p>
+          <p>No projects found.</p>
         )}
       </div>
     </div>

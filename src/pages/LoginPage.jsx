@@ -1,8 +1,6 @@
-// src/pages/LoginPage.jsx
-
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom'; // 1. Import Link
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -22,8 +20,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-page">
-      <form onSubmit={handleSubmit} className="admin-form">
+    <div className="auth-page">
+      <form onSubmit={handleSubmit} className="auth-form">
         <h2>Admin Login</h2>
         <input 
           type="email" 
@@ -39,9 +37,8 @@ const LoginPage = () => {
           placeholder="Password" 
           required 
         />
-        <button type="submit">Login</button>
+        <button type="submit" className="btn btn-primary">Login</button>
       </form>
-
       <Link to="/" className="return-link">
         &larr; Return to Portfolio
       </Link>

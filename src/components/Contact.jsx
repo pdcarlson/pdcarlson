@@ -1,23 +1,15 @@
 import React from 'react';
 
-function Contact() {
+const Contact = () => {
   return (
-    <section className="page active" id="contact">
-      <h2>contact.css</h2>
-      <div className="contact-content">
-        <h3>// Get In Touch</h3>
-        <p>
-          I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious team. Feel free to reach out to me via email.
-        </p>
-        <a 
-          href="mailto:pdcarlson06@gmail.com" 
-          className="email-link"
-        >
-          pdcarlson06@gmail.com
-        </a>
+    <section id="contact" className="contact-section">
+      <div className="container text-center reveal">
+        <h2 className="section-title">Get In Touch</h2>
+        <p className="contact-text">I'm currently open to new opportunities and collaborations. My inbox is always open, whether you have a question or just want to say hi, I'll get back to you!</p>
+        <a href="mailto:pdcarlson06@gmail.com" className="btn btn-primary">Say Hello</a>
       </div>
     </section>
   );
-}
+};
 
 export default Contact;
