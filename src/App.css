@@ -192,6 +192,8 @@ section { padding: 6rem 0; }
     max-width: 1000px; /* wider for landscape feel */
     position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-height: 90vh; /* added to prevent overflow on short screens */
+    overflow-y: auto; /* added to allow scrolling within the modal */
 }
 .modal-close {
     position: absolute;
@@ -318,7 +320,6 @@ section { padding: 6rem 0; }
         gap: 1.5rem; /* reduces the gap on mobile */
     }
     
-    /* this is the key fix to prevent vertical stretching */
     .project-item-image,
     .project-item-content {
         flex: none; /* disables flex-grow and flex-shrink */
@@ -340,5 +341,9 @@ section { padding: 6rem 0; }
     }
     .hero {
         min-height: 70vh; /* slightly reduce hero section height */
+    }
+    
+    .modal-content {
+        padding: 1.5rem; /* reduce padding on small screens */
     }
 }
