@@ -28,8 +28,14 @@ const ProjectModal = ({ project, onClose }) => {
               </ul>
             </div>
             <div className="modal-footer">
-              <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary">View Live Site</a>
-              <a href={project.codeLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">View Code</a>
+              {/* conditionally render the 'view live site' button */}
+              {project.liveLink && (
+                <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary">View Live Site</a>
+              )}
+              {/* conditionally render the 'view code' button */}
+              {project.codeLink && (
+                <a href={project.codeLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">View Code</a>
+              )}
             </div>
           </div>
 
