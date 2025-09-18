@@ -64,24 +64,20 @@ a { color: var(--primary-text); text-decoration: none; }
 .btn-secondary { border-color: var(--accent-color); color: var(--accent-color); }
 .btn-secondary:hover { background-color: var(--accent-color); color: #FFFFFF; }
 
-/* --- section styling changes --- */
+/* section styling */
 section { padding: 6rem 0; }
 .hero { min-height: 80vh; display: flex; align-items: center; text-align: center; }
 .hero-title { max-width: 800px; margin: 0 auto 1.5rem; }
 .hero-subtitle { max-width: 600px; margin: 0 auto 2.5rem; font-size: 1.125rem; }
 
-/* updated 'about' section background */
 .about-section { background-color: var(--surface-color); }
 .about-content { display: grid; grid-template-columns: 200px 1fr; gap: 3rem; align-items: center; }
 .about-image { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid var(--background-color); box-shadow: 0 0 15px rgba(0,0,0,0.1); }
 .skills-list { list-style-type: none; display: flex; flex-wrap: wrap; gap: 0.75rem; padding: 0; }
 .skills-list li { background-color: var(--background-color); border: 1px solid var(--border-color); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.9rem; }
 
-/* 'projects' section is now the main background color */
 .projects-section { background-color: var(--background-color); }
 .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-
-/* updated 'project-card' to have a white background */
 .project-card {
     background-color: #FFFFFF;
     border-radius: var(--border-radius);
@@ -91,18 +87,14 @@ section { padding: 6rem 0; }
     display: flex; flex-direction: column;
 }
 .project-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-.project-image { width: 100%; height: 200px; object-fit: cover; display: block; }
 .project-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
 .project-info h3 { margin-bottom: 0.5rem; }
 .project-info p { margin: 0; flex-grow: 1; color: var(--secondary-text); }
 .project-info .tech-list { list-style-type: none; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem 0 0; }
 .project-info .tech-list li { background-color: var(--background-color); border: 1px solid var(--border-color); font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 999px; color: var(--secondary-color); }
 
-/* 'contact' section is now the darker periwinkle */
 .contact-section { background-color: var(--surface-color); }
 .contact-text { max-width: 500px; margin: 0 auto 2.5rem; }
-
-/* --- end section styling changes --- */
 
 .main-footer { padding: 2rem 0; text-align: center; color: var(--secondary-text); font-size: 0.9rem; }
 

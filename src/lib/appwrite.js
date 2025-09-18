@@ -16,10 +16,13 @@ const account = new Account(client);
 
 export const getMyProjects = async () => {
     try {
-        const result = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [])
+        const result = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, []);
         return result.documents;
     } catch (e) {
-        console.log(e);
+        // use console.error for better error logging
+        console.error("Appwrite Error: Failed to fetch projects", e);
+        // re-throw the error so the component that called this can handle it
+        throw e;
     }
 }
 

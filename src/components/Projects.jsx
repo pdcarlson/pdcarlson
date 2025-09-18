@@ -6,7 +6,7 @@ import Spinner from './Spinner';
 const Projects = ({ onProjectClick }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState([]);
-  const [error, setError] = useState(null); // new state to track errors
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadMyProjects = async () => {
@@ -15,12 +15,11 @@ const Projects = ({ onProjectClick }) => {
         if (myProjects) {
           setProjects(myProjects);
         } else {
-          // handle cases where the fetch returns nothing
           throw new Error("No projects found.");
         }
       } catch (e) {
         console.error("Error fetching projects:", e);
-        setError(e.message); // set the error message
+        setError(e.message);
       } finally {
         setIsLoading(false);
       }
@@ -30,23 +29,20 @@ const Projects = ({ onProjectClick }) => {
 
   const renderContent = () => {
     if (isLoading) {
-      return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Spinner />
-        </div>
-      );
+      return <div className="flex justify-center"><Spinner /></div>;
     }
 
     if (error) {
-      return <p style={{ textAlign: 'center' }}>Could not load projects. Please try again later.</p>;
+      return <p className="text-center text-muted-purple">Could not load projects. Please try again later.</p>;
     }
 
     if (projects.length === 0) {
-      return <p style={{ textAlign: 'center' }}>There are no projects to display at this time.</p>;
+      return <p className="text-center text-muted-purple">There are no projects to display at this time.</p>;
     }
 
     return (
-      <div className="projects-grid">
+      // updated to use tailwind grid classes
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project) => (
           <ProjectCard 
             key={project.$id} 
@@ -59,9 +55,9 @@ const Projects = ({ onProjectClick }) => {
   };
 
   return (
-    <section id="projects" className="projects-section">
-      <div className="container">
-        <h2 className="section-title reveal">My Recent Projects</h2>
+    <section id="projects" className="bg-light-lavender py-24">
+      <div className="container mx-auto px-6">
+        <h2 className="section-title text-4xl font-bold text-eggplant reveal">My Recent Projects</h2>
         {renderContent()}
       </div>
     </section>
