@@ -334,6 +334,13 @@ section { padding: 6rem 0; }
     color: var(--accent-hover);
 }
 
+.loading-text {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--secondary-text);
+  animation: fadeIn 1.5s infinite alternate;
+}
+
 /* responsive */
 @media (max-width: 850px) {
     .about-content { grid-template-columns: 1fr; text-align: center; }
