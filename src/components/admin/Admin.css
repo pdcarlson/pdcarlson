@@ -125,7 +125,7 @@
 .drag-handle {
   position: absolute;
   top: 50%;
-  left: -10px; /* position to the left of the item */
+  left: -10px;
   transform: translateY(-50%);
   width: 30px;
   height: 60px;
@@ -137,14 +137,14 @@
   z-index: 5;
   opacity: 0;
   transition: opacity 0.3s ease;
+  touch-action: none; /* add this for better mobile support */
 }
 
 .drag-handle:hover {
   color: var(--primary-text);
 }
 
-/* show handle when hovering the draggable item's container */
-[ref*="sortable"] > div:hover .drag-handle {
+.draggable-item-card:hover .drag-handle {
   opacity: 1;
 }
 
@@ -171,6 +171,16 @@
     align-items: center;
     padding: 3rem;
 }
+
+.draggable-item-card {
+  background-color: #FFFFFF;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  margin-bottom: 6rem; /* matches the gap in the original projects-list */
+}
+
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
