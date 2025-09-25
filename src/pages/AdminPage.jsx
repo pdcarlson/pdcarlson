@@ -9,12 +9,14 @@ import Spinner from '../components/Spinner';
 import EditWrapper from '../components/admin/EditWrapper';
 import ProjectEditor from '../components/admin/ProjectEditor';
 import ProjectEditModal from '../components/admin/ProjectEditModal';
+import DocumentHub from '../components/admin/DocumentHub';
 
 const AdminPage = () => {
   const { logout } = useAuth();
   const [siteContent, setSiteContent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [editingProject, setEditingProject] = useState(null);
+  const [activeView, setActiveView] = useState('editor'); // 'editor' or 'hub'
 
   useEffect(() => {
     const loadContent = async () => {
@@ -61,14 +63,12 @@ const AdminPage = () => {
     }
   };
   
-  if (isLoading || !siteContent) {
+  if (isLoading) {
     return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Spinner /></div>
   }
 
-  return (
+  const VisualEditor = () => (
     <>
-      <Header isAdminPage={true} onLogout={handleLogout} />
-      
       <main>
         {/* hero section */}
         <section id="home" className="hero">
@@ -133,8 +133,26 @@ const AdminPage = () => {
           </div>
         </section>
       </main>
-      
       <Footer />
+    </>
+  );
+
+  return (
+    <>
+      <Header isAdminPage={true} onLogout={handleLogout} />
+
+      <div className="admin-view-switcher">
+        <div className="container">
+            <button onClick={() => setActiveView('editor')} className={activeView === 'editor' ? 'active' : ''}>Visual Editor</button>
+            <button onClick={() => setActiveView('hub')} className={activeView === 'hub' ? 'active' : ''}>Document Hub</button>
+        </div>
+      </div>
+
+      {activeView === 'editor' ? <VisualEditor /> : (
+        <div className="container" style={{paddingTop: '4rem', paddingBottom: '4rem'}}>
+            <DocumentHub />
+        </div>
+      )}
 
       <ProjectEditModal 
         project={editingProject} 
