@@ -19,22 +19,15 @@ const DraggableProjectItem = ({ project, isReversed }) => {
     opacity: isDragging ? 0.5 : 1,
     zIndex: isDragging ? 10 : 'auto',
     position: 'relative',
-    cursor: 'grab', // add a grab cursor to the whole card
+    cursor: 'grab',
   };
-  
+
   const itemClassName = `project-item ${isReversed ? 'reverse' : ''}`;
 
   return (
-    // move the listeners up to this div and add the attributes
-    <div ref={setNodeRef} style={style} className="draggable-item-card" {...attributes} {...listeners}>
-      
-      {/* this div is now removed */}
-      {/*
-      <div className="drag-handle" {...attributes} {...listeners}>
-        <i className="fas fa-grip-vertical"></i>
-      </div>
-      */}
-      
+    // remove the className from this div
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+
       <div className={itemClassName}>
         {project.imageUrl && (
           <div className="project-item-image">

@@ -165,22 +165,17 @@
   box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
 }
 
+.save-order-bar p {
+  color: #FFFFFF;
+  margin-bottom: 0; /* this removes extra spacing for better alignment */
+}
+
 .flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 3rem;
 }
-
-.draggable-item-card {
-  background-color: #FFFFFF;
-  padding: 2rem;
-  border-radius: var(--border-radius);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  margin-bottom: 6rem; /* matches the gap in the original projects-list */
-}
-
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
