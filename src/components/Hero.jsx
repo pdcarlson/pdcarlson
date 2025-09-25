@@ -1,7 +1,13 @@
 // src/components/hero.jsx
 import React from 'react';
+import { trackGAEvent } from '../lib/googleAnalytics'; // import the tracker
 
 const Hero = () => {
+  // handler for the resume click
+  const handleResumeClick = () => {
+    trackGAEvent('engagement', 'click_resume', 'Hero');
+  };
+
   return (
     <section id="home" className="hero">
       <div className="container">
@@ -14,7 +20,8 @@ const Hero = () => {
         
         <div className="hero-buttons reveal">
           <a href="#projects" className="btn btn-primary">View My Work</a>
-          <a href="/assets/resume.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">View Resume</a>
+          {/* add the onclick handler here */}
+          <a href="/assets/resume.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" onClick={handleResumeClick}>View Resume</a>
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { getMyProjects } from '../lib/appwrite';
 import ProjectItem from './ProjectItem';
 import Spinner from './Spinner';
+import { trackGAEvent } from '../lib/googleAnalytics'; // import the tracker
 
 const Projects = ({ onProjectClick }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -41,6 +42,12 @@ const Projects = ({ onProjectClick }) => {
       return () => revealElements.forEach(el => revealObserver.unobserve(el));
     }
   }, [projects, isLoading]);
+  
+  // handler for clicking "learn more"
+  const handleProjectLearnMore = (project) => {
+    trackGAEvent('project_engagement', 'click_learn_more', project.title);
+    onProjectClick(project);
+  };
 
   const renderContent = () => {
     if (isLoading) {
@@ -60,7 +67,7 @@ const Projects = ({ onProjectClick }) => {
           <ProjectItem
             key={project.$id}
             project={project}
-            onClick={() => onProjectClick(project)}
+            onClick={() => handleProjectLearnMore(project)} // update the onclick handler
             isReversed={index % 2 !== 0}
           />
         ))}

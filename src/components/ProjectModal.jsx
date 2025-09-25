@@ -1,8 +1,18 @@
 // src/components/projectmodal.jsx
 import React from 'react';
+import { trackGAEvent } from '../lib/googleAnalytics'; // import the tracker
 
 const ProjectModal = ({ project, onClose }) => {
   if (!project) return null;
+
+  // handlers for modal links
+  const handleLiveLinkClick = () => {
+    trackGAEvent('project_engagement', 'click_live_link', project.title);
+  };
+
+  const handleCodeLinkClick = () => {
+    trackGAEvent('project_engagement', 'click_code_link', project.title);
+  };
 
   return (
     <div className="modal-overlay active" onClick={onClose}>
@@ -28,13 +38,11 @@ const ProjectModal = ({ project, onClose }) => {
               </ul>
             </div>
             <div className="modal-footer">
-              {/* conditionally render the 'view live site' button */}
               {project.liveLink && (
-                <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary">View Live Site</a>
+                <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary" onClick={handleLiveLinkClick}>View Live Site</a>
               )}
-              {/* conditionally render the 'view code' button */}
               {project.codeLink && (
-                <a href={project.codeLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">View Code</a>
+                <a href={project.codeLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" onClick={handleCodeLinkClick}>View Code</a>
               )}
             </div>
           </div>
