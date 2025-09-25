@@ -11,6 +11,7 @@ import EditWrapper from '../components/admin/EditWrapper';
 import ProjectEditor from '../components/admin/ProjectEditor';
 import ProjectEditModal from '../components/admin/ProjectEditModal';
 import DocumentHub from '../components/admin/DocumentHub';
+import AnalyticsDashboard from '../components/admin/AnalyticsDashboard';
 
 const AdminPage = () => {
   const { logout } = useAuth();
@@ -18,24 +19,31 @@ const AdminPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [editingProject, setEditingProject] = useState(null);
   const [isCreatingProject, setIsCreatingProject] = useState(false);
-  const [activeView, setActiveView] = useState('editor'); // 'editor' or 'hub'
+  const [activeView, setActiveView] = useState('editor'); // 'editor', 'hub', or 'analytics'
 
   // this function will be used to refresh the project list after a change
   const [refreshProjects, setRefreshProjects] = useState(false);
 
   useEffect(() => {
     const loadContent = async () => {
-      try {
-        const content = await getSiteContent();
-        setSiteContent(content);
-      } catch (e) {
-        console.error("failed to load site content for admin", e);
-      } finally {
+      // only load site content if the editor is the target view
+      if (activeView === 'editor') {
+        try {
+          const content = await getSiteContent();
+          setSiteContent(content);
+        } catch (e) {
+          console.error("failed to load site content for admin", e);
+          // set an empty object on failure to prevent crash
+          setSiteContent({}); 
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
         setIsLoading(false);
       }
     };
     loadContent();
-  }, []);
+  }, [activeView]);
 
   const handleContentSave = async (fieldName, newValue) => {
     const payload = {
@@ -88,7 +96,7 @@ const AdminPage = () => {
     }
   };
   
-  if (isLoading || !siteContent) {
+  if (isLoading || (activeView === 'editor' && !siteContent)) {
     return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Spinner /></div>
   }
 
@@ -129,7 +137,7 @@ const AdminPage = () => {
                 </EditWrapper>
                 <EditWrapper fieldName="skills" initialValue={siteContent.skills} onSave={handleContentSave}>
                   <ul className="skills-list">
-                    {siteContent.skills.map((skill, index) => (
+                    {siteContent.skills && siteContent.skills.map((skill, index) => (
                       <li key={index}>{skill}</li>
                     ))}
                   </ul>
@@ -165,6 +173,19 @@ const AdminPage = () => {
     </>
   );
 
+  const renderActiveView = () => {
+    switch(activeView) {
+        case 'editor':
+            return <VisualEditor />;
+        case 'hub':
+            return <DocumentHub />;
+        case 'analytics':
+            return <AnalyticsDashboard />;
+        default:
+            return <VisualEditor />;
+    }
+  };
+
   return (
     <>
       <Header 
@@ -177,14 +198,13 @@ const AdminPage = () => {
         <div className="container">
             <button onClick={() => setActiveView('editor')} className={activeView === 'editor' ? 'active' : ''}>Visual Editor</button>
             <button onClick={() => setActiveView('hub')} className={activeView === 'hub' ? 'active' : ''}>Document Hub</button>
+            <button onClick={() => setActiveView('analytics')} className={activeView === 'analytics' ? 'active' : ''}>Analytics</button>
         </div>
       </div>
 
-      {activeView === 'editor' ? <VisualEditor /> : (
-        <div className="container" style={{paddingTop: '4rem', paddingBottom: '4rem'}}>
-            <DocumentHub />
-        </div>
-      )}
+      <div className="container" style={{paddingTop: '4rem', paddingBottom: '4rem'}}>
+        {renderActiveView()}
+      </div>
 
       <ProjectEditModal 
         project={editingProject} 
