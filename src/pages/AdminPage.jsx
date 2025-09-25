@@ -21,29 +21,24 @@ const AdminPage = () => {
   const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [activeView, setActiveView] = useState('editor'); // 'editor', 'hub', or 'analytics'
 
-  // this function will be used to refresh the project list after a change
   const [refreshProjects, setRefreshProjects] = useState(false);
 
   useEffect(() => {
     const loadContent = async () => {
-      // only load site content if the editor is the target view
-      if (activeView === 'editor') {
-        try {
-          const content = await getSiteContent();
-          setSiteContent(content);
-        } catch (e) {
-          console.error("failed to load site content for admin", e);
-          // set an empty object on failure to prevent crash
-          setSiteContent({}); 
-        } finally {
-          setIsLoading(false);
-        }
-      } else {
+      setIsLoading(true); // ensure loading state is true at the start
+      try {
+        // always load the main site content regardless of the view
+        const content = await getSiteContent();
+        setSiteContent(content);
+      } catch (e) {
+        console.error("failed to load site content for admin", e);
+        setSiteContent({}); 
+      } finally {
         setIsLoading(false);
       }
     };
     loadContent();
-  }, [activeView]);
+  }, []); // this effect should only run once on mount
 
   const handleContentSave = async (fieldName, newValue) => {
     const payload = {
@@ -69,7 +64,7 @@ const AdminPage = () => {
       success: () => {
         setEditingProject(null);
         setIsCreatingProject(false);
-        setRefreshProjects(p => !p); // trigger a refresh of the project list
+        setRefreshProjects(p => !p);
         return `project ${isCreatingProject ? 'created' : 'updated'}!`;
       },
       error: `error ${isCreatingProject ? 'creating' : 'updating'} project.`,
@@ -78,7 +73,7 @@ const AdminPage = () => {
 
   const handleOpenCreateModal = () => {
     setIsCreatingProject(true);
-    setEditingProject({}); // open with a blank object
+    setEditingProject({});
   };
 
   const handleOpenEditModal = (project) => {
@@ -96,14 +91,18 @@ const AdminPage = () => {
     }
   };
   
-  if (isLoading || (activeView === 'editor' && !siteContent)) {
-    return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Spinner /></div>
+  if (isLoading || !siteContent) {
+    return (
+        <>
+            <Header isAdminPage={true} onLogout={handleLogout} onCreateProject={handleOpenCreateModal} />
+            <div style={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Spinner /></div>
+        </>
+    );
   }
 
   const VisualEditor = () => (
     <>
       <main>
-        {/* hero section */}
         <section id="home" className="hero">
           <div className="container">
             <EditWrapper fieldName="heroTitle" initialValue={siteContent.heroTitle} onSave={handleContentSave}>
@@ -122,7 +121,6 @@ const AdminPage = () => {
           </div>
         </section>
 
-        {/* about section */}
         <section id="about" className="about-section">
           <div className="container">
             <h2 className="section-title">About Me</h2>
@@ -147,7 +145,6 @@ const AdminPage = () => {
           </div>
         </section>
 
-        {/* projects section */}
         <section id="projects" className="projects-section">
             <div className="container">
                 <h2 className="section-title">My Recent Projects</h2>
@@ -158,7 +155,6 @@ const AdminPage = () => {
             </div>
         </section>
         
-        {/* contact section */}
         <section id="contact" className="contact-section">
           <div className="container">
             <h2 className="section-title">Get In Touch</h2>

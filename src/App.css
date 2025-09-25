@@ -23,7 +23,11 @@
 /* css reset */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+html { 
+    scroll-behavior: smooth; 
+    scroll-padding-top: 5rem; 
+    overflow-y: scroll;
+}
 
 body {
     font-family: var(--font-family-sans);

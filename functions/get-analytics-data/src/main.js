@@ -1,12 +1,13 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
-// helper function to process a report from the ga api
+// helper function to process a report from the ga api into a clean object
 const processReport = (response) => {
   const result = {
     totals: {},
     rows: [],
   };
 
+  // safety check to ensure totals exist before processing
   if (response.metricHeaders && response.totals && response.totals.length > 0) {
     response.metricHeaders.forEach((header, index) => {
       const metricName = header.name;
@@ -15,6 +16,7 @@ const processReport = (response) => {
     });
   }
 
+  // safety check to ensure rows exist before processing
   if (response.rows && response.rows.length > 0) {
     result.rows = response.rows.map(row => {
       const rowData = {};
@@ -34,11 +36,13 @@ const processReport = (response) => {
 export default async ({ req, res, log, error }) => {
   log('function execution started.');
 
+  // security check: ensure function is called by an authenticated user
   if (!req.headers['x-appwrite-user-id']) {
     error('authentication check failed: user is not authenticated.');
     return res.json({ ok: false, message: 'unauthorized' }, 401);
   }
 
+  // destructure and validate environment variables
   const { GA_CLIENT_EMAIL, GA_PRIVATE_KEY, GA_PROJECT_ID, GA_PROPERTY_ID } = process.env;
 
   if (!GA_CLIENT_EMAIL || !GA_PRIVATE_KEY || !GA_PROJECT_ID || !GA_PROPERTY_ID) {
@@ -46,6 +50,7 @@ export default async ({ req, res, log, error }) => {
     return res.json({ ok: false, message: 'server configuration error' }, 500);
   }
 
+  // build credentials object for google client, formatting the private key
   const credentials = {
     client_email: GA_CLIENT_EMAIL,
     private_key: GA_PRIVATE_KEY.replace(/\\n/g, '\n'),
@@ -66,7 +71,6 @@ export default async ({ req, res, log, error }) => {
 
     // run two reports in parallel: one for pageviews, one for events
     const [pageviewResponse, eventResponse] = await Promise.all([
-      // report #1: top pages
       analyticsDataClient.runReport({
         ...commonConfig,
         metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }],
@@ -74,7 +78,6 @@ export default async ({ req, res, log, error }) => {
         orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
         limit: 10,
       }),
-      // report #2: top events
       analyticsDataClient.runReport({
         ...commonConfig,
         metrics: [{ name: 'eventCount' }],
@@ -86,10 +89,11 @@ export default async ({ req, res, log, error }) => {
     
     log('successfully fetched analytics data from google.');
     
+    // process both reports using our helper function
     const pageviews = processReport(pageviewResponse[0]);
     const events = processReport(eventResponse[0]);
 
-    // combine the results into a single object
+    // combine the results into a single object for the frontend
     const analyticsData = {
       pageviews,
       events,
