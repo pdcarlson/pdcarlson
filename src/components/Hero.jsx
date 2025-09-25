@@ -20,7 +20,7 @@ const Hero = ({ content }) => {
         
         <div className="hero-buttons reveal">
           <a href="#projects" className="btn btn-primary">View My Work</a>
-          <a href="/assets/resume.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" onClick={handleResumeClick}>View Resume</a>
+          <a href="/assets/Paul-Carlson-Resume-Sep2025.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">View Resume</a>
         </div>
       </div>
     </section>
