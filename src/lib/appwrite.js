@@ -1,10 +1,13 @@
+// src/lib/appwrite.js
 import { Client, Databases, Account, Query } from "appwrite";
 
 // import enviornment variables
 const APPWRITE_ENDPOINT = import.meta.env.VITE_APPWRITE_ENDPOINT;
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
-const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
+const PROJECTS_COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
+const CONTENT_COLLECTION_ID = import.meta.env.VITE_APPWRITE_CONTENT_COLLECTION_ID;
+const CONTENT_DOCUMENT_ID = import.meta.env.VITE_APPWRITE_CONTENT_DOCUMENT_ID;
 
 // setup client
 const client = new Client()
@@ -14,20 +17,83 @@ const client = new Client()
 const databases = new Databases(client);
 const account = new Account(client);
 
+// --- project functions ---
 export const getMyProjects = async () => {
     try {
         const result = await databases.listDocuments(
             DATABASE_ID,
-            COLLECTION_ID,
+            PROJECTS_COLLECTION_ID,
             [Query.orderAsc("order")] // sort projects by the 'order' field
         );
         return result.documents;
     } catch (e) {
-        // use console.error for better error logging
-        console.error("Appwrite Error: Failed to fetch projects", e);
-        // re-throw the error so the component that called this can handle it
+        console.error("appwrite error: failed to fetch projects", e);
         throw e;
     }
 }
+
+// --- site content functions ---
+export const getSiteContent = async () => {
+    try {
+        const result = await databases.getDocument(
+            DATABASE_ID,
+            CONTENT_COLLECTION_ID,
+            CONTENT_DOCUMENT_ID
+        );
+        return result;
+    } catch (e) {
+        console.error("appwrite error: failed to fetch site content", e);
+        throw e;
+    }
+};
+
+export const updateSiteContent = async (data) => {
+    try {
+        const result = await databases.updateDocument(
+            DATABASE_ID,
+            CONTENT_COLLECTION_ID,
+            CONTENT_DOCUMENT_ID,
+            data
+        );
+        return result;
+    } catch (e) {
+        console.error("appwrite error: failed to update site content", e);
+        throw e;
+    }
+};
+
+export const updateProjectsOrder = async (projects) => {
+    try {
+        const updatePromises = projects.map((project, index) => {
+            return databases.updateDocument(
+                DATABASE_ID,
+                PROJECTS_COLLECTION_ID,
+                project.$id,
+                { order: index } // update the order based on the new array index
+            );
+        });
+        await Promise.all(updatePromises);
+    } catch (e) {
+        console.error("appwrite error: failed to update projects order", e);
+        throw e;
+    }
+};
+
+export const updateProject = async (projectId, data) => {
+    try {
+        const result = await databases.updateDocument(
+            DATABASE_ID,
+            PROJECTS_COLLECTION_ID,
+            projectId,
+            data
+        );
+        return result;
+    } catch (e) {
+        console.error("appwrite error: failed to update project", e);
+        throw e;
+    }
+};
+
+
 
 export { client, databases, account };

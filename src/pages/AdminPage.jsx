@@ -1,122 +1,55 @@
 // src/pages/adminpage.jsx
 import React, { useState, useEffect } from 'react';
-import { databases } from '../lib/appwrite';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { ID, Query } from 'appwrite';
+import { getSiteContent, updateSiteContent, updateProject } from '../lib/appwrite';
 
-const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
-const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Spinner from '../components/Spinner';
+import EditWrapper from '../components/admin/EditWrapper';
+import ProjectEditor from '../components/admin/ProjectEditor';
+import ProjectEditModal from '../components/admin/ProjectEditModal';
 
 const AdminPage = () => {
   const { logout } = useAuth();
-  const navigate = useNavigate();
+  const [siteContent, setSiteContent] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [editingProject, setEditingProject] = useState(null);
-  const [projects, setProjects] = useState([]);
-  const [formData, setFormData] = useState({
-    title: '',
-    shortDesc: '',
-    desc: '',
-    tech: '',
-    liveLink: '',
-    codeLink: '',
-    imageUrl: '',
-    order: 0 // add order to state
-  });
-
-  const handleEditClick = (project) => {
-    setEditingProject(project);
-    setFormData({
-      title: project.title,
-      shortDesc: project.shortDesc || '',
-      desc: project.desc,
-      tech: project.tech.join(', '),
-      liveLink: project.liveLink || '',
-      codeLink: project.codeLink || '',
-      imageUrl: project.imageUrl || '',
-      order: project.order || 0 // populate order field
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const techArray = formData.tech.split(',').map(item => item.trim());
-    
-    const payload = {
-      title: formData.title,
-      shortDesc: formData.shortDesc,
-      desc: formData.desc,
-      tech: techArray,
-      liveLink: formData.liveLink || null,
-      codeLink: formData.codeLink || null,
-      imageUrl: formData.imageUrl,
-      order: Number(formData.order) // send order as a number
-    };
-
-    try {
-      if (editingProject) {
-        const updatedProject = await databases.updateDocument(
-          DATABASE_ID, COLLECTION_ID, editingProject.$id, payload
-        );
-        // refetch to ensure correct order
-        fetchProjects(); 
-        setEditingProject(null);
-      } else {
-        await databases.createDocument(
-          DATABASE_ID, COLLECTION_ID, ID.unique(), payload
-        );
-        // refetch to ensure correct order
-        fetchProjects();
-      }
-      // reset form
-      setFormData({ title: '', shortDesc: '', desc: '', tech: '', liveLink: '', codeLink: '', imageUrl: '', order: 0 });
-    } catch (error) {
-      console.error("failed to save project:", error);
-      // capitalized alert
-      alert("Error: Could not save project.");
-    }
-  };
-  
-  const handleCancelEdit = () => {
-    setEditingProject(null);
-    setFormData({ title: '', shortDesc: '', desc: '', tech: '', liveLink: '', codeLink: '', imageUrl: '', order: 0 });
-  };
-
-  const fetchProjects = async () => {
-    try {
-      const response = await databases.listDocuments(
-        DATABASE_ID,
-        COLLECTION_ID,
-        [Query.orderAsc("order")] // sort here as well for the admin view
-      );
-      setProjects(response.documents);
-    } catch (error) {
-      console.error("failed to fetch projects:", error);
-    }
-  };
 
   useEffect(() => {
-    fetchProjects();
+    const loadContent = async () => {
+      try {
+        const content = await getSiteContent();
+        setSiteContent(content);
+      } catch (e) {
+        console.error("failed to load site content for admin", e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadContent();
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleContentSave = async (fieldName, newValue) => {
+    const payload = {
+      [fieldName]: newValue
+    };
+    
+    setSiteContent(prev => ({...prev, ...payload}));
+
+    try {
+      await updateSiteContent(payload);
+    } catch (error) {
+      console.error("failed to save content:", error);
+    }
   };
 
-  const handleDeleteProject = async (projectId) => {
-    // capitalized confirmation
-    if (!window.confirm("Are you sure you want to delete this project?")) {
-        return;
-    }
+  const handleProjectUpdate = async (projectId, data) => {
     try {
-      await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, projectId);
-      setProjects(prevProjects => prevProjects.filter(p => p.$id !== projectId));
-    } catch (error)
-    {
-      console.error("failed to delete project:", error);
-      // capitalized alert
-      alert("Error: Could not delete project.");
+      await updateProject(projectId, data);
+      setEditingProject(null);
+    } catch (error) {
+      alert("error updating project. check the console for details.");
     }
   };
 
@@ -127,55 +60,88 @@ const AdminPage = () => {
       console.error("failed to log out:", error);
     }
   };
+  
+  if (isLoading || !siteContent) {
+    return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Spinner /></div>
+  }
 
   return (
-    <div className="auth-page">
-      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem'}}>
-        <h2>{editingProject ? 'Edit Project' : 'Admin Panel'}</h2>
-        <button onClick={handleLogout} className="btn btn-secondary">Logout</button>
-      </div>
-
-      <form onSubmit={handleSubmit} className="auth-form">
-        <h3>{editingProject ? `Editing: ${editingProject.title}` : 'Add New Project'}</h3>
-        <input name="title" value={formData.title} onChange={handleInputChange} placeholder="Title" required />
-        <input name="imageUrl" value={formData.imageUrl} onChange={handleInputChange} placeholder="Image URL (e.g., /assets/image.png)" required />
-        {/* add order input */}
-        <input name="order" type="number" value={formData.order} onChange={handleInputChange} placeholder="Order" required />
-        <textarea name="shortDesc" value={formData.shortDesc} onChange={handleInputChange} placeholder="Short Description (for main page)" required rows="3" style={{resize: 'vertical'}}/>
-        <textarea name="desc" value={formData.desc} onChange={handleInputChange} placeholder="Full Description (for modal)" required rows="6" style={{resize: 'vertical'}}/>
-        <input name="tech" value={formData.tech} onChange={handleInputChange} placeholder="Technologies (comma-separated)" required />
-        <input name="liveLink" value={formData.liveLink} onChange={handleInputChange} placeholder="Live Link URL" type="url" />
-        <input name="codeLink" value={formData.codeLink} onChange={handleInputChange} placeholder="Code Link URL" type="url" />
-        <div style={{display: 'flex', gap: '1rem'}}>
-          <button type="submit" className="btn btn-primary">{editingProject ? 'Update Project' : 'Add Project'}</button>
-          {editingProject && (
-            <button type="button" onClick={handleCancelEdit} className="btn btn-secondary">
-              Cancel
-            </button>
-          )}
-        </div>
-      </form>
+    <>
+      <Header isAdminPage={true} onLogout={handleLogout} />
       
-      <div style={{marginTop: '3rem'}}>
-        <h3>Existing Projects</h3>
-        {projects.length > 0 ? (
-          <ul style={{listStyle: 'none', padding: 0}}>
-            {projects.map(project => (
-              <li key={project.$id} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', borderBottom: '1px solid var(--border-color)'}}>
-                <span style={{fontWeight: 'bold'}}>#{project.order} - {project.title}</span>
-                <div style={{display: 'flex', gap: '1rem'}}>
-                  <button onClick={() => handleEditClick(project)} className="btn btn-secondary" style={{padding: '0.2rem 0.8rem'}}>Edit</button>
-                  <button onClick={() => handleDeleteProject(project.$id)} className="btn btn-secondary" style={{borderColor: '#aa8db9', color: '#aa8db9'}}>Delete</button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          // capitalized message
-          <p>No projects found.</p>
-        )}
-      </div>
-    </div>
+      <main>
+        {/* hero section */}
+        <section id="home" className="hero">
+          <div className="container">
+            <EditWrapper fieldName="heroTitle" initialValue={siteContent.heroTitle} onSave={handleContentSave}>
+              <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: siteContent.heroTitle }}></h1>
+            </EditWrapper>
+            <EditWrapper fieldName="heroSubheadline" initialValue={siteContent.heroSubheadline} onSave={handleContentSave}>
+               <h3 className="hero-subheadline">{siteContent.heroSubheadline}</h3>
+            </EditWrapper>
+            <EditWrapper fieldName="heroSubtitle" initialValue={siteContent.heroSubtitle} onSave={handleContentSave}>
+              <p className="hero-subtitle">{siteContent.heroSubtitle}</p>
+            </EditWrapper>
+            <div className="hero-buttons">
+              <a href="#!" className="btn btn-primary">View My Work</a>
+              <a href="#!" className="btn btn-secondary">View Resume</a>
+            </div>
+          </div>
+        </section>
+
+        {/* about section */}
+        <section id="about" className="about-section">
+          <div className="container">
+            <h2 className="section-title">About Me</h2>
+            <div className="about-content">
+              <img src="/assets/professional-headshot-s25.jpeg" alt="Paul Carlson" className="about-image" />
+              <div>
+                <EditWrapper fieldName="aboutParagraph1" initialValue={siteContent.aboutParagraph1} onSave={handleContentSave}>
+                  <p>{siteContent.aboutParagraph1}</p>
+                </EditWrapper>
+                <EditWrapper fieldName="aboutParagraph2" initialValue={siteContent.aboutParagraph2} onSave={handleContentSave}>
+                  <p>{siteContent.aboutParagraph2}</p>
+                </EditWrapper>
+                <EditWrapper fieldName="skills" initialValue={siteContent.skills} onSave={handleContentSave}>
+                  <ul className="skills-list">
+                    {siteContent.skills.map((skill, index) => (
+                      <li key={index}>{skill}</li>
+                    ))}
+                  </ul>
+                </EditWrapper>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* projects section */}
+        <section id="projects" className="projects-section">
+            <div className="container">
+                <h2 className="section-title">My Recent Projects</h2>
+                <ProjectEditor onEditProject={setEditingProject} />
+            </div>
+        </section>
+        
+        {/* contact section */}
+        <section id="contact" className="contact-section">
+          <div className="container">
+            <h2 className="section-title">Get In Touch</h2>
+            <EditWrapper fieldName="contactText" initialValue={siteContent.contactText} onSave={handleContentSave}>
+              <p className="contact-text">{siteContent.contactText}</p>
+            </EditWrapper>
+            <a href="#!" className="btn btn-primary">Say Hello</a>
+          </div>
+        </section>
+      </main>
+      
+      <Footer />
+
+      <ProjectEditModal 
+        project={editingProject} 
+        onClose={() => setEditingProject(null)} 
+        onSave={handleProjectUpdate} 
+      />
+    </>
   );
 };
 

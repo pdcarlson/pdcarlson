@@ -1,3 +1,6 @@
+/* src/app.css */
+@import url('./components/admin/Admin.css');
+
 /* global variables and base styles */
 :root {
     /* custom "lavender & indigo" color palette */
@@ -305,6 +308,22 @@ section { padding: 6rem 0; }
 }
 .scroll-to-top:hover {
     background-color: var(--accent-hover);
+}
+
+/* add this rule anywhere in the file */
+.nav-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  color: var(--primary-text);
+  padding: 0;
+  transition: color var(--transition-speed);
+}
+.nav-button:hover {
+  color: var(--accent-color);
 }
 
 /* responsive */
