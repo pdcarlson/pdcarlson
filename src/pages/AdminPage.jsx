@@ -1,7 +1,8 @@
 // src/pages/adminpage.jsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getSiteContent, updateSiteContent, updateProject } from '../lib/appwrite';
+import { getSiteContent, updateSiteContent, updateProject, createProject } from '../lib/appwrite';
+import toast from 'react-hot-toast';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -16,7 +17,11 @@ const AdminPage = () => {
   const [siteContent, setSiteContent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [editingProject, setEditingProject] = useState(null);
+  const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [activeView, setActiveView] = useState('editor'); // 'editor' or 'hub'
+
+  // this function will be used to refresh the project list after a change
+  const [refreshProjects, setRefreshProjects] = useState(false);
 
   useEffect(() => {
     const loadContent = async () => {
@@ -36,34 +41,54 @@ const AdminPage = () => {
     const payload = {
       [fieldName]: newValue
     };
-    
-    setSiteContent(prev => ({...prev, ...payload}));
 
-    try {
-      await updateSiteContent(payload);
-    } catch (error) {
-      console.error("failed to save content:", error);
-    }
+    const promise = updateSiteContent(payload);
+    toast.promise(promise, {
+      loading: 'saving...',
+      success: 'content saved!',
+      error: 'error saving content.',
+    });
+    setSiteContent(prev => ({...prev, ...payload}));
   };
 
-  const handleProjectUpdate = async (projectId, data) => {
-    try {
-      await updateProject(projectId, data);
-      setEditingProject(null);
-    } catch (error) {
-      alert("error updating project. check the console for details.");
-    }
+  const handleProjectSave = (projectId, data) => {
+    const promise = isCreatingProject 
+      ? createProject(data)
+      : updateProject(projectId, data);
+    
+    toast.promise(promise, {
+      loading: 'saving project...',
+      success: () => {
+        setEditingProject(null);
+        setIsCreatingProject(false);
+        setRefreshProjects(p => !p); // trigger a refresh of the project list
+        return `project ${isCreatingProject ? 'created' : 'updated'}!`;
+      },
+      error: `error ${isCreatingProject ? 'creating' : 'updating'} project.`,
+    });
+  };
+
+  const handleOpenCreateModal = () => {
+    setIsCreatingProject(true);
+    setEditingProject({}); // open with a blank object
+  };
+
+  const handleOpenEditModal = (project) => {
+    setIsCreatingProject(false);
+    setEditingProject(project);
   };
 
   const handleLogout = async () => {
     try {
       await logout();
+      toast.success('logged out successfully.');
     } catch (error) {
       console.error("failed to log out:", error);
+      toast.error('failed to log out.');
     }
   };
   
-  if (isLoading) {
+  if (isLoading || !siteContent) {
     return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Spinner /></div>
   }
 
@@ -118,7 +143,10 @@ const AdminPage = () => {
         <section id="projects" className="projects-section">
             <div className="container">
                 <h2 className="section-title">My Recent Projects</h2>
-                <ProjectEditor onEditProject={setEditingProject} />
+                <ProjectEditor 
+                  onEditProject={handleOpenEditModal}
+                  key={refreshProjects}
+                />
             </div>
         </section>
         
@@ -139,7 +167,11 @@ const AdminPage = () => {
 
   return (
     <>
-      <Header isAdminPage={true} onLogout={handleLogout} />
+      <Header 
+        isAdminPage={true} 
+        onLogout={handleLogout} 
+        onCreateProject={handleOpenCreateModal} 
+      />
 
       <div className="admin-view-switcher">
         <div className="container">
@@ -157,7 +189,8 @@ const AdminPage = () => {
       <ProjectEditModal 
         project={editingProject} 
         onClose={() => setEditingProject(null)} 
-        onSave={handleProjectUpdate} 
+        onSave={handleProjectSave}
+        isCreating={isCreatingProject}
       />
     </>
   );

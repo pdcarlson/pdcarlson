@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = ({ isAdminPage, onLogout }) => {
+const Header = ({ isAdminPage, onLogout, onCreateProject }) => {
   return (
     <header className="main-header">
       <div className="container">
@@ -8,7 +8,10 @@ const Header = ({ isAdminPage, onLogout }) => {
         <nav className="main-nav">
           <ul>
             {isAdminPage ? (
-              <li><button onClick={onLogout} className="nav-button">Logout</button></li>
+              <>
+                <li><button onClick={onCreateProject} className="nav-button primary">+ New Project</button></li>
+                <li><button onClick={onLogout} className="nav-button">Logout</button></li>
+              </>
             ) : (
               <>
                 <li><a href="#about">About</a></li>

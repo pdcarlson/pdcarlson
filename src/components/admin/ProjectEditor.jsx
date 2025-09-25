@@ -1,8 +1,8 @@
-// src/components/admin/ProjectEditor.jsx
 import React, { useState, useEffect } from 'react';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis, restrictToWindowEdges } from '@dnd-kit/modifiers';
+import toast from 'react-hot-toast';
 
 import { getMyProjects, updateProjectsOrder } from '../../lib/appwrite';
 import DraggableProjectItem from './DraggableProjectItem';
@@ -28,13 +28,7 @@ const ProjectEditor = ({ onEditProject }) => {
     loadProjects();
   }, []);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    })
-  );
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -48,17 +42,16 @@ const ProjectEditor = ({ onEditProject }) => {
     }
   };
 
-  const handleSaveChanges = async () => {
-    setIsSaving(true);
-    try {
-      await updateProjectsOrder(projects);
-      setHasChanges(false);
-    } catch (error) {
-      console.error("failed to save new project order:", error);
-      alert("error: could not save order.");
-    } finally {
-      setIsSaving(false);
-    }
+  const handleSaveChanges = () => {
+    const promise = updateProjectsOrder(projects);
+    toast.promise(promise, {
+      loading: 'saving order...',
+      success: () => {
+        setHasChanges(false);
+        return 'new order saved!';
+      },
+      error: 'error saving order.',
+    });
   };
 
   if (isLoading) {
@@ -66,34 +59,36 @@ const ProjectEditor = ({ onEditProject }) => {
   }
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-      modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
-    >
-      <div className="projects-list">
-        <SortableContext items={projects.map(p => p.$id)} strategy={verticalListSortingStrategy}>
-          {projects.map((project, index) => (
-            <DraggableProjectItem 
-              key={project.$id} 
-              project={project} 
-              isReversed={index % 2 !== 0}
-              onEdit={() => onEditProject(project)}
-            />
-          ))}
-        </SortableContext>
-      </div>
-
-      {hasChanges && (
-        <div className="save-order-bar">
-          <p>You have unsaved changes to the project order.</p>
-          <button onClick={handleSaveChanges} className="btn btn-primary" disabled={isSaving}>
-            {isSaving ? 'Saving...' : 'Save Order'}
-          </button>
+    <>
+      {/* this button is now removed from here */}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
+      >
+        <div className="projects-list">
+          <SortableContext items={projects.map(p => p.$id)} strategy={verticalListSortingStrategy}>
+            {projects.map((project, index) => (
+              <DraggableProjectItem 
+                key={project.$id} 
+                project={project} 
+                isReversed={index % 2 !== 0}
+                onEdit={() => onEditProject(project)}
+              />
+            ))}
+          </SortableContext>
         </div>
-      )}
-    </DndContext>
+        {hasChanges && (
+          <div className="save-order-bar">
+            <p>You have unsaved changes to the project order.</p>
+            <button onClick={handleSaveChanges} className="btn btn-primary" disabled={isSaving}>
+              {isSaving ? 'Saving...' : 'Save Order'}
+            </button>
+          </div>
+        )}
+      </DndContext>
+    </>
   );
 };
 

@@ -65,6 +65,25 @@ export const updateProject = async (projectId, data) => {
     }
 };
 
+export const createProject = async (data) => {
+    try {
+        // find the highest current order number to place the new project at the end
+        const projectList = await getMyProjects();
+        const maxOrder = projectList.reduce((max, p) => p.order > max ? p.order : max, -1);
+        const newOrder = maxOrder + 1;
+
+        const result = await databases.createDocument(
+            DATABASE_ID,
+            PROJECTS_COLLECTION_ID,
+            ID.unique(),
+            { ...data, order: newOrder } // add the new order number
+        );
+        return result;
+    } catch (e) {
+        console.error("appwrite error: failed to create project", e);
+        throw e;
+    }
+};
 
 // --- site content functions ---
 export const getSiteContent = async () => {

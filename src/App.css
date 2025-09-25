@@ -326,6 +326,14 @@ section { padding: 6rem 0; }
   color: var(--accent-color);
 }
 
+.nav-button.primary {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+.nav-button.primary:hover {
+    color: var(--accent-hover);
+}
+
 /* responsive */
 @media (max-width: 850px) {
     .about-content { grid-template-columns: 1fr; text-align: center; }
