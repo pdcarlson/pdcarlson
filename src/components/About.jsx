@@ -1,6 +1,8 @@
+// src/components/about.jsx
 import React from 'react';
 
-const About = () => {
+// accept content as a prop
+const About = ({ content }) => {
   return (
     <section id="about" className="about-section">
       <div className="container reveal">
@@ -8,16 +10,14 @@ const About = () => {
         <div className="about-content">
           <img src="/assets/professional-headshot-s25.jpeg" alt="Paul Carlson" className="about-image" />
           <div>
-            <p>I'm a passionate and driven student at Rensselaer Polytechnic Institute, pursuing dual degrees in Computer Science and IT & Web Science. My journey in technology is fueled by a desire to solve complex problems and build intuitive, user-friendly applications that make a tangible difference.</p>
-            <p>Here are a few technologies I've been working with recently:</p>
+            {/* use content from props */}
+            <p>{content?.aboutParagraph1}</p>
+            <p>{content?.aboutParagraph2}</p>
             <ul className="skills-list">
-              <li>JavaScript</li>
-              <li>React</li>
-              <li>Appwrite</li>
-              <li>Node.js</li>
-              <li>Python</li>
-              <li>Mapbox</li>
-              <li>C++</li>
+              {/* map over the skills array from props */}
+              {content?.skills?.map((skill, index) => (
+                <li key={index}>{skill}</li>
+              ))}
             </ul>
           </div>
         </div>
