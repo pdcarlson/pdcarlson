@@ -1,3 +1,6 @@
+/* src/app.css */
+@import url('./components/admin/Admin.css');
+
 /* global variables and base styles */
 :root {
     /* custom "lavender & indigo" color palette */
