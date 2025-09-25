@@ -62,5 +62,21 @@ export const updateSiteContent = async (data) => {
     }
 };
 
+export const updateProjectsOrder = async (projects) => {
+    try {
+        const updatePromises = projects.map((project, index) => {
+            return databases.updateDocument(
+                DATABASE_ID,
+                PROJECTS_COLLECTION_ID,
+                project.$id,
+                { order: index } // update the order based on the new array index
+            );
+        });
+        await Promise.all(updatePromises);
+    } catch (e) {
+        console.error("appwrite error: failed to update projects order", e);
+        throw e;
+    }
+};
 
 export { client, databases, account };

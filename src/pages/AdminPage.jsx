@@ -4,10 +4,10 @@ import { useAuth } from '../context/AuthContext';
 import { getSiteContent, updateSiteContent } from '../lib/appwrite';
 
 import Header from '../components/Header';
-import Projects from '../components/Projects';
 import Footer from '../components/Footer';
 import Spinner from '../components/Spinner';
 import EditWrapper from '../components/admin/EditWrapper';
+import ProjectEditor from '../components/admin/ProjectEditor';
 
 const AdminPage = () => {
   const { logout } = useAuth();
@@ -108,9 +108,15 @@ const AdminPage = () => {
           </div>
         </section>
 
-        {/* we'll tackle projects next */}
-        <Projects onProjectClick={() => alert("project modals are disabled in edit mode.")} />
-
+        {/* projects section */}
+        <section id="projects" className="projects-section">
+            <div className="container">
+                <h2 className="section-title">My Recent Projects</h2>
+                <p style={{textAlign: 'center', margin: '-2rem 0 3rem'}}>Drag and drop to reorder. Note: Project editing is handled in the main projects tab.</p>
+                <ProjectEditor />
+            </div>
+        </section>
+        
         {/* contact section */}
         <section id="contact" className="contact-section">
           <div className="container">

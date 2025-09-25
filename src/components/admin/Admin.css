@@ -122,6 +122,56 @@
   gap: 1rem;
 }
 
+.drag-handle {
+  position: absolute;
+  top: 50%;
+  left: -10px; /* position to the left of the item */
+  transform: translateY(-50%);
+  width: 30px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  cursor: grab;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.drag-handle:hover {
+  color: var(--primary-text);
+}
+
+/* show handle when hovering the draggable item's container */
+[ref*="sortable"] > div:hover .drag-handle {
+  opacity: 1;
+}
+
+
+.save-order-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  z-index: 1000;
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
