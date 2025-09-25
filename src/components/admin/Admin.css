@@ -89,6 +89,8 @@
   border-radius: var(--border-radius);
   width: 90%;
   max-width: 500px;
+  max-height: 90vh; /* add this to limit the height */
+  overflow-y: auto; /* add this to make content scroll */
 }
 
 .edit-modal-content form {

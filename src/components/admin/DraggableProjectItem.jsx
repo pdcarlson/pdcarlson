@@ -3,7 +3,7 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const DraggableProjectItem = ({ project, isReversed }) => {
+const DraggableProjectItem = ({ project, isReversed, onEdit }) => {
   const {
     attributes,
     listeners,
@@ -21,13 +21,11 @@ const DraggableProjectItem = ({ project, isReversed }) => {
     position: 'relative',
     cursor: 'grab',
   };
-
+  
   const itemClassName = `project-item ${isReversed ? 'reverse' : ''}`;
 
   return (
-    // remove the className from this div
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-
       <div className={itemClassName}>
         {project.imageUrl && (
           <div className="project-item-image">
@@ -43,8 +41,12 @@ const DraggableProjectItem = ({ project, isReversed }) => {
               <li key={index}>{techItem}</li>
             ))}
           </ul>
-          <button className="btn btn-secondary" disabled>
-            Learn More
+          <button onClick={(e) => {
+            // stop the drag listeners from firing when we click the button
+            e.stopPropagation();
+            onEdit();
+          }} className="btn btn-secondary">
+            Edit Details
           </button>
         </div>
       </div>

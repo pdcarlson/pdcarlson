@@ -8,7 +8,7 @@ import { getMyProjects, updateProjectsOrder } from '../../lib/appwrite';
 import DraggableProjectItem from './DraggableProjectItem';
 import Spinner from '../Spinner';
 
-const ProjectEditor = () => {
+const ProjectEditor = ({ onEditProject }) => {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -16,13 +16,11 @@ const ProjectEditor = () => {
 
   useEffect(() => {
     const loadProjects = async () => {
-      console.log("projecteditor: fetching projects..."); // debug #1
       try {
         const fetchedProjects = await getMyProjects();
-        console.log("projecteditor: fetched data:", fetchedProjects); // debug #2
         setProjects(fetchedProjects || []);
       } catch (e) {
-        console.error("projecteditor: error fetching projects:", e); // debug #3
+        console.error("error fetching projects:", e);
       } finally {
         setIsLoading(false);
       }
@@ -33,7 +31,7 @@ const ProjectEditor = () => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // require mouse to move 8px before drag starts
+        distance: 8,
       },
     })
   );
@@ -63,8 +61,6 @@ const ProjectEditor = () => {
     }
   };
 
-  console.log("projecteditor: rendering with state:", { isLoading, projects }); // debug #4
-
   if (isLoading) {
     return <div className="flex-center"><Spinner /></div>;
   }
@@ -79,7 +75,12 @@ const ProjectEditor = () => {
       <div className="projects-list">
         <SortableContext items={projects.map(p => p.$id)} strategy={verticalListSortingStrategy}>
           {projects.map((project, index) => (
-            <DraggableProjectItem key={project.$id} project={project} isReversed={index % 2 !== 0} />
+            <DraggableProjectItem 
+              key={project.$id} 
+              project={project} 
+              isReversed={index % 2 !== 0}
+              onEdit={() => onEditProject(project)}
+            />
           ))}
         </SortableContext>
       </div>

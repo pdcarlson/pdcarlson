@@ -1,18 +1,20 @@
 // src/pages/adminpage.jsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getSiteContent, updateSiteContent } from '../lib/appwrite';
+import { getSiteContent, updateSiteContent, updateProject } from '../lib/appwrite';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Spinner from '../components/Spinner';
 import EditWrapper from '../components/admin/EditWrapper';
 import ProjectEditor from '../components/admin/ProjectEditor';
+import ProjectEditModal from '../components/admin/ProjectEditModal';
 
 const AdminPage = () => {
   const { logout } = useAuth();
   const [siteContent, setSiteContent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingProject, setEditingProject] = useState(null);
 
   useEffect(() => {
     const loadContent = async () => {
@@ -39,7 +41,15 @@ const AdminPage = () => {
       await updateSiteContent(payload);
     } catch (error) {
       console.error("failed to save content:", error);
-      // in a real app, you'd revert the optimistic update here on failure
+    }
+  };
+
+  const handleProjectUpdate = async (projectId, data) => {
+    try {
+      await updateProject(projectId, data);
+      setEditingProject(null);
+    } catch (error) {
+      alert("error updating project. check the console for details.");
     }
   };
 
@@ -57,11 +67,7 @@ const AdminPage = () => {
 
   return (
     <>
-      <div style={{position: 'fixed', top: '1rem', right: '1rem', zIndex: 1100}}>
-        <button onClick={handleLogout} className="btn btn-secondary">Logout</button>
-      </div>
-      
-      <Header />
+      <Header isAdminPage={true} onLogout={handleLogout} />
       
       <main>
         {/* hero section */}
@@ -112,8 +118,7 @@ const AdminPage = () => {
         <section id="projects" className="projects-section">
             <div className="container">
                 <h2 className="section-title">My Recent Projects</h2>
-                <p style={{textAlign: 'center', margin: '-2rem 0 3rem'}}>Drag and drop to reorder. Note: Project editing is handled in the main projects tab.</p>
-                <ProjectEditor />
+                <ProjectEditor onEditProject={setEditingProject} />
             </div>
         </section>
         
@@ -130,6 +135,12 @@ const AdminPage = () => {
       </main>
       
       <Footer />
+
+      <ProjectEditModal 
+        project={editingProject} 
+        onClose={() => setEditingProject(null)} 
+        onSave={handleProjectUpdate} 
+      />
     </>
   );
 };

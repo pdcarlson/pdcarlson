@@ -79,4 +79,21 @@ export const updateProjectsOrder = async (projects) => {
     }
 };
 
+export const updateProject = async (projectId, data) => {
+    try {
+        const result = await databases.updateDocument(
+            DATABASE_ID,
+            PROJECTS_COLLECTION_ID,
+            projectId,
+            data
+        );
+        return result;
+    } catch (e) {
+        console.error("appwrite error: failed to update project", e);
+        throw e;
+    }
+};
+
+
+
 export { client, databases, account };
