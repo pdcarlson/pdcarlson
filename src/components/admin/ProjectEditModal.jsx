@@ -1,16 +1,7 @@
-// src/components/admin/ProjectEditModal.jsx
 import React, { useState, useEffect } from 'react';
 
-const ProjectEditModal = ({ project, onSave, onClose }) => {
-  const [formData, setFormData] = useState({
-    title: '',
-    shortDesc: '',
-    desc: '',
-    tech: '',
-    liveLink: '',
-    codeLink: '',
-    imageUrl: '',
-  });
+const ProjectEditModal = ({ project, onSave, onClose, isCreating }) => {
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     if (project) {
@@ -34,7 +25,7 @@ const ProjectEditModal = ({ project, onSave, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const techArray = formData.tech.split(',').map(item => item.trim());
-    onSave(project.$id, { ...formData, tech: techArray });
+    onSave(project?.$id, { ...formData, tech: techArray });
   };
 
   if (!project) return null;
@@ -43,7 +34,7 @@ const ProjectEditModal = ({ project, onSave, onClose }) => {
     <div className="edit-modal-overlay" onClick={onClose}>
       <div className="edit-modal-content" onClick={(e) => e.stopPropagation()}>
         <form onSubmit={handleSubmit}>
-          <h3>Editing: {project.title}</h3>
+          <h3>{isCreating ? 'Create New Project' : `Editing: ${project.title}`}</h3>
           
           <label htmlFor="title">Title</label>
           <input id="title" name="title" value={formData.title} onChange={handleInputChange} required />
@@ -68,7 +59,7 @@ const ProjectEditModal = ({ project, onSave, onClose }) => {
           
           <div className="edit-modal-actions">
             <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
-            <button type="submit" className="btn btn-primary">Save Changes</button>
+            <button type="submit" className="btn btn-primary">{isCreating ? 'Create Project' : 'Save Changes'}</button>
           </div>
         </form>
       </div>

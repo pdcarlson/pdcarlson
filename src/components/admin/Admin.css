@@ -182,3 +182,186 @@
   color: #FFFFFF;
   margin-bottom: 0;
 }
+
+.admin-view-switcher {
+  background-color: var(--surface-color);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-view-switcher button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--secondary-text);
+  border-bottom: 3px solid transparent;
+  margin-right: 1rem;
+}
+
+.admin-view-switcher button.active {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
+.document-hub-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: #fff;
+  min-height: 70vh;
+}
+
+.doc-list-sidebar {
+  padding: 1rem;
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+}
+
+.doc-list-item {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.doc-list-item:hover {
+  background-color: var(--surface-color);
+}
+
+.doc-list-item.active {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.doc-list-title {
+  display: block;
+  font-weight: 600;
+}
+
+.doc-list-category {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.doc-editor-main {
+  padding: 1rem;
+}
+
+.doc-editor-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.doc-editor-form input,
+.doc-editor-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--primary-text);
+  margin-bottom: 1rem;
+  font-family: var(--font-family-sans);
+  font-size: 1rem;
+}
+
+.doc-editor-form textarea {
+  flex-grow: 1; /* allows textarea to fill available space */
+  resize: vertical;
+  min-height: 300px;
+}
+
+.doc-editor-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.analytics-dashboard h3 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  color: var(--primary-text);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: var(--secondary-text);
+}
+
+.data-tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.data-table h4 {
+  margin-bottom: 1rem;
+  color: var(--primary-text);
+}
+
+.data-table ul {
+  list-style-type: none;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.data-table li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table li:last-child {
+  border-bottom: none;
+}
+
+.data-table li span:first-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 1rem;
+}
+
+.data-table li span:last-child {
+  font-weight: 600;
+  color: var(--primary-text);
+}
+
+.data-tables-grid-single {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr);
+  justify-content: center; /* center the single column */
+  gap: 2rem;
+}

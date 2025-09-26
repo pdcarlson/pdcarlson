@@ -23,7 +23,11 @@
 /* css reset */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+html { 
+    scroll-behavior: smooth; 
+    scroll-padding-top: 5rem; 
+    overflow-y: scroll;
+}
 
 body {
     font-family: var(--font-family-sans);
@@ -324,6 +328,21 @@ section { padding: 6rem 0; }
 }
 .nav-button:hover {
   color: var(--accent-color);
+}
+
+.nav-button.primary {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+.nav-button.primary:hover {
+    color: var(--accent-hover);
+}
+
+.loading-text {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--secondary-text);
+  animation: fadeIn 1.5s infinite alternate;
 }
 
 /* responsive */
