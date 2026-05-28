@@ -1,0 +1,7 @@
+aws_region      = "us-east-1"
+domain_name     = "pdcarlson.dev"
+route53_zone_id = "Z0000000000000000EXAMPLE"
+mail_from       = "no-reply@pdcarlson.dev"
+mail_to         = "pdcarlson06@gmail.com"
+github_owner    = "pdcarlson"
+github_repo     = "pdcarlson"
