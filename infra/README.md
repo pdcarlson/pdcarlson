@@ -1,56 +1,73 @@
 # Infrastructure
 
-How this site is deployed and observed. One-time AWS setup, then everything runs from `git push`.
+Everything that lives outside the static bundle. Defined as code, runnable locally against LocalStack and against real AWS from the same modules.
 
-## Buckets and certs
+## Layout
 
-- **Site bucket** — `pdcarlson-site` (or whatever). Block all public access; CloudFront reaches it via Origin Access Control (OAC).
-- **Logs bucket** — `pdcarlson-logs`. Receives standard CloudFront access logs. Lifecycle rule: STANDARD_IA after 30d, delete after 365d.
-- **Athena results bucket** — `pdcarlson-athena-results`. Just the workgroup output bucket.
-- **ACM certificate** for `pdcarlson.dev` (and `www.pdcarlson.dev`) — must be issued in `us-east-1` for CloudFront. DNS-validated through Route 53.
+```
+infra/
+├── contact-lambda/      # Node 20 Lambda source for the contact form
+├── athena/              # Saved Athena queries (hand-runnable)
+└── terraform/
+    ├── modules/
+    │   ├── site/           # S3 site bucket + logs bucket + lifecycle
+    │   ├── site_cdn/       # CloudFront + ACM + Route53 (prod only)
+    │   ├── contact/        # IAM + Lambda + API Gateway + SES
+    │   ├── analytics/      # Athena workgroup + Glue table
+    │   └── oidc/           # GitHub Actions OIDC provider + deploy role
+    └── envs/
+        ├── local/          # LocalStack composition
+        └── prod/           # Real AWS composition (+ bootstrap/ for state backend)
+```
 
-## CloudFront distribution
+## Local stack (LocalStack)
 
-- Origin 1: the site S3 bucket, accessed via OAC. Default behavior with `Managed-CachingOptimized`.
-- Origin 2: the contact API Gateway invoke URL. Behavior with path pattern `/api/*`, `Managed-CachingDisabled`, `Managed-AllViewerExceptHostHeader`.
-- Default root object: `index.html`.
-- Custom error responses: 403/404 → `/404/index.html` with status 404.
-- Standard logging on, target = logs bucket.
+`docker compose up -d` brings up Next on `:3000` and LocalStack on `:4566`. Then:
 
-## Route 53
+```bash
+make lambda-build       # produces infra/contact-lambda/contact-lambda.zip
+make tf-init-local
+make tf-apply-local
+make awslocal-check
+```
 
-- A/AAAA alias records for `pdcarlson.dev` and `www.pdcarlson.dev` → the CloudFront distribution.
+CloudFront, ACM, and Route 53 are skipped in the local env (LocalStack community doesn't cover them). The bucket, Lambda, API Gateway, SES sandbox, Athena workgroup, and Glue table all come up against LocalStack.
 
-## OIDC + deploy role
+## Prod (real AWS)
 
-GitHub Actions deploys with a short-lived role assumed via OIDC (no long-lived keys in repo).
+One-time bootstrap (state backend):
 
-1. **IAM identity provider**: GitHub Actions (`token.actions.githubusercontent.com`).
-2. **IAM role** (`portfolio-deploy`) trusting that provider, scoped to `repo:pdcarlson/pdcarlson:ref:refs/heads/main`.
-3. Inline policy on the role:
-   - `s3:ListBucket`, `s3:GetObject`, `s3:PutObject`, `s3:DeleteObject` on the site bucket
-   - `s3:PutObjectAcl` (only if needed)
-   - `cloudfront:CreateInvalidation` on the distribution ARN
+```bash
+docker compose run --rm terraform -chdir=infra/terraform/envs/prod/bootstrap init
+docker compose run --rm terraform -chdir=infra/terraform/envs/prod/bootstrap apply
+```
 
-Store the role ARN as the `AWS_DEPLOY_ROLE_ARN` repo secret. Bucket name → `SITE_BUCKET`, distribution id → `CF_DISTRIBUTION_ID`.
+Copy `envs/prod/terraform.tfvars.example` → `envs/prod/terraform.tfvars`, fill the values, then:
 
-## Contact form
+```bash
+make tf-init-prod
+make tf-plan-prod
+make tf-apply-prod
+```
 
-See `contact-lambda/README.md`. Lambda + API Gateway + SES, hooked into CloudFront under `/api/*`.
+After apply, push the GitHub repo secrets surfaced as outputs:
 
-## Analytics
+- `AWS_DEPLOY_ROLE_ARN` — `deploy_role_arn` output
+- `SITE_BUCKET` — `site_bucket` output
+- `CF_DISTRIBUTION_ID` — `distribution_id` output
 
-See `athena/README.md`. Standard CloudFront logs into S3, queried from Athena.
+## CI
 
-## Estimated monthly cost
+- `.github/workflows/deploy.yml` — on push to `main`, builds via the Docker `builder` stage, extracts `/app/out`, syncs to S3, invalidates CloudFront.
+- `.github/workflows/terraform.yml` — on PRs touching `infra/terraform/**`, runs `fmt` + `validate` for both envs.
 
-At single-digit-hundred visitors per month:
+## Cost shape at portfolio traffic
 
-- S3 storage + transfer: under $0.50
-- CloudFront: under $1 (likely free-tier)
-- Route 53 hosted zone: $0.50
+- S3 + CloudFront: under $1/mo combined
+- Route 53 hosted zone: $0.50/mo
 - ACM cert: free
-- SES (one verified identity, single-digit sends): free-tier
-- Athena: pennies per query
+- SES: free for the first 62k sends/mo
+- Athena: cents per query, ~free
+- Lambda + API Gateway: well inside free tier
 
-Call it $1–2/month at portfolio traffic. Free if you stay inside the AWS free tier for the first 12 months on a new account.
+Roughly $1-2/mo steady state.

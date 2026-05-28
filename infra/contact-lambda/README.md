@@ -1,30 +1,39 @@
 # contact-lambda
 
-Tiny Lambda behind API Gateway that takes a JSON POST from the contact form and forwards it via SES.
+Node 20 Lambda behind an HTTP API Gateway. Receives a JSON POST from `/api/contact`, validates, sends via SES.
 
-## Build
+## Build the artifact
 
 ```bash
 npm install
 npm run package
-# produces contact-lambda.zip
+# → contact-lambda.zip
 ```
 
-## Deploy (one-time, by hand)
+Terraform reads `contact-lambda.zip` directly. Both the local and prod envs depend on it; `make tf-apply-local` and `make tf-apply-prod` run `lambda-build` as a prerequisite.
 
-1. **SES**: verify both the from-address and the to-address (sandbox mode is fine for a portfolio). Region `us-east-1`.
-2. **Lambda**: Node 20 runtime, handler `index.handler`, upload `contact-lambda.zip`. Env vars:
-   - `MAIL_FROM` — e.g. `no-reply@pdcarlson.dev` (must be SES-verified)
-   - `MAIL_TO` — your inbox
-   - `AWS_REGION` — `us-east-1`
-3. **IAM role** for the Lambda: attach a policy with `ses:SendEmail` on the verified identity ARN.
-4. **API Gateway (HTTP API)**: create one route `POST /contact`, integration target = the Lambda. Set throttling on the stage (e.g. 5 req/min/IP via a per-IP rate limit, or rely on CloudFront's overall stage throttling).
-5. **CloudFront**: add an origin pointing at the API Gateway invoke URL, then add a behavior with path pattern `/api/*` routing to that origin. Origin path = the stage name. Cache policy: `Managed-CachingDisabled`. Origin request policy: `Managed-AllViewerExceptHostHeader`.
-6. **Test**: `curl -i -X POST https://pdcarlson.dev/api/contact -d '{"name":"x","email":"x@example.com","message":"hello"}'`
+## Env vars (set by Terraform)
+
+- `MAIL_FROM` — verified SES sender
+- `MAIL_TO` — destination inbox
+- `AWS_REGION` — inherited from the runtime
 
 ## Spam guard
 
-- `honeypot` field on the form (`name="company"`) — populated requests get 204'd silently
-- Input length caps in `index.mjs`
-- API Gateway throttling at the stage level
-- (Optional) Add a Cloudflare Turnstile or AWS WAF rule if abuse becomes a problem
+- Honeypot field (`company`) on the form — populated requests get a silent 204.
+- Length caps in `index.mjs`: name 200, email 320, message 5000.
+- API Gateway throttling on the stage (`throttling_rate_limit = 5`, `throttling_burst_limit = 10`).
+
+## Run against LocalStack
+
+```bash
+docker compose up -d localstack
+make lambda-build
+make tf-apply-local
+
+# fire a test invocation
+curl -s -H 'content-type: application/json' \
+  -X POST "$(make -s --no-print-directory awslocal-check >/dev/null; \
+  docker compose run --rm terraform -chdir=infra/terraform/envs/local output -raw contact_api)/contact" \
+  -d '{"name":"x","email":"x@example.com","message":"hi","honeypot":""}'
+```
