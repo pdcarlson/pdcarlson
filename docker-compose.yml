@@ -1,0 +1,50 @@
+services:
+  web:
+    build:
+      context: .
+      target: dev
+    image: pdcarlson-portfolio:dev
+    container_name: pdcarlson-web
+    command: npm run dev -- --hostname 0.0.0.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      NEXT_TELEMETRY_DISABLED: "1"
+    depends_on:
+      - localstack
+
+  localstack:
+    image: localstack/localstack:3.8
+    container_name: pdcarlson-localstack
+    ports:
+      - "4566:4566"
+      - "4510-4559:4510-4559"
+    environment:
+      SERVICES: "s3,lambda,apigateway,apigatewayv2,ses,iam,sts,route53,logs,athena,glue,cloudwatch"
+      DEBUG: "0"
+      PERSISTENCE: "1"
+      LAMBDA_EXECUTOR: "docker-reuse"
+      DOCKER_HOST: "unix:///var/run/docker.sock"
+    volumes:
+      - localstack-data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  terraform:
+    image: hashicorp/terraform:1.9
+    container_name: pdcarlson-terraform
+    working_dir: /work
+    volumes:
+      - .:/work
+    environment:
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID:-test}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY:-test}"
+      AWS_REGION: "${AWS_REGION:-us-east-1}"
+    profiles: ["tf"]
+    entrypoint: ["terraform"]
+
+volumes:
+  localstack-data:
