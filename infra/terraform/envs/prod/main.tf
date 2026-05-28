@@ -6,6 +6,11 @@ locals {
   }
 }
 
+data "aws_route53_zone" "site" {
+  name         = var.domain_name
+  private_zone = false
+}
+
 module "site" {
   source           = "../../modules/site"
   site_bucket_name = var.site_bucket_name
@@ -30,7 +35,7 @@ module "cdn" {
   site_bucket_arn             = module.site.site_bucket_arn
   logs_bucket_domain          = module.site.logs_bucket_domain
   contact_api_invoke_url      = module.contact.api_invoke_domain
-  route53_zone_id             = var.route53_zone_id
+  route53_zone_id             = data.aws_route53_zone.site.zone_id
   tags                        = local.tags
 }
 

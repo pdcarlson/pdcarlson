@@ -18,11 +18,6 @@ variable "logs_bucket_name" {
   default = "pdcarlson-logs"
 }
 
-variable "route53_zone_id" {
-  type        = string
-  description = "Existing Route53 hosted zone id for pdcarlson.dev"
-}
-
 variable "mail_from" {
   type    = string
   default = "no-reply@pdcarlson.dev"
