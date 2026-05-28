@@ -1,9 +1,9 @@
 output "workgroup_name" {
-  value = aws_athena_workgroup.site.name
+  value = one(aws_athena_workgroup.site[*].name)
 }
 
 output "database_name" {
-  value = aws_glue_catalog_database.site.name
+  value = one(aws_glue_catalog_database.site[*].name)
 }
 
 output "results_bucket" {

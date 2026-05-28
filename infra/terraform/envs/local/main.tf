@@ -9,6 +9,7 @@ module "site" {
   source           = "../../modules/site"
   site_bucket_name = "pdcarlson-site-local"
   logs_bucket_name = "pdcarlson-logs-local"
+  localstack       = true
   tags             = local.tags
 }
 
@@ -17,6 +18,7 @@ module "contact" {
   lambda_zip_path = "${path.root}/../../../contact-lambda/contact-lambda.zip"
   mail_from       = "no-reply@example.test"
   mail_to         = "you@example.test"
+  localstack      = true
   tags            = local.tags
 }
 
@@ -24,6 +26,7 @@ module "analytics" {
   source                     = "../../modules/analytics"
   logs_bucket_name           = module.site.logs_bucket_domain
   cloudfront_distribution_id = "local-stub-distribution"
+  localstack                 = true
   tags                       = local.tags
 }
 
