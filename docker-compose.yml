@@ -1,4 +1,69 @@
 services:
+  localstack:
+    image: localstack/localstack:3.8
+    container_name: pdcarlson-localstack
+    ports:
+      - "4566:4566"
+      - "4510-4559:4510-4559"
+    environment:
+      SERVICES: "s3,lambda,apigateway,apigatewayv2,ses,iam,sts,route53,logs,athena,glue,cloudwatch"
+      DEBUG: "0"
+      PERSISTENCE: "1"
+      LAMBDA_EXECUTOR: "docker-reuse"
+      DOCKER_HOST: "unix:///var/run/docker.sock"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:4566/_localstack/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
+    volumes:
+      - localstack-data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  lambda-builder:
+    image: node:20-alpine
+    container_name: pdcarlson-lambda-builder
+    working_dir: /app
+    volumes:
+      - ./infra/contact-lambda:/app
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        apk add --no-cache zip >/dev/null
+        npm install --silent
+        npm run package
+        echo "lambda zip ready"
+    restart: "no"
+
+  bootstrap:
+    image: hashicorp/terraform:1.9
+    container_name: pdcarlson-bootstrap
+    working_dir: /work/infra/terraform/envs/local
+    volumes:
+      - .:/work
+    environment:
+      AWS_ACCESS_KEY_ID: "test"
+      AWS_SECRET_ACCESS_KEY: "test"
+      AWS_REGION: "us-east-1"
+      TF_IN_AUTOMATION: "true"
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        set -e
+        terraform init -input=false -no-color
+        terraform apply -input=false -no-color -auto-approve
+        echo "infra applied to localstack"
+    depends_on:
+      localstack:
+        condition: service_healthy
+      lambda-builder:
+        condition: service_completed_successfully
+    restart: "no"
+
   web:
     build:
       context: .
@@ -15,27 +80,12 @@ services:
     environment:
       NEXT_TELEMETRY_DISABLED: "1"
     depends_on:
-      - localstack
-
-  localstack:
-    image: localstack/localstack:3.8
-    container_name: pdcarlson-localstack
-    ports:
-      - "4566:4566"
-      - "4510-4559:4510-4559"
-    environment:
-      SERVICES: "s3,lambda,apigateway,apigatewayv2,ses,iam,sts,route53,logs,athena,glue,cloudwatch"
-      DEBUG: "0"
-      PERSISTENCE: "1"
-      LAMBDA_EXECUTOR: "docker-reuse"
-      DOCKER_HOST: "unix:///var/run/docker.sock"
-    volumes:
-      - localstack-data:/var/lib/localstack
-      - /var/run/docker.sock:/var/run/docker.sock
+      localstack:
+        condition: service_healthy
 
   terraform:
     image: hashicorp/terraform:1.9
-    container_name: pdcarlson-terraform
+    container_name: pdcarlson-terraform-cli
     working_dir: /work
     volumes:
       - .:/work
@@ -43,7 +93,7 @@ services:
       AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID:-test}"
       AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY:-test}"
       AWS_REGION: "${AWS_REGION:-us-east-1}"
-    profiles: ["tf"]
+    profiles: ["cli"]
     entrypoint: ["terraform"]
 
 volumes:

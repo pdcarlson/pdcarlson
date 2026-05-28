@@ -1,8 +1,6 @@
 import type { SkillGroup, ExperienceEntry, CourseRow, LeadershipEntry } from "./types";
 
 export const resume = {
-  intro: "What I know, what I've worked on, and what I'm studying.",
-
   skills: [
     { label: "Languages", items: ["TypeScript", "JavaScript", "Python", "C++ / Java"] },
     { label: "Frameworks", items: ["React.js", "Next.js", "Tailwind CSS", "Node / Express"] },
@@ -11,9 +9,9 @@ export const resume = {
 
   experience: [
     {
-      dates: "May 2025 — September 2025",
+      dates: "May 2025 - September 2025",
       role: "Web & Geospatial Technology Intern",
-      org: "East-SouthEast LLC",
+      org: "East-Southeast LLC.",
       bullets: [
         "Built a web mapping app for 9 New England towns from a legacy system, cutting deploy time per update from hours to minutes.",
         "Digitized 100+ sewer plans in QGIS to build the underlying interactive map from scratch.",

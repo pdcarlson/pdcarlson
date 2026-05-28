@@ -3,7 +3,7 @@ export const site = {
   role: "Junior Developer",
   url: "https://pdcarlson.dev",
   description:
-    "Paul Carlson — junior developer at RPI studying CS and ITWS. Building Frapp and writing about what AI does and doesn't do well in real software work.",
+    "I grew up around Boston, now at RPI studying CS and ITWS, still figuring out what I specialize in. I'm building Frapp, an app that rolls the four or five tools Greek organizations run on into one.",
   email: "pdcarlson06@gmail.com",
   github: "https://github.com/pdcarlson",
   githubUser: "pdcarlson",

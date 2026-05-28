@@ -14,7 +14,7 @@ const skillIcon = {
 export default function ResumePage() {
   return (
     <>
-      <PageHeader title="Resume" intro={resume.intro} action={<PrintButton />} />
+      <PageHeader title="Resume" action={<PrintButton />} />
 
       <section className="bg-surface px-8 sm:px-16 lg:px-24 py-16">
         <div className="eyebrow mb-4">Skills</div>
