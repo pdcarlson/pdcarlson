@@ -1,0 +1,46 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  NODE_VERSION: "20"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+        env:
+          GITHUB_USER: ${{ vars.GITHUB_USER || 'pdcarlson' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - run: aws s3 sync out/ s3://${{ secrets.SITE_BUCKET }}/ --delete --cache-control "public, max-age=300, s-maxage=86400"
+
+      - run: |
+          aws s3 cp s3://${{ secrets.SITE_BUCKET }}/_next/static/ s3://${{ secrets.SITE_BUCKET }}/_next/static/ \
+            --recursive --metadata-directive REPLACE \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} --paths "/*"
