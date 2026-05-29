@@ -27,6 +27,7 @@ lib/generated/*
 infra/contact-lambda/dist
 infra/contact-lambda/node_modules
 infra/contact-lambda/contact-lambda.zip
+infra/contact-lambda/package-lock.json
 
 .terraform/
 *.tfstate
