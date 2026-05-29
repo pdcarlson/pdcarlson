@@ -1,53 +1,42 @@
-### Hi there 👋, I'm Paul Carlson (pdcarlson)
+# Paul Carlson
 
-I'm a Web Development and Geospatial Technology Intern at East-SouthEast, LLC, and a sophomore at Rensselaer Polytechnic Institute (RPI) pursuing a dual major in Computer Science and Information Technology & Web Science.
+**Junior Developer**
 
----
+I grew up around Boston, now at RPI studying CS and ITWS, still figuring out what I specialize in. I'm building Frapp, an app that rolls the four or five tools Greek organizations run on into one.
 
-### 👨‍💻 About Me
+What I'm doing right now with my personal projects is figuring out how to build effectively with AI. I'm learning where AI accelerates good work and where it quietly produces stuff that looks right and isn't. I use my personal projects as opportunities to experiment in lower risk scenarios.
 
-- 🔭 I’m currently working on a mapbox viewer for **East-SouthEast, LLC**.
-- 🌱 I’m skilled in **JavaScript, C++, React, Appwrite, Mapbox, and Python**.
-- 👯 I’m looking to collaborate on projects involving web development and creative coding.
--  hobbies: I enjoy skiing, cooking, and working out in my free time.
-- 💬 Ask me about anything, I am happy to help.
+Off the screen, I'm usually outside. Hiking when the weather's good, skiing in Vermont when it's not. Always up for trail or mountain recommendations.
 
 ---
 
-### 🚀 My Projects
+### Currently
 
-#### 🗺️ ESE Map Viewer
-I overhauled a complex web map for nine different towns, making it faster, more powerful, and easier to update. I rebuilt the user interface and introduced key features like a dynamic legend, a robust bookmarking system, and a tool for generating custom PDF reports, laying the groundwork for a future subscription service. The viewer handles over 100GB of content hosted in the cloud, loaded dynamically as a self-implemented tileset to display USGS map layers.
+- **Frapp** — Greek life operations platform. TypeScript, NestJS, Next.js, Expo, Supabase.
+- **Interactive GIS Map** — Web mapping application for nine New England towns. JavaScript, Mapbox, QGIS, Python.
 
-- **Live Site**: [ese-llc.com/toc](https://ese-llc.com/toc)
-- **GitHub Repo**: [East-SouthEast-LLC/ese-map-viewer](https://github.com/East-SouthEast-LLC/ese-map-viewer)
+### Stack I reach for
 
+Languages — TypeScript, JavaScript, Python, C++ / Java  
+Frameworks — React.js, Next.js, Tailwind CSS, Node / Express  
+Tools — Git / GitHub, Docker, Figma, AWS / Vercel
 
-#### 🛠️ Fraternity Stewardship Hub
-A full-stack web app I built to manage my fraternity's semester budget and supplies, now in active use by the chapter. It features an admin dashboard for financial tracking and a member portal for suggesting items.
+### Studying
 
-- **Features**: Role-based access for Admins & Members (Google OAuth). Dynamic budget tracking with intelligent spending projections. Member-driven suggestion and shopping list system.
-- **Tech**: React, JavaScript, Appwrite, Tailwind CSS, Vite
-- **Live Site**: [stewardship.pdcarlson.dev](https://stewardship.pdcarlson.dev)
-- **GitHub Repo**: [pdcarlson/stewardship-hub](https://github.com/pdcarlson/stewardship-hub)
+Rensselaer Polytechnic Institute — Computer Science & Information Technology and Web Science. GPA 3.60 / 4.00.
 
-#### 🎬 React Movie App
-A responsive movie discovery web app that allows users to search for films using the TMDB API. Built with Vite and Tailwind CSS.
+### Off the screen
 
-- **Features**: A "Trending Searches" section powered by a custom Appwrite backend that logs and ranks user search queries.
-- **Live Site**: [movies.pdcarlson.dev](https://movies.pdcarlson.dev)
-- **GitHub Repo**: [pdcarlson/react-movie-app](https://github.com/pdcarlson/react-movie-app)
+Chapter President — Tau Nu Chapter of Phi Gamma Delta. Running a 25-member chapter through a full operating year. Budget, recruitment, alumni, and most of the calls in between.
 
----
+Eagle Scout — earned in 2023. Three benches in a Riverbay neighborhood that I planned, fundraised $1,250 for, got town board approval on, and led a volunteer crew to build.
 
-### 📊 My GitHub Stats
+### Where to find me
 
-![Paul's GitHub stats](https://github-readme-stats.vercel.app/api?username=pdcarlson&show_icons=true&theme=radical)
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=pdcarlson&layout=compact&theme=radical)](https://github.com/anuraghazra/github-readme-stats)
+[pdcarlson.dev](https://pdcarlson.dev) — portfolio  
+[github.com/pdcarlson](https://github.com/pdcarlson) — code  
+[linkedin.com/in/pdcarlson](https://www.linkedin.com/in/pdcarlson) — work
 
 ---
 
-### 📫 How to reach me:
-
-- **LinkedIn**: [linkedin.com/in/paul-carlson-rpi](https://linkedin.com/in/paul-carlson-rpi)
-- **Portfolio**: [pdcarlson.dev](https://pdcarlson.dev)
+<sub>This repo is also the source for [pdcarlson.dev](https://pdcarlson.dev). Setup, dev workflow, and infra notes live in [`docs/README.md`](docs/README.md).</sub>

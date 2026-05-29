@@ -1,0 +1,17 @@
+{
+  "name": "contact-lambda",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.mjs",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild index.mjs --bundle --platform=node --target=node20 --format=esm --outfile=dist/index.mjs --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\"",
+    "package": "npm run build && cd dist && zip -qr ../contact-lambda.zip index.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.700.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}
