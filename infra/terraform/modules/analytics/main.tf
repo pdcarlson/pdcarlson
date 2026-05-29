@@ -12,9 +12,8 @@ resource "aws_s3_bucket_public_access_block" "results" {
 }
 
 resource "aws_athena_workgroup" "site" {
-  count = var.localstack ? 0 : 1
-  name  = var.name_prefix
-  tags  = var.tags
+  name = var.name_prefix
+  tags = var.tags
 
   configuration {
     enforce_workgroup_configuration    = true
@@ -27,14 +26,12 @@ resource "aws_athena_workgroup" "site" {
 }
 
 resource "aws_glue_catalog_database" "site" {
-  count = var.localstack ? 0 : 1
-  name  = replace(var.name_prefix, "-", "_")
+  name = replace(var.name_prefix, "-", "_")
 }
 
 resource "aws_glue_catalog_table" "cloudfront_logs" {
-  count         = var.localstack ? 0 : 1
   name          = "cloudfront_logs"
-  database_name = aws_glue_catalog_database.site[0].name
+  database_name = aws_glue_catalog_database.site.name
   table_type    = "EXTERNAL_TABLE"
 
   parameters = {

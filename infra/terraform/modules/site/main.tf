@@ -42,7 +42,6 @@ resource "aws_s3_bucket_ownership_controls" "logs" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "logs" {
-  count  = var.localstack ? 0 : 1
   bucket = aws_s3_bucket.logs.id
 
   rule {

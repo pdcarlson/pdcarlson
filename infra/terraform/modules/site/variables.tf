@@ -8,12 +8,6 @@ variable "logs_bucket_name" {
   description = "S3 bucket receiving CloudFront access logs"
 }
 
-variable "localstack" {
-  type        = bool
-  default     = false
-  description = "Skip the S3 lifecycle configuration LocalStack's community edition can't converge on"
-}
-
 variable "tags" {
   type    = map(string)
   default = {}

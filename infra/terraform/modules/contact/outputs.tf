@@ -1,9 +1,9 @@
 output "api_endpoint" {
-  value = one(aws_apigatewayv2_api.contact[*].api_endpoint)
+  value = aws_apigatewayv2_api.contact.api_endpoint
 }
 
 output "api_invoke_domain" {
-  value = try(replace(one(aws_apigatewayv2_api.contact[*].api_endpoint), "https://", ""), null)
+  value = replace(aws_apigatewayv2_api.contact.api_endpoint, "https://", "")
 }
 
 output "lambda_arn" {

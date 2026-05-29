@@ -34,12 +34,6 @@ variable "throttle_rate" {
   default = 5
 }
 
-variable "localstack" {
-  type        = bool
-  default     = false
-  description = "Skip the API Gateway v2 resources LocalStack's community edition doesn't implement"
-}
-
 variable "tags" {
   type    = map(string)
   default = {}
