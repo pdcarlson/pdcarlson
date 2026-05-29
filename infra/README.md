@@ -40,11 +40,11 @@ make tf-plan
 make tf-apply
 ```
 
-`tf-plan`/`tf-apply` build the lambda zip first. After the first apply, push the outputs as repo secrets:
+`tf-plan`/`tf-apply` build the lambda zip first. After the first apply, set the deploy role as a repo secret:
 
-- `AWS_DEPLOY_ROLE_ARN` — `deploy_role_arn` output
-- `SITE_BUCKET` — `site_bucket` output
-- `CF_DISTRIBUTION_ID` — `distribution_id` output
+- `AWS_DEPLOY_ROLE_ARN` (the `deploy_role_arn` output)
+
+The site bucket and CloudFront distribution id aren't secret, so they live directly in `deploy.yml` as `SITE_BUCKET` and `CF_DISTRIBUTION_ID`. Update them there if you recreate the infra.
 
 ## CI
 
