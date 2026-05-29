@@ -15,21 +15,18 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      image: ${{ steps.meta.outputs.image }}
     steps:
       - uses: actions/checkout@v4
 
-      - uses: docker/setup-buildx-action@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-      - name: Build static site via Docker
-        id: meta
-        run: |
-          docker build --target builder -t portfolio-build:${{ github.sha }} .
-          docker create --name extract portfolio-build:${{ github.sha }}
-          docker cp extract:/app/out ./out
-          docker rm extract
-          echo "image=portfolio-build:${{ github.sha }}" >> $GITHUB_OUTPUT
+      - run: npm ci
+
+      - name: Build static site
+        run: npm run build
 
       - uses: actions/upload-artifact@v4
         with:

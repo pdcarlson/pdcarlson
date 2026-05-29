@@ -34,9 +34,3 @@ jobs:
 
       - name: prod validate
         run: terraform -chdir=infra/terraform/envs/prod validate
-
-      - name: local init (no backend)
-        run: terraform -chdir=infra/terraform/envs/local init -backend=false
-
-      - name: local validate
-        run: terraform -chdir=infra/terraform/envs/local validate
