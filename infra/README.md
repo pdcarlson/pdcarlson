@@ -48,8 +48,8 @@ make tf-apply
 
 ## CI
 
+- `CI` (`ci.yml`) — on PRs: typecheck, static build, and the terraform `fmt -check` + prod `validate` job.
 - `CD` (`deploy.yml`) — on push to `main`: builds the static site, syncs to S3, invalidates CloudFront. AWS auth via OIDC.
-- `CI` (`terraform.yml`) — on PRs touching `infra/terraform/**`: `fmt -check` + `validate`.
 
 ## Cost shape at portfolio traffic
 

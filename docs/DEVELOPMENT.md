@@ -25,7 +25,7 @@ infra/
   terraform/
     modules/              # site, site_cdn, contact, analytics, oidc
     envs/prod/            # Real AWS composition (+ bootstrap/ for state backend)
-.github/workflows/        # ci.yml, terraform.yml, deploy.yml
+.github/workflows/        # ci.yml, deploy.yml
 ```
 
 ## Stack
@@ -59,8 +59,7 @@ make tf-apply
 
 ## CI
 
-- `CI` (`ci.yml`) — on every PR: typecheck + static build.
-- `CI` (`terraform.yml`) — on PRs touching `infra/terraform/**`: `fmt -check` + `validate`.
+- `CI` (`ci.yml`) — on every PR: typecheck, static build, and terraform `fmt -check` + prod `validate`.
 - `CD` (`deploy.yml`) — on push to `main`: builds `out/`, syncs to S3 (immutable assets first), invalidates CloudFront. AWS auth via OIDC.
 
 ## Analytics
