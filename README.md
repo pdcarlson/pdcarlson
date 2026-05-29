@@ -39,4 +39,4 @@ Eagle Scout — earned in 2023. Three benches in a Riverbay neighborhood that I 
 
 ---
 
-<sub>This repo is also the source for [pdcarlson.dev](https://pdcarlson.dev). Setup, dev workflow, and infra notes live in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md).</sub>
+<sub>This repo is also the source for [pdcarlson.dev](https://pdcarlson.dev). Setup, dev workflow, and infra notes live in [`docs/README.md`](docs/README.md).</sub>
