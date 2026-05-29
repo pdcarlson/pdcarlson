@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
-import { cn } from "@/lib/cn";
+import clsx from "clsx";
 
 type Variant = "primary" | "outline";
 
@@ -24,13 +24,13 @@ const variants: Record<Variant, string> = {
 export function ButtonLink({ href, variant = "primary", external, className, children, ...rest }: ButtonLinkProps) {
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noreferrer" className={cn(base, variants[variant], className)}>
+      <a href={href} target="_blank" rel="noreferrer" className={clsx(base, variants[variant], className)}>
         {children}
       </a>
     );
   }
   return (
-    <Link href={href} className={cn(base, variants[variant], className)} {...rest}>
+    <Link href={href} className={clsx(base, variants[variant], className)} {...rest}>
       {children}
     </Link>
   );

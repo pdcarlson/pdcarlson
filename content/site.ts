@@ -12,7 +12,6 @@ export const site = {
   headshot: "/assets/headshot.jpg",
 
   hero: {
-    eyebrow: null,
     headlineLead: "I'm Paul Carlson, a",
     headlineEmph: "Junior Developer",
     intro:

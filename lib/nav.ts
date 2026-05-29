@@ -6,5 +6,3 @@ export const nav = [
   { href: "/projects", label: "Projects", icon: Boxes },
   { href: "/about", label: "About & Contact", icon: MapPin },
 ] as const;
-
-export type NavItem = (typeof nav)[number];

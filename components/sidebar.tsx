@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { nav } from "@/lib/nav";
 import { site } from "@/content/site";
-import { cn } from "@/lib/cn";
+import clsx from "clsx";
 
 function isActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -31,7 +31,7 @@ export function Sidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={cn(
+                  className={clsx(
                     "flex items-center gap-4 pl-5 py-2 text-[14px] leading-[20px] tracking-eyebrow uppercase rounded-r transition-colors",
                     active
                       ? "border-l-4 border-accent-strong text-accent-strong font-bold"
@@ -62,7 +62,7 @@ export function Sidebar() {
                 href={item.href}
                 aria-label={item.label}
                 title={item.label}
-                className={cn(
+                className={clsx(
                   "p-2 rounded transition-colors",
                   active ? "text-accent-strong" : "text-muted hover:text-fg"
                 )}
