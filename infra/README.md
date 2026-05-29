@@ -1,6 +1,6 @@
 # Infrastructure
 
-Everything that lives outside the static bundle. Defined as code, runnable locally against LocalStack and against real AWS from the same modules.
+Everything that lives outside the static bundle, defined as code against real AWS.
 
 ## Layout
 
@@ -11,46 +11,36 @@ infra/
 └── terraform/
     ├── modules/
     │   ├── site/           # S3 site bucket + logs bucket + lifecycle
-    │   ├── site_cdn/       # CloudFront + ACM + Route53 (prod only)
+    │   ├── site_cdn/       # CloudFront + ACM + Route53
     │   ├── contact/        # IAM + Lambda + API Gateway + SES
     │   ├── analytics/      # Athena workgroup + Glue table
     │   └── oidc/           # GitHub Actions OIDC provider + deploy role
     └── envs/
-        ├── local/          # LocalStack composition
         └── prod/           # Real AWS composition (+ bootstrap/ for state backend)
 ```
 
-## Local stack (LocalStack)
+Needs Terraform >= 1.6 and AWS creds in the environment.
 
-`docker compose up -d` brings up Next on `:3000` and LocalStack on `:4566`. Then:
+## Bootstrap (one-time, per account)
 
-```bash
-make lambda-build       # produces infra/contact-lambda/contact-lambda.zip
-make tf-init-local
-make tf-apply-local
-make awslocal-check
-```
-
-CloudFront, ACM, and Route 53 are skipped in the local env (LocalStack community doesn't cover them). The bucket, Lambda, API Gateway, SES sandbox, Athena workgroup, and Glue table all come up against LocalStack.
-
-## Prod (real AWS)
-
-One-time bootstrap (state backend):
+The bootstrap root uses local state and creates the S3 state bucket, the DynamoDB lock table, and the Route 53 hosted zone:
 
 ```bash
-docker compose run --rm terraform -chdir=infra/terraform/envs/prod/bootstrap init
-docker compose run --rm terraform -chdir=infra/terraform/envs/prod/bootstrap apply
+terraform -chdir=infra/terraform/envs/prod/bootstrap init
+terraform -chdir=infra/terraform/envs/prod/bootstrap apply
 ```
 
-Copy `envs/prod/terraform.tfvars.example` → `envs/prod/terraform.tfvars`, fill the values, then:
+Point the domain's nameservers at the `name_servers` output, then wait for delegation to propagate.
+
+## Apply
 
 ```bash
-make tf-init-prod
-make tf-plan-prod
-make tf-apply-prod
+make tf-init
+make tf-plan
+make tf-apply
 ```
 
-After apply, push the GitHub repo secrets surfaced as outputs:
+`tf-plan`/`tf-apply` build the lambda zip first. After the first apply, push the outputs as repo secrets:
 
 - `AWS_DEPLOY_ROLE_ARN` — `deploy_role_arn` output
 - `SITE_BUCKET` — `site_bucket` output
@@ -58,8 +48,8 @@ After apply, push the GitHub repo secrets surfaced as outputs:
 
 ## CI
 
-- `.github/workflows/deploy.yml` — on push to `main`, builds via the Docker `builder` stage, extracts `/app/out`, syncs to S3, invalidates CloudFront.
-- `.github/workflows/terraform.yml` — on PRs touching `infra/terraform/**`, runs `fmt` + `validate` for both envs.
+- `CD` (`deploy.yml`) — on push to `main`: builds the static site, syncs to S3, invalidates CloudFront. AWS auth via OIDC.
+- `CI` (`terraform.yml`) — on PRs touching `infra/terraform/**`: `fmt -check` + `validate`.
 
 ## Cost shape at portfolio traffic
 

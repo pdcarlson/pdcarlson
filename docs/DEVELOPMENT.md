@@ -1,46 +1,8 @@
 # Development
 
-Dev workflow, Docker setup, Terraform, and CI for the [pdcarlson.dev](https://pdcarlson.dev) source.
+Dev workflow, Terraform, and CI for the [pdcarlson.dev](https://pdcarlson.dev) source.
 
-## One command
-
-```bash
-docker compose up --build
-```
-
-Brings up:
-
-| Service           | URL / role                                  | Notes                                                    |
-| ----------------- | ------------------------------------------- | -------------------------------------------------------- |
-| `localstack`      | `http://localhost:4566`                     | Local AWS surface. Healthchecked.                        |
-| `lambda-builder`  | one-shot                                    | `npm install && zip` for the contact lambda.              |
-| `bootstrap`       | one-shot                                    | `terraform init && apply` against LocalStack.            |
-| `web`             | `http://localhost:3000`                     | Next.js dev server.                                      |
-
-Order is wired through `depends_on` with `service_healthy` / `service_completed_successfully` conditions. The web container starts as soon as LocalStack is healthy; the bootstrap runs in parallel and the contact form starts working once it finishes.
-
-Detached:
-
-```bash
-docker compose up --build -d
-docker compose logs -f web
-```
-
-Tear down (preserve state):
-
-```bash
-docker compose down
-```
-
-Tear down and wipe LocalStack state:
-
-```bash
-docker compose down -v
-# or
-make reset
-```
-
-## Without Docker
+## Run it
 
 ```bash
 npm install
@@ -57,15 +19,13 @@ content/                  # All copy + data, typed TS, no CMS
 lib/                      # Small utilities + build-time generated JSON
 public/                   # Static assets (resume PDF, headshot, favicon)
 scripts/                  # Build-time scripts (GitHub fetch)
-docker/                   # nginx config for the prod stage
 infra/
   contact-lambda/         # Node 20 Lambda source for /api/contact
   athena/                 # Hand-runnable Athena queries
   terraform/
     modules/              # site, site_cdn, contact, analytics, oidc
-    envs/local/           # LocalStack composition
     envs/prod/            # Real AWS composition (+ bootstrap/ for state backend)
-.github/workflows/        # deploy.yml, terraform.yml
+.github/workflows/        # ci.yml, terraform.yml, deploy.yml
 ```
 
 ## Stack
@@ -90,42 +50,18 @@ Add a project: drop a new `.ts` file in `content/projects/`, export a `Project` 
 
 ## Terraform
 
-Two envs, same modules.
+Real AWS, S3 + DynamoDB state backend. See [`infra/README.md`](../infra/README.md) for the bootstrap and apply steps.
 
 ```bash
-# local — runs against LocalStack endpoints, local state
-make tf-plan-local
-make tf-apply-local
-
-# prod — runs against real AWS, S3 + DynamoDB state backend
-make tf-plan-prod
-make tf-apply-prod
+make tf-plan     # read-only, builds the lambda zip first
+make tf-apply
 ```
-
-First time on a fresh AWS account, run the bootstrap to create the state bucket + lock table:
-
-```bash
-docker compose --profile cli run --rm terraform \
-  -chdir=infra/terraform/envs/prod/bootstrap init
-
-docker compose --profile cli run --rm terraform \
-  -chdir=infra/terraform/envs/prod/bootstrap apply
-```
-
-Then copy `infra/terraform/envs/prod/terraform.tfvars.example` → `terraform.tfvars` and fill in the values. `make tf-init-prod && make tf-apply-prod`.
-
-After the first prod apply, push three outputs as repo secrets:
-
-- `AWS_DEPLOY_ROLE_ARN` ← `deploy_role_arn`
-- `SITE_BUCKET` ← `site_bucket`
-- `CF_DISTRIBUTION_ID` ← `distribution_id`
 
 ## CI
 
-Two workflows:
-
-- `.github/workflows/deploy.yml` — on push to `main`. Builds via the Docker `builder` stage, extracts `out/`, syncs to S3 (immutable assets first), invalidates CloudFront. AWS auth via OIDC.
-- `.github/workflows/terraform.yml` — on PRs touching `infra/terraform/**`. Runs `fmt -check` + `validate` for both envs without backend.
+- `CI` (`ci.yml`) — on every PR: typecheck + static build.
+- `CI` (`terraform.yml`) — on PRs touching `infra/terraform/**`: `fmt -check` + `validate`.
+- `CD` (`deploy.yml`) — on push to `main`: builds `out/`, syncs to S3 (immutable assets first), invalidates CloudFront. AWS auth via OIDC.
 
 ## Analytics
 

@@ -10,7 +10,7 @@ npm run package
 # → contact-lambda.zip
 ```
 
-Terraform reads `contact-lambda.zip` directly. Both the local and prod envs depend on it; `make tf-apply-local` and `make tf-apply-prod` run `lambda-build` as a prerequisite.
+Terraform reads `contact-lambda.zip` directly; `make tf-plan` and `make tf-apply` run `lambda-build` first.
 
 ## Env vars (set by Terraform)
 
@@ -24,16 +24,10 @@ Terraform reads `contact-lambda.zip` directly. Both the local and prod envs depe
 - Length caps in `index.mjs`: name 200, email 320, message 5000.
 - API Gateway throttling on the stage (`throttling_rate_limit = 5`, `throttling_burst_limit = 10`).
 
-## Run against LocalStack
+## Test a deployed endpoint
 
 ```bash
-docker compose up -d localstack
-make lambda-build
-make tf-apply-local
-
-# fire a test invocation
 curl -s -H 'content-type: application/json' \
-  -X POST "$(make -s --no-print-directory awslocal-check >/dev/null; \
-  docker compose run --rm terraform -chdir=infra/terraform/envs/local output -raw contact_api)/contact" \
+  -X POST https://pdcarlson.dev/api/contact \
   -d '{"name":"x","email":"x@example.com","message":"hi","honeypot":""}'
 ```
