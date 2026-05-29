@@ -40,3 +40,21 @@ jobs:
           name: site-out
           path: out/
           retention-days: 7
+
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5
+
+      - name: fmt check
+        run: terraform -chdir=infra/terraform fmt -check -recursive
+
+      - name: prod init (no backend)
+        run: terraform -chdir=infra/terraform/envs/prod init -backend=false
+
+      - name: prod validate
+        run: terraform -chdir=infra/terraform/envs/prod validate
