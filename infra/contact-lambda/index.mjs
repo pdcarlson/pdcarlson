@@ -41,7 +41,7 @@ export const handler = async (event) => {
   if (!isEmail(email) || email.length > MAX_LEN.email) return bad(400, { ok: false, error: "email" });
   if (!message || message.length > MAX_LEN.message) return bad(400, { ok: false, error: "message" });
 
-  const subject = `Portfolio contact — ${name}`;
+  const subject = `Portfolio contact: ${name}`;
   const body = `From: ${name} <${email}>\n\n${message}`;
 
   try {

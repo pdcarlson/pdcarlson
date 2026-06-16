@@ -61,7 +61,7 @@ export function ContactForm() {
       )}
       {status === "error" && (
         <p className="text-[14px] text-fg" role="alert">
-          Couldn't send — try emailing me directly instead.{error ? ` (${error})` : ""}
+          Couldn't send. Try emailing me directly instead.{error ? ` (${error})` : ""}
         </p>
       )}
     </form>

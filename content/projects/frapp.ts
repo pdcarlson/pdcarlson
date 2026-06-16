@@ -7,7 +7,7 @@ export const frapp: Project = {
   title: "Frapp",
   subtitle: "Greek life operations platform",
   status: "Development",
-  timeline: "2025 — Present",
+  timeline: "2025 - Present",
   stack: ["TypeScript", "NestJS", "Next.js", "Expo", "Supabase"],
   links: [{ label: "View Repository", href: "https://github.com/pdcarlson/frapp" }],
   why:
