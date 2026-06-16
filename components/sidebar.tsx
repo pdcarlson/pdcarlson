@@ -32,9 +32,9 @@ export function Sidebar() {
                   key={item.href}
                   href={item.href}
                   className={clsx(
-                    "flex items-center gap-4 pl-5 py-2 text-[14px] leading-[20px] tracking-eyebrow uppercase rounded-r transition-colors",
+                    "flex items-center gap-4 border-l-4 border-transparent pl-5 py-2 text-[14px] leading-[20px] tracking-eyebrow uppercase rounded-r transition-colors",
                     active
-                      ? "border-l-4 border-accent-strong text-accent-strong font-bold"
+                      ? "border-accent-strong text-accent-strong font-bold"
                       : "text-muted hover:text-fg"
                   )}
                 >
