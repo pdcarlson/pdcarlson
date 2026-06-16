@@ -1,17 +1,25 @@
 export const accessibility = {
-  intro: "Accessibility annotations and notes for this site.",
+  intro: "Notes on what I've done to keep this site usable for everyone.",
   sections: [
     {
-      eyebrow: "Interactive Hover State Feedback",
-      body: "Ensures that users receive feedback when they hover over clickable buttons.",
+      eyebrow: "Hover feedback",
+      body: "Every clickable thing changes on hover, so you can tell what's interactive.",
     },
     {
-      eyebrow: "Keyboard Navigation Focus Indicator",
-      body: "By default all interactive elements come with a focus indicator.",
+      eyebrow: "Keyboard navigation",
+      body: "You can tab through the whole site, and whatever you land on gets a visible outline.",
     },
     {
-      eyebrow: "Alt Text",
-      body: "Coming Soon",
+      eyebrow: "Skip to content",
+      body: "A skip link appears when you start tabbing, so you can jump past the nav straight to the page.",
+    },
+    {
+      eyebrow: "Alt text",
+      body: "Images have text descriptions for screen readers.",
+    },
+    {
+      eyebrow: "Reduced motion",
+      body: "If your system asks for reduced motion, the animations turn off.",
     },
   ],
 };
