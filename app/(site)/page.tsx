@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { ButtonLink } from "@/components/buttons";
 import { FeaturedProject } from "@/components/featured-project";
-import { GithubStrip } from "@/components/github-strip";
+import { StackMarquee } from "@/components/stack-marquee";
 import { site } from "@/content/site";
 import { getProject } from "@/content/projects";
 
@@ -44,7 +46,22 @@ export default function HomePage() {
       </section>
 
       {featured && <FeaturedProject project={featured} />}
-      <GithubStrip />
+
+      <section className="bg-surface px-8 sm:px-16 lg:px-24 py-20">
+        <div className="eyebrow mb-4">Now</div>
+        <p className="font-display text-[32px] leading-[42px] sm:text-[40px] sm:leading-[52px] text-fg max-w-3xl">
+          {site.now}
+        </p>
+        <Link
+          href="/projects"
+          className="mt-8 inline-flex items-center gap-2 text-[14px] tracking-eyebrow uppercase text-fg hover:gap-3 transition-all"
+        >
+          <span>See what I'm building</span>
+          <ArrowRight size={16} />
+        </Link>
+      </section>
+
+      <StackMarquee />
     </>
   );
 }
