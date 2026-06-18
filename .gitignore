@@ -21,9 +21,6 @@ npm-debug.log*
 _shot.mjs
 /tmp/
 
-lib/generated/*
-!lib/generated/github.json
-
 infra/contact-lambda/dist
 infra/contact-lambda/node_modules
 infra/contact-lambda/contact-lambda.zip

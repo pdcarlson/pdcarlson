@@ -14,13 +14,13 @@ Terraform reads `contact-lambda.zip` directly; `make tf-plan` and `make tf-apply
 
 ## Env vars (set by Terraform)
 
-- `MAIL_FROM` — verified SES sender
-- `MAIL_TO` — destination inbox
-- `AWS_REGION` — inherited from the runtime
+- `MAIL_FROM`: verified SES sender
+- `MAIL_TO`: destination inbox
+- `AWS_REGION`: inherited from the runtime
 
 ## Spam guard
 
-- Honeypot field (`company`) on the form — populated requests get a silent 204.
+- Honeypot field (`company`) on the form; populated requests get a silent 204.
 - Length caps in `index.mjs`: name 200, email 320, message 5000.
 - API Gateway throttling on the stage (`throttling_rate_limit = 5`, `throttling_burst_limit = 10`).
 

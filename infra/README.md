@@ -42,14 +42,14 @@ make tf-apply
 
 `tf-plan`/`tf-apply` build the lambda zip first. After the first apply, push the outputs as repo secrets:
 
-- `AWS_DEPLOY_ROLE_ARN` — `deploy_role_arn` output
-- `SITE_BUCKET` — `site_bucket` output
-- `CF_DISTRIBUTION_ID` — `distribution_id` output
+- `AWS_DEPLOY_ROLE_ARN`: `deploy_role_arn` output
+- `SITE_BUCKET`: `site_bucket` output
+- `CF_DISTRIBUTION_ID`: `distribution_id` output
 
 ## CI
 
-- `CI` (`ci.yml`) — on PRs: typecheck, static build, and the terraform `fmt -check` + prod `validate` job.
-- `CD` (`deploy.yml`) — on push to `main`: builds the static site, syncs to S3, invalidates CloudFront. AWS auth via OIDC.
+- `CI` (`ci.yml`) runs on PRs: typecheck, static build, and the terraform `fmt -check` + prod `validate` job.
+- `CD` (`deploy.yml`) runs on push to `main`: builds the static site, syncs to S3, invalidates CloudFront. AWS auth via OIDC.
 
 ## Cost shape at portfolio traffic
 

@@ -7,7 +7,7 @@ export const gisMap: Project = {
   title: "Interactive GIS Map",
   subtitle: "Web mapping application",
   status: "Live",
-  timeline: "May 2025 — Dec 2025",
+  timeline: "May 2025 - Dec 2025",
   stack: ["JavaScript", "Mapbox", "QGIS", "Python"],
   links: [{ label: "View Live Site", href: "https://eastsoutheast.com" }],
   why:

@@ -48,7 +48,9 @@ export default function ResumePage() {
               <ul className="mt-6 flex flex-col gap-3">
                 {e.bullets.map((b) => (
                   <li key={b} className="flex gap-3 text-[15px] leading-[24px] text-muted">
-                    <span className="text-subtle pt-2 shrink-0">—</span>
+                    <span aria-hidden className="shrink-0 h-6 flex items-center">
+                      <span className="block h-px w-3 bg-subtle" />
+                    </span>
                     <span>{b}</span>
                   </li>
                 ))}

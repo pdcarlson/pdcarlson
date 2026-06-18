@@ -29,12 +29,13 @@ export function ProjectDrawer() {
   return (
     <Dialog.Root open={open} onOpenChange={(v) => { if (!v) close(); }}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
+        <Dialog.Overlay className="sheet-overlay fixed inset-0 z-30 bg-black/50 backdrop-blur-sm" />
         <Dialog.Content
-          className="fixed top-0 right-0 z-40 h-screen w-full sm:max-w-xl lg:max-w-2xl bg-sidebar text-fg overflow-y-auto shadow-2xl outline-none"
+          className="sheet-content fixed inset-x-0 bottom-0 z-40 h-[90vh] bg-sidebar text-fg overflow-y-auto rounded-t-2xl shadow-2xl outline-none"
         >
+          <div aria-hidden className="mx-auto mt-3 mb-1 h-1 w-10 rounded-full bg-fg/20" />
           {project && (
-            <div className="px-8 sm:px-12 py-12">
+            <div className="max-w-4xl mx-auto px-8 sm:px-12 pb-12 pt-6">
               <div className="flex items-start justify-between gap-6 mb-10">
                 <div>
                   <div className="text-[14px] tracking-eyebrow uppercase text-muted mb-2">

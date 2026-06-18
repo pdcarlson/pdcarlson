@@ -1,6 +1,6 @@
 -- CloudFront access logs table with partition projection (date-based).
 -- Run this in Athena once. After it exists, queries are free of MSCK and
--- partition management — Athena projects the partitions from the S3 prefix.
+-- partition management. Athena projects the partitions from the S3 prefix.
 --
 -- Prereqs:
 --   1. CloudFront is logging to s3://<your-logs-bucket>/<dist-id>/

@@ -6,7 +6,7 @@ import type { Project } from "@/content/types";
 
 export function FeaturedProject({ project }: { project: Project }) {
   return (
-    <section className="bg-surface px-8 sm:px-16 lg:px-24 py-20">
+    <section className="bg-bg px-8 sm:px-16 lg:px-24 py-20">
       <div className="eyebrow mb-4">Featured project</div>
       <Link
         href={`/projects?project=${project.slug}`}
@@ -26,8 +26,8 @@ export function FeaturedProject({ project }: { project: Project }) {
         <p className="mt-8 text-[18px] leading-[28px] text-muted max-w-2xl">{project.why}</p>
 
         <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[12px] tracking-eyebrow uppercase text-subtle">
-          <span>Status — {project.status}</span>
-          <span>Timeline — {project.timeline}</span>
+          <span>Status <span className="text-fg">{project.status}</span></span>
+          <span>Timeline <span className="text-fg">{project.timeline}</span></span>
         </div>
 
         <div className="mt-8 inline-flex items-center gap-2 text-[14px] tracking-eyebrow uppercase text-fg group-hover:gap-3 transition-all">
