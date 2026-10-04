@@ -1,14 +1,28 @@
-import Link from "next/link";
+import { DrawUnderlineLink } from "@/components/draw-underline-link";
 import { site } from "@/content/site";
+
+const links = [
+  { label: "GitHub", href: site.github, external: true },
+  { label: "LinkedIn", href: site.linkedin, external: true },
+  { label: "Accessibility", href: "/accessibility", external: false },
+];
 
 export function FooterBar() {
   return (
-    <footer className="no-print bg-bg px-6 sm:px-12 lg:px-24 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[12px] tracking-eyebrow uppercase text-muted">
-      <span>© {site.copyrightYear} {site.name}</span>
-      <div className="flex items-center gap-8">
-        <a href={site.github} target="_blank" rel="noreferrer" className="hover:text-fg transition-colors">GitHub</a>
-        <a href={site.linkedin} target="_blank" rel="noreferrer" className="hover:text-fg transition-colors">LinkedIn</a>
-        <Link href="/accessibility" className="hover:text-fg transition-colors">Accessibility</Link>
+    <footer className="no-print border-t border-rule px-[var(--gutter)] py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <p className="text-caption text-fg-50">{site.name} · Troy, New York</p>
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-8 text-caption">
+        {links.map((link) => (
+          <DrawUnderlineLink
+            key={link.href}
+            href={link.href}
+            tone="muted"
+            className="w-fit"
+            external={link.external}
+          >
+            {link.label}
+          </DrawUnderlineLink>
+        ))}
       </div>
     </footer>
   );

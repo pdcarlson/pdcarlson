@@ -1,51 +1,53 @@
 import type { Metadata } from "next";
-import { Newsreader, Inter, Abhaya_Libre } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import { site } from "@/content/site";
+import { canonicalUrl, sharedOpenGraph } from "@/lib/metadata";
+import { Grain } from "@/components/grain";
 import "./globals.css";
 
-const newsreader = Newsreader({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-newsreader",
+  axes: ["opsz"],
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
 });
 
-const abhaya = Abhaya_Libre({
-  subsets: ["latin"],
-  weight: ["700", "800"],
-  variable: "--font-abhaya",
-  display: "swap",
-});
+const title = `${site.name} · ${site.role}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: {
-    default: `${site.name} · ${site.role}`,
-    template: `%s · ${site.name}`,
-  },
+  title: { default: title, template: `%s · ${site.name}` },
   description: site.description,
   openGraph: {
-    title: `${site.name} · ${site.role}`,
+    ...sharedOpenGraph,
+    title,
     description: site.description,
-    url: site.url,
-    siteName: site.name,
-    type: "website",
+    url: canonicalUrl("/"),
   },
   twitter: { card: "summary_large_image" },
-  icons: { icon: "/favicon.svg" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${inter.variable} ${abhaya.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+      <body>
+        {children}
+        <Grain />
+      </body>
     </html>
   );
 }

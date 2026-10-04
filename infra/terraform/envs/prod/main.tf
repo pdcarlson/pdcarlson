@@ -14,17 +14,16 @@ data "aws_route53_zone" "site" {
 module "site" {
   source           = "../../modules/site"
   site_bucket_name = var.site_bucket_name
-  logs_bucket_name = var.logs_bucket_name
   tags             = local.tags
 }
 
 module "contact" {
-  source          = "../../modules/contact"
-  lambda_zip_path = "${path.root}/../../../contact-lambda/contact-lambda.zip"
-  mail_from       = var.mail_from
-  mail_to         = var.mail_to
-  ses_domain      = var.domain_name
-  tags            = local.tags
+  source             = "../../modules/contact"
+  lambda_source_file = "${path.root}/../../../contact-lambda/index.mjs"
+  mail_from          = var.mail_from
+  mail_to            = var.mail_to
+  ses_domain         = var.domain_name
+  tags               = local.tags
 }
 
 module "cdn" {
@@ -33,17 +32,9 @@ module "cdn" {
   aliases                     = ["www.${var.domain_name}"]
   site_bucket_regional_domain = module.site.site_bucket_regional_domain
   site_bucket_arn             = module.site.site_bucket_arn
-  logs_bucket_domain          = module.site.logs_bucket_domain
   contact_api_invoke_url      = module.contact.api_invoke_domain
   route53_zone_id             = data.aws_route53_zone.site.zone_id
   tags                        = local.tags
-}
-
-module "analytics" {
-  source                     = "../../modules/analytics"
-  logs_bucket_name           = var.logs_bucket_name
-  cloudfront_distribution_id = module.cdn.distribution_id
-  tags                       = local.tags
 }
 
 module "oidc" {

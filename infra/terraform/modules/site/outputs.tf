@@ -9,7 +9,3 @@ output "site_bucket_arn" {
 output "site_bucket_regional_domain" {
   value = aws_s3_bucket.site.bucket_regional_domain_name
 }
-
-output "logs_bucket_domain" {
-  value = aws_s3_bucket.logs.bucket_domain_name
-}

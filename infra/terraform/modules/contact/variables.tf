@@ -3,9 +3,9 @@ variable "name_prefix" {
   default = "portfolio-contact"
 }
 
-variable "lambda_zip_path" {
+variable "lambda_source_file" {
   type        = string
-  description = "Path to the built lambda zip (e.g. infra/contact-lambda/contact-lambda.zip)"
+  description = "Path to the lambda handler (infra/contact-lambda/index.mjs)"
 }
 
 variable "mail_from" {

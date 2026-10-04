@@ -1,54 +1,141 @@
-import type { SkillGroup, ExperienceEntry, CourseRow, LeadershipEntry } from "./types";
+import type { ResumeSection } from "./types";
 
 export const resume = {
-  skills: [
-    { label: "Languages", items: ["TypeScript", "JavaScript", "Python", "C++ / Java"] },
-    { label: "Frameworks", items: ["React.js", "Next.js", "Tailwind CSS", "Node / Express"] },
-    { label: "Tools", items: ["Git / GitHub", "Docker", "Figma", "AWS / Vercel"] },
-  ] satisfies SkillGroup[],
+  intro: "Cut to the chase if you must.",
+  pdf: "/assets/Paul-Carlson-Resume.pdf",
 
-  experience: [
+  sections: [
     {
-      dates: "May 2025 - September 2025",
-      role: "Web & Geospatial Technology Intern",
-      org: "East-Southeast LLC.",
-      bullets: [
-        "Built a web mapping app for 9 New England towns from a legacy system, cutting deploy time per update from hours to minutes.",
-        "Digitized 100+ sewer plans in QGIS to build the underlying interactive map from scratch.",
-        "Worked in the field with GPS receivers and total stations, then back at the office on the data side in Carlson Survey CAD.",
+      heading: "Education",
+      entries: [
+        {
+          title: "Rensselaer Polytechnic Institute",
+          detail:
+            "B.S. Computer Science and B.S. Information Technology and Web Science · Troy, NY",
+          dates: "Aug 2024 - May 2028",
+          bullets: [
+            "GPA: 3.60",
+            "Relevant coursework: Intro to Algorithms, Data Structures, Principles of Software, Web Science Systems Development, Foundations of Computer Science, Computer Architecture & Operating Systems",
+          ],
+        },
       ],
     },
-  ] satisfies ExperienceEntry[],
+    {
+      heading: "Experience",
+      entries: [
+        {
+          title: "East-SouthEast, LLC",
+          detail: "Web & Geospatial Technology Intern · Chatham, MA",
+          dates: "May 2025 - Dec 2025",
+          bullets: [
+            "Architected and built a professional-grade web mapping application from a legacy system, reducing update deployment time across nine towns from hours to minutes.",
+            "Collected precise property and topographic survey data in the field using GPS receivers and total stations.",
+            "Assisted with survey workflows by performing background data work and digitizing linework in Carlson Survey CAD software.",
+            "Digitized over 100 sewer plans in QGIS to build a new interactive map from scratch, making critical infrastructure data accessible to residents.",
+          ],
+        },
+      ],
+    },
+    {
+      heading: "Projects",
+      entries: [
+        {
+          title: "Frapp",
+          detail: "NestJS, Next.js, Supabase, React Native (Expo), Stripe",
+          href: "/projects/frapp",
+          bullets: [
+            "Architected a multi-tenant SaaS backend with JWT-scoped tenant isolation across three composed guards and row-level security on 50 database tables, validated by a 12-case cross-tenant isolation test suite.",
+            "Built a 20-screen React Native mobile app wired to a 180+ endpoint REST API, reaching 90% test coverage.",
+            "Designed an adversarial AI evaluation harness (43 tests) enforcing citation grounding and prompt-injection defenses ahead of any model implementation.",
+            "Maintained 4,700+ passing tests across a ~300,000-line codebase built solo over 6.5 months.",
+          ],
+        },
+        {
+          title: "Tau Nu Fiji Operations Platform",
+          detail: "Next.js 14, TypeScript, Appwrite, Discord API, AWS",
+          href: "/projects/tau-nu-fiji-ops-platform",
+          bullets: [
+            "Built a unified platform for a 23-member organization that digitizes facility management and secures academic archives using S3 pre-signed URLs, replacing manual trackers with a centralized architecture.",
+            "Developed a cron-based scheduler that assigns weekly tasks and escalates overdue items from private DMs to public channels, enforcing accountability without manual follow-up.",
+            "Engineered an RBAC system synced with live Discord roles, letting admins manage assignments and penalties directly via native Slash Commands.",
+          ],
+        },
+        {
+          title: "Interactive GIS Map",
+          detail: "East-SouthEast, LLC internship",
+          href: "/projects/gis-map",
+          bullets: [
+            "Delivered a single, dynamic codebase serving 9 towns with JavaScript and Mapbox, replacing a legacy system where every town ran its own one-off code.",
+            "Built a dynamic legend, multi-page PDF report generator, and address search/bookmarking tools used to produce client-facing reports.",
+            "Built a high-performance, cost-effective tile loader for USGS maps, bypassing expensive third-party APIs.",
+          ],
+        },
+      ],
+    },
+    {
+      heading: "Technical skills",
+      rows: [
+        { label: "Languages", value: "TypeScript, JavaScript, Python, C++, SQL" },
+        { label: "Frameworks", value: "Next.js, NestJS, React, React Native (Expo), Node.js" },
+        { label: "Cloud & infrastructure", value: "AWS (S3), Supabase, Stripe, Appwrite" },
+        { label: "Tools", value: "Git, GitHub Actions (CI/CD), Mapbox GL JS, QGIS" },
+      ],
+    },
+    {
+      heading: "Additional experience",
+      entries: [
+        {
+          title: "Camps Newfound-Owatonna",
+          detail: "Camp Counselor & Challenge Course Instructor",
+          dates: "June - Aug 2026",
+          bullets: [
+            "Held 24/7 duty of care for up to 10 campers across two overnight sessions spanning 7 weeks, running a full daily schedule with no adult backup after lights-out.",
+            "Served as one of two certified instructors on the camp's high-ropes challenge course, coaching campers through fear-based challenges and de-escalating peer conflict throughout the summer.",
+          ],
+        },
+      ],
+    },
+    {
+      heading: "Leadership",
+      entries: [
+        {
+          title: "Chapter President",
+          detail: "Phi Gamma Delta, Tau Nu Chapter",
+          dates: "Jan 2026 - Present",
+          bullets: [
+            "Direct an executive cabinet of 5 officers and 10+ committee chairs for a 23-member chapter, managing risk mitigation and relations with university administration and International Headquarters.",
+          ],
+        },
+        {
+          title: "Stewardship Chair",
+          detail: "Phi Gamma Delta, Tau Nu Chapter",
+          dates: "Aug 2026 - Present",
+          bullets: [
+            "Manage a $12,000 semester operating budget and weekly procurement logistics for the chapter's residential facility.",
+          ],
+        },
+        {
+          title: "VP of Chapter Scholarship",
+          detail: "Phi Gamma Delta, Tau Nu Chapter",
+          dates: "Jan - May 2026",
+          bullets: [
+            "Built data-driven academic support systems that kept chapter GPA consistently above the university average.",
+          ],
+        },
+        {
+          title: "Eagle Scout",
+          detail: "Boy Scouts of America",
+          dates: "Nov 2023",
+          bullets: [
+            "Led a team to build and install three community benches, managing the project from initial design and fundraising to final installation.",
+          ],
+        },
+      ],
+    },
+  ] satisfies ResumeSection[],
 
-  education: {
-    school: "Rensselaer Polytechnic Institute",
-    gpa: "3.60 / 4.00",
-    courseworkHeading: "Relevant Coursework",
-    coursework: [
-      { name: "Data Structures", code: "CSCI 1200" },
-      { name: "Principles of Software", code: "CSCI 2600" },
-      { name: "Intro to Algorithms", code: "CSCI 2300" },
-      { name: "Web Science Systems", code: "ITWS 4500" },
-      { name: "Foundations of Computer Science", code: "CSCI 2200" },
-      { name: "Computer Architecture & Operating Systems", code: "CSCI 2800" },
-    ] satisfies CourseRow[],
-  },
-
-  leadership: {
-    heading: "Community",
-    entries: [
-      {
-        role: "Chapter President",
-        org: "Tau Nu Chapter of Phi Gamma Delta",
-        body:
-          "Running a 25-member chapter through a full operating year. Budget, recruitment, alumni, and most of the calls in between.",
-      },
-      {
-        role: "Eagle Scout",
-        org: "Scouts of America",
-        body:
-          "Earned in 2023. The project was three benches in a Riverbay neighborhood that I planned, fundraised $1,250 for, got town board approval on, and led a volunteer crew to build.",
-      },
-    ] satisfies LeadershipEntry[],
-  },
+  metaDescription:
+    "Web and geospatial engineering at East-SouthEast, CS and ITWS at RPI, and the TypeScript, NestJS, and React Native work behind the projects on this site.",
+  ogDescription:
+    "Education, experience, projects, and leadership. The PDF is there too, if you'd rather skim.",
 };

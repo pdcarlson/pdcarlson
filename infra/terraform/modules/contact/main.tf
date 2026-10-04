@@ -38,13 +38,21 @@ resource "aws_cloudwatch_log_group" "lambda" {
   tags              = var.tags
 }
 
+# The handler is one file and the runtime already ships the AWS SDK, so there
+# is nothing to install or bundle. Terraform zips the source itself.
+data "archive_file" "lambda" {
+  type        = "zip"
+  source_file = var.lambda_source_file
+  output_path = "${path.root}/.terraform/contact-lambda.zip"
+}
+
 resource "aws_lambda_function" "contact" {
   function_name    = var.name_prefix
   role             = aws_iam_role.lambda.arn
   handler          = "index.handler"
-  runtime          = "nodejs20.x"
-  filename         = var.lambda_zip_path
-  source_code_hash = filebase64sha256(var.lambda_zip_path)
+  runtime          = "nodejs22.x"
+  filename         = data.archive_file.lambda.output_path
+  source_code_hash = data.archive_file.lambda.output_base64sha256
   timeout          = 10
   memory_size      = 256
   tags             = var.tags

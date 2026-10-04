@@ -10,10 +10,11 @@ permissions:
   contents: read
 
 env:
-  AWS_REGION: us-east-1
+  BUCKET: s3://${{ secrets.SITE_BUCKET }}
+  PAGE_CACHE: public, max-age=300, s-maxage=86400
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,41 +25,38 @@ jobs:
           cache: npm
 
       - run: npm ci
-
-      - name: Build static site
-        run: npm run build
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: site-out
-          path: out/
-          retention-days: 7
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: site-out
-          path: out
+      - run: npm run build
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: us-east-1
 
-      - name: Sync immutable assets first
+      - name: Sync hashed assets
         run: |
-          aws s3 sync out/_next/static/ s3://${{ secrets.SITE_BUCKET }}/_next/static/ \
+          aws s3 sync out/_next/static/ "$BUCKET/_next/static/" \
             --cache-control "public, max-age=31536000, immutable" \
             --delete
 
-      - name: Sync the rest
+      - name: Sync pages
         run: |
-          aws s3 sync out/ s3://${{ secrets.SITE_BUCKET }}/ \
+          aws s3 sync out/ "$BUCKET/" \
             --exclude "_next/static/*" \
-            --cache-control "public, max-age=300, s-maxage=86400" \
+            --exclude "*opengraph-image*" \
+            --cache-control "$PAGE_CACHE" \
+            --delete
+
+      # The social cards are written without a file extension, so s3 can't
+      # guess their type and it has to be spelled out. The last exclude keeps
+      # the route's compiled js under _next out of this pass.
+      - name: Sync social cards
+        run: |
+          aws s3 sync out/ "$BUCKET/" \
+            --exclude "*" \
+            --include "*opengraph-image*" \
+            --exclude "_next/*" \
+            --content-type "image/png" \
+            --cache-control "$PAGE_CACHE" \
             --delete
 
       - name: Invalidate CloudFront

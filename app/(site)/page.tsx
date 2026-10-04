@@ -1,67 +1,71 @@
+import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { ButtonLink } from "@/components/buttons";
-import { FeaturedProject } from "@/components/featured-project";
-import { StackMarquee } from "@/components/stack-marquee";
+import { ContactBlock } from "@/components/contact-block";
+import { DrawUnderlineLink } from "@/components/draw-underline-link";
+import { WorkIndex } from "@/components/work-index";
+import { home } from "@/content/home";
+import { projects } from "@/content/projects";
 import { site } from "@/content/site";
-import { getProject } from "@/content/projects";
+import { routeMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = routeMetadata({
+  path: "/",
+  title: { absolute: site.name },
+  description: home.metaDescription,
+  ogTitle: site.name,
+  ogDescription: home.ogDescription,
+});
+
+const section = "px-[var(--gutter)] py-20 lg:py-24";
 
 export default function HomePage() {
-  const featured = getProject(site.featuredProjectSlug);
+  const { hero, about } = home;
 
   return (
     <>
-      <section className="relative bg-surface overflow-hidden">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-12 pl-8 pr-8 sm:pl-16 sm:pr-16 lg:pl-24 lg:pr-0 py-24 lg:py-0 lg:min-h-[960px]">
-          <div className="lg:w-[526px] shrink-0">
-            <h1 className="font-display text-[44px] leading-[52px] sm:text-[64px] sm:leading-[72px] lg:text-[80px] lg:leading-[88px] tracking-[-0.02em] text-fg">
-              {site.hero.headlineLead}
-              <br />
-              <span className="font-light">{site.hero.headlineEmph}</span>
-              <span>.</span>
-            </h1>
+      <section className="px-[var(--gutter)] pt-24 pb-28 lg:flex lg:items-start lg:justify-between lg:gap-12 lg:pt-40 lg:pb-36">
+        <div>
+          <h1 className="font-display text-hero-display tracking-[-0.02em]">
+            {hero.heading}
+            <span className="text-flare">.</span>
+          </h1>
 
-            <p className="mt-8 text-[18px] leading-[28px] lg:text-[20px] lg:leading-[28px] text-subtle max-w-xl">
-              {site.hero.intro}
-            </p>
+          <p className="mt-10 max-w-[620px] text-case-open text-fg-85">{hero.support}</p>
 
-            <div className="mt-12 flex flex-wrap gap-6">
-              <ButtonLink href="/projects" variant="primary">View Projects</ButtonLink>
-              <ButtonLink href="/resume" variant="outline">View Resume</ButtonLink>
-            </div>
-          </div>
+          <p className="mt-8 text-nav-link">
+            <DrawUnderlineLink href="#work">{hero.linkLabel}</DrawUnderlineLink>
+          </p>
 
-          <div className="relative w-full lg:w-[495px] aspect-[495/607] shrink-0 lg:ml-12">
-            <Image
-              src={site.headshot}
-              alt="Paul Carlson"
-              fill
-              sizes="(min-width: 1024px) 495px, 100vw"
-              priority
-              className="object-cover"
-            />
-          </div>
+          <p className="mt-12 text-index-meta text-fg-60">{hero.status}</p>
+        </div>
+
+        <Image
+          src="/assets/headshot.jpg"
+          alt={hero.photoAlt}
+          width={495}
+          height={607}
+          priority
+          className="mt-14 h-auto w-[220px] border border-frame lg:mt-0 lg:w-[clamp(240px,22vw,340px)]"
+        />
+      </section>
+
+      <section id="work" className={section}>
+        <h2 className="mb-[18px] font-display text-section-head lg:mb-[30px]">Work</h2>
+        <WorkIndex projects={projects} />
+      </section>
+
+      <section id="about" className={`${section} grid gap-6 lg:grid-cols-[380px_1fr] lg:gap-0`}>
+        <h2 className="font-display text-margin-subhead italic text-sage">{about.marginLabel}</h2>
+        <div className="flex max-w-[660px] flex-col gap-6 text-body-lg text-fg-75">
+          {about.paragraphs.map((text) => (
+            <p key={text}>{text}</p>
+          ))}
         </div>
       </section>
 
-      {featured && <FeaturedProject project={featured} />}
-
-      <section className="bg-surface px-8 sm:px-16 lg:px-24 py-20">
-        <div className="eyebrow mb-4">Now</div>
-        <p className="font-display text-[32px] leading-[42px] sm:text-[40px] sm:leading-[52px] text-fg max-w-3xl">
-          {site.now}
-        </p>
-        <Link
-          href="/projects"
-          className="mt-8 inline-flex items-center gap-2 text-[14px] tracking-eyebrow uppercase text-fg hover:gap-3 transition-all"
-        >
-          <span>See what I'm building</span>
-          <ArrowRight size={16} />
-        </Link>
+      <section id="contact" className="px-[var(--gutter)] py-20 lg:py-28">
+        <ContactBlock />
       </section>
-
-      <StackMarquee />
     </>
   );
 }

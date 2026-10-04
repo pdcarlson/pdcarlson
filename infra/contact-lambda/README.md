@@ -1,16 +1,8 @@
 # contact-lambda
 
-Node 20 Lambda behind an HTTP API Gateway. Receives a JSON POST from `/api/contact`, validates, sends via SES.
+Node 22 Lambda behind an HTTP API Gateway. Receives a JSON POST from `/api/contact`, validates it, and sends it through SES.
 
-## Build the artifact
-
-```bash
-npm install
-npm run package
-# → contact-lambda.zip
-```
-
-Terraform reads `contact-lambda.zip` directly; `make tf-plan` and `make tf-apply` run `lambda-build` first.
+There is no build step. The handler is the one file here, the Lambda runtime already includes the AWS SDK, and Terraform zips `index.mjs` on its own during a plan or apply.
 
 ## Env vars (set by Terraform)
 
@@ -20,7 +12,7 @@ Terraform reads `contact-lambda.zip` directly; `make tf-plan` and `make tf-apply
 
 ## Spam guard
 
-- Honeypot field (`company`) on the form; populated requests get a silent 204.
+- Honeypot field (`company`) on the form. A request that fills it in gets a silent 204.
 - Length caps in `index.mjs`: name 200, email 320, message 5000.
 - API Gateway throttling on the stage (`throttling_rate_limit = 5`, `throttling_burst_limit = 10`).
 
