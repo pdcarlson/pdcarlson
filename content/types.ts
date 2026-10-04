@@ -1,37 +1,44 @@
-export type ProjectStatus = "Development" | "Live" | "Archived" | "Concept";
+export type ProjectSection = {
+  id: string;
+  marginSubhead: string;
+  paragraphs: string[]; // may contain inline [label](url) links
+};
+
+export type ProjectImage = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string; // also shown as the caption
+};
 
 export type Project = {
   slug: string;
-  number: string;
-  kind: string;
   title: string;
-  subtitle: string;
-  status: ProjectStatus;
-  timeline: string;
-  stack: string[];
-  links?: { label: string; href: string }[];
-  why: string;
-  how: string;
-  deepDive?: { heading: string; body: string }[];
-  screenshots?: { src: string; alt: string }[];
-};
-
-export type SkillGroup = {
-  label: "Languages" | "Frameworks" | "Tools";
-  items: string[];
-};
-
-export type ExperienceEntry = {
-  dates: string;
+  status: string;
+  year: string;
   role: string;
-  org: string;
+  madeAt?: string;
+  builtWith: string[];
+  blurb: string;
+  hook: string;
+  intro: string[];
+  images: ProjectImage[]; // the first one leads the page, the rest follow the writing
+  sections: ProjectSection[];
+  pullQuote?: string;
+  metaDescription: string;
+  ogDescription: string;
+};
+
+export type ResumeEntry = {
+  title: string;
+  detail?: string;
+  dates?: string;
+  href?: string;
   bullets: string[];
 };
 
-export type CourseRow = { name: string; code: string };
-
-export type LeadershipEntry = {
-  role: string;
-  org: string;
-  body: string;
+export type ResumeSection = {
+  heading: string;
+  entries?: ResumeEntry[];
+  rows?: { label: string; value: string }[]; // short label and value pairs, used for skills
 };

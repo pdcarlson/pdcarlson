@@ -2,17 +2,22 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { DrawUnderlineLink } from "@/components/draw-underline-link";
+import { home } from "@/content/home";
 
 type Status = "idle" | "sending" | "ok" | "error";
 
+const copy = home.contact.form;
+
+const fieldBase =
+  "w-full bg-field-fill border border-fg-40 focus:border-flare px-4 py-3 text-contact-body text-fg placeholder:text-fg-50 [transition:border-color_var(--motion-swap)]";
+
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
-  const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
-    setError(null);
 
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -32,77 +37,79 @@ export function ContactForm() {
       if (!res.ok) throw new Error(`http ${res.status}`);
       setStatus("ok");
       form.reset();
-    } catch (err) {
+    } catch {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "send failed");
     }
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-8">
-      <div className="eyebrow">Get in touch</div>
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <label className="block">
+        <span className="sr-only">Name</span>
+        <input
+          name="name"
+          type="text"
+          required
+          placeholder={copy.namePlaceholder}
+          className={fieldBase}
+          onInvalid={(e) => e.currentTarget.setCustomValidity(copy.validation.name)}
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
+        />
+      </label>
 
-      <Field label="Name" name="name" type="text" placeholder="Your full name" required />
-      <Field label="Email" name="email" type="email" placeholder="email@address.com" required />
-      <Field label="Message" name="message" textarea placeholder="Enter your message here..." required />
+      <label className="block">
+        <span className="sr-only">Email</span>
+        <input
+          name="email"
+          type="email"
+          required
+          placeholder={copy.emailPlaceholder}
+          className={fieldBase}
+          onInvalid={(e) => e.currentTarget.setCustomValidity(copy.validation.email)}
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
+        />
+      </label>
+
+      <label className="block">
+        <span className="sr-only">Message</span>
+        <textarea
+          name="message"
+          required
+          placeholder={copy.messagePlaceholder}
+          className={`${fieldBase} min-h-[110px] lg:min-h-[132px] resize-none`}
+          onInvalid={(e) => e.currentTarget.setCustomValidity(copy.validation.message)}
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
+        />
+      </label>
 
       <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
 
       <button
         type="submit"
         disabled={status === "sending"}
-        className="bg-accent text-on-accent py-4 text-[14px] tracking-eyebrow uppercase hover:bg-accent-strong disabled:opacity-60 transition-colors"
+        className="bg-sage text-bg hover:bg-flare focus-visible:bg-flare py-3 text-resume-btn disabled:opacity-60 [transition:background-color_var(--motion-swap)]"
       >
-        {status === "sending" ? "Sending…" : "Send Message"}
+        {status === "sending" ? copy.submittingLabel : copy.submitLabel}
       </button>
 
+      <p className="hidden lg:block text-caption text-fg-50">{copy.helper}</p>
+
       {status === "ok" && (
-        <p className="text-[14px] text-fg" role="status">Thanks. I'll get back to you shortly.</p>
+        <p className="text-caption text-fg-75" role="status">
+          {copy.successMessage}
+        </p>
       )}
       {status === "error" && (
-        <p className="text-[14px] text-fg" role="alert">
-          Couldn't send. Try emailing me directly instead.{error ? ` (${error})` : ""}
+        <p className="text-caption text-fg-75" role="alert">
+          {copy.errorMessage}
+          <DrawUnderlineLink
+            href={`mailto:${home.contact.email}`}
+            tone="sage"
+          >
+            {home.contact.email}
+          </DrawUnderlineLink>
         </p>
       )}
     </form>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  placeholder,
-  required,
-  textarea,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  placeholder?: string;
-  required?: boolean;
-  textarea?: boolean;
-}) {
-  return (
-    <label className="flex flex-col gap-2">
-      <span className="eyebrow">{label}</span>
-      {textarea ? (
-        <textarea
-          name={name}
-          required={required}
-          placeholder={placeholder}
-          rows={4}
-          className="bg-transparent border-b border-fg/10 focus:border-accent-strong py-2 text-[16px] text-fg placeholder:text-subtle outline-none resize-y"
-        />
-      ) : (
-        <input
-          name={name}
-          type={type}
-          required={required}
-          placeholder={placeholder}
-          className="bg-transparent border-b border-fg/10 focus:border-accent-strong py-2 text-[16px] text-fg placeholder:text-subtle outline-none"
-        />
-      )}
-    </label>
   );
 }

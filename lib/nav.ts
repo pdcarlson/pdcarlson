@@ -1,8 +1,7 @@
-import { Home, FileText, Boxes, MapPin } from "lucide-react";
+export const navItems = [
+  { label: "Work", href: "/#work" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "/#contact" },
+];
 
-export const nav = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/resume", label: "Resume", icon: FileText },
-  { href: "/projects", label: "Projects", icon: Boxes },
-  { href: "/about", label: "About & Contact", icon: MapPin },
-] as const;
+export const resumeItem = { label: "Resume", href: "/resume" };
