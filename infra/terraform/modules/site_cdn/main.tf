@@ -35,6 +35,14 @@ resource "aws_cloudfront_origin_access_control" "site" {
   signing_protocol                  = "sigv4"
 }
 
+resource "aws_cloudfront_function" "rewrite_index" {
+  name    = "${replace(var.domain_name, ".", "-")}-rewrite-index"
+  runtime = "cloudfront-js-2.0"
+  comment = "Map directory-style paths to their index.html in the static export"
+  publish = true
+  code    = file("${path.module}/functions/rewrite-index.js")
+}
+
 resource "aws_cloudfront_distribution" "site" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -69,6 +77,11 @@ resource "aws_cloudfront_distribution" "site" {
     cached_methods         = ["GET", "HEAD"]
     compress               = true
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6" # Managed-CachingOptimized
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.rewrite_index.arn
+    }
   }
 
   ordered_cache_behavior {
@@ -101,12 +114,6 @@ resource "aws_cloudfront_distribution" "site" {
     error_code         = 404
     response_code      = 404
     response_page_path = "/404.html"
-  }
-
-  logging_config {
-    include_cookies = false
-    bucket          = var.logs_bucket_domain
-    prefix          = "cloudfront/"
   }
 
   restrictions {

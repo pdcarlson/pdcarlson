@@ -17,10 +17,6 @@ variable "site_bucket_arn" {
   type = string
 }
 
-variable "logs_bucket_domain" {
-  type = string
-}
-
 variable "contact_api_invoke_url" {
   type        = string
   description = "API Gateway invoke URL hostname for the contact form"

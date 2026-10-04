@@ -13,11 +13,6 @@ variable "site_bucket_name" {
   default = "pdcarlson-site"
 }
 
-variable "logs_bucket_name" {
-  type    = string
-  default = "pdcarlson-logs"
-}
-
 variable "mail_from" {
   type    = string
   default = "no-reply@pdcarlson.dev"
