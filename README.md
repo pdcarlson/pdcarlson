@@ -17,9 +17,10 @@ Off the screen, I'm usually outside. Hiking when the weather's good, skiing in V
 
 ### Stack I reach for
 
-Languages: TypeScript, JavaScript, Python, C++ / Java  
-Frameworks: React.js, Next.js, Tailwind CSS, Node / Express  
-Tools: Git / GitHub, Docker, Figma, AWS / Vercel
+Languages: TypeScript, JavaScript, Python, C++, SQL  
+Frameworks: Next.js, NestJS, React, React Native (Expo), Node.js  
+Cloud: AWS, Supabase, Stripe  
+Tools: Git, GitHub Actions, Mapbox GL JS, QGIS
 
 ### Studying
 
@@ -27,7 +28,7 @@ Rensselaer Polytechnic Institute: Computer Science & Information Technology and 
 
 ### Off the screen
 
-Chapter President: Tau Nu Chapter of Phi Gamma Delta. Running a 25-member chapter through a full operating year. Budget, recruitment, alumni, and most of the calls in between.
+Chapter President: Tau Nu Chapter of Phi Gamma Delta. Running a 23-member chapter through a full operating year. Budget, recruitment, alumni, and most of the calls in between.
 
 Eagle Scout, earned in 2023. Three benches in a Riverbay neighborhood that I planned, fundraised $1,250 for, got town board approval on, and led a volunteer crew to build.
 
@@ -35,7 +36,7 @@ Eagle Scout, earned in 2023. Three benches in a Riverbay neighborhood that I pla
 
 [pdcarlson.dev](https://pdcarlson.dev): portfolio  
 [github.com/pdcarlson](https://github.com/pdcarlson): code  
-[linkedin.com/in/pdcarlson](https://www.linkedin.com/in/pdcarlson): work
+[linkedin.com/in/paul-carlson-rpi](https://www.linkedin.com/in/paul-carlson-rpi): work
 
 ---
 
