@@ -47,4 +47,5 @@ export const home = {
     "Paul Carlson builds software for real organizations. A GIS map for every town on Cape Cod, a fraternity ops platform, and the chat app meant to replace it.",
   ogDescription:
     "Software for real people, not class projects. A GIS map for every town on Cape Cod, a fraternity ops platform, and the chat app meant to replace it.",
+  ogLabel: "CS and ITWS at RPI.",
 };

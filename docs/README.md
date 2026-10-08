@@ -56,6 +56,8 @@ Colors, type sizes, and motion are defined once in `app/globals.css`. Type is na
 
 Each page gets its own card, drawn by `lib/og.tsx` from an `opengraph-image.tsx` next to the page. Next writes these to `out/` with no file extension, so `deploy.yml` uploads them in a separate pass with the content type spelled out.
 
+The home card uses the headshot, and each project card uses a screenshot named by `ogShot` (and `ogPhone`) in its content file. The renderer can't decode WebP, so those are PNGs in `public/assets/og/`, already cut to the size they show at, 660 x 570 for the screenshot and 230 x 500 for the phone. To swap one, cut the new capture to the same size and keep the file name.
+
 ## CI and deploy
 
 - `ci.yml` runs on every PR: typecheck, lint, build, and a terraform format check and validate.

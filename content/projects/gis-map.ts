@@ -55,4 +55,6 @@ export const gisMap: Project = {
     "A shared web map I rebuilt for East-SouthEast, replacing nine separate per-town codebases with one config-driven app that now covers every town on Cape Cod.",
   ogDescription:
     "The map used to be nine separate copies, one per town. Here's how I made it one.",
+  ogLabel: "A web map for every town on Cape Cod.",
+  ogShot: "og/gis-map.png",
 };

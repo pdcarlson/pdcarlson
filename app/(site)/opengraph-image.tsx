@@ -1,4 +1,4 @@
-import { renderOgImage, OG_SIZE, OG_CONTENT_TYPE } from "@/lib/og";
+import { renderHomeOgImage, OG_SIZE, OG_CONTENT_TYPE } from "@/lib/og";
 import { home } from "@/content/home";
 import { site } from "@/content/site";
 
@@ -7,12 +7,8 @@ export const dynamic = "force-static";
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
-export const alt = `${site.name} · ${site.role}`;
+export const alt = `${site.name}, with his photo. ${home.ogLabel}`;
 
 export default function Image() {
-  return renderOgImage({
-    eyebrow: site.role,
-    title: site.name,
-    description: home.ogDescription,
-  });
+  return renderHomeOgImage({ title: site.name, label: home.ogLabel });
 }

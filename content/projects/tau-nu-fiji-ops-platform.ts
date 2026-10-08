@@ -53,4 +53,6 @@ export const tauNuFijiOpsPlatform: Project = {
     "The app my chapter uses every week for housing tasks. It was down for four months over a certificate that couldn't renew, and came back in August.",
   ogDescription:
     "This one was down for four months, and I had the cause wrong the whole time.",
+  ogLabel: "Housing tasks for my fraternity chapter.",
+  ogShot: "og/tau-nu-fiji-ops-platform.png",
 };

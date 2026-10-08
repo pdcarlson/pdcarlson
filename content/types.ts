@@ -27,6 +27,10 @@ export type Project = {
   pullQuote?: string;
   metaDescription: string;
   ogDescription: string;
+  // the social card: one short line and the screenshots cut for it in public/assets
+  ogLabel: string;
+  ogShot: string;
+  ogPhone?: string;
 };
 
 export type ResumeEntry = {
