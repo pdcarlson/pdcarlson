@@ -9,11 +9,11 @@ export const gisMap: Project = {
   madeAt: "East-SouthEast, LLC",
   builtWith: ["Mapbox", "Pannellum", "GitHub Pages"],
   blurb:
-    "A shared web map for zoning, wetlands, and septic records across nine towns.",
+    "A shared web map for zoning, wetlands, and septic records across every town on Cape Cod.",
   hook:
-    "Every one of the nine towns on this map used to run its own copy of the code behind it.",
+    "When I started, each of the nine towns on this map had its own copy of the code behind it.",
   intro: [
-    "I spent a summer as the web and geospatial intern at East-SouthEast, a land surveying and civil engineering firm, rebuilding the map their town clients use for zoning, wetlands, septic records, and conservation review. Nine towns across Massachusetts and Cape Cod run on it today, embedded straight into each town's existing site. It's still live, still theirs, and East-SouthEast's own staff has kept building on it since my internship ended.",
+    "I spent a summer as the web and geospatial intern at East-SouthEast, a land surveying and civil engineering firm, rebuilding the map on their website that clients and staff use for zoning, wetlands, septic records, and conservation review. It covered nine towns when I started and all 15 towns on Cape Cod by the time I left, with a page for each town on East-SouthEast's site. It's still live, still theirs, and East-SouthEast's own staff has kept building on it since my internship ended.",
   ],
   images: [
     {
@@ -46,13 +46,13 @@ export const gisMap: Project = {
       id: "what-broke",
       marginSubhead: "What I'd still fix",
       paragraphs: [
-        "The deployment setup is the thing I'd fix first. The map is embedded into each town's existing Squarespace site through a script tag that pulls code and data from GitHub Pages, which was the right call given I wasn't about to rebuild nine towns' entire websites. But GitHub Pages serves directly out of the repo, so I ended up running two parallel repos, one for production and one for development, and promoting anything to production meant manually find-and-replacing URLs across a merge. It works. It's also exactly the kind of manual step that will eventually get skipped by someone in a hurry, possibly me.",
+        "The deployment setup is the thing I'd fix first. The map is embedded into a page for each town on East-SouthEast's existing Squarespace site, through a code block that pulls code and data from GitHub Pages, which was the right call given I wasn't about to rebuild their whole website. But GitHub Pages serves directly out of the repo, so I ended up running two parallel repos, one for production and one for development, and promoting anything to production meant manually find-and-replacing URLs across a merge. It works. It's also exactly the kind of manual step that will eventually get skipped by someone in a hurry, possibly me.",
         "I also left myself a real backlog I never got to, with a FEMA flood data layer, elevation models, a buffer and proximity tool, a basemap toggle. Those are still open issues in the repo, not complaints from anyone using it, just the list of what a longer internship would have covered.",
       ],
     },
   ],
   metaDescription:
-    "A shared web map I rebuilt for nine Massachusetts towns, replacing nine separate one-off codebases with one config-driven app.",
+    "A shared web map I rebuilt for East-SouthEast, replacing nine separate per-town codebases with one config-driven app that now covers every town on Cape Cod.",
   ogDescription:
-    "Nine towns used to run nine different maps. Here's how I made it one.",
+    "The map used to be nine separate copies, one per town. Here's how I made it one.",
 };

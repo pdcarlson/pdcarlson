@@ -8,11 +8,11 @@ export const tauNuFijiOpsPlatform: Project = {
   role: "Solo build",
   builtWith: ["Next.js", "Appwrite", "Discord API", "AWS"],
   blurb:
-    "Housing tasks and accountability for 23 brothers. Back up since August, with a weekly restart by hand.",
+    "Housing tasks and accountability for my chapter. Back up since August, with a weekly restart by hand.",
   hook:
     "This one was down for four months, and I had the cause wrong the whole time.",
   intro: [
-    "This is the app my chapter runs on. It assigns weekly housing tasks automatically, escalates a chore from a private Discord reminder to a public callout if it goes undone, and takes a photo as proof once it's finished. All 23 brothers use it. It was also down from April to August, and I still have to go in every week and restart the database.",
+    "This is the app my chapter runs on. It assigns weekly housing tasks automatically, escalates a chore from a private Discord reminder to a public callout if it goes undone, and takes a photo as proof once it's finished. The whole chapter uses it. It was also down from April to August, and I still have to go in every week and restart the database.",
   ],
   images: [
     {
@@ -50,7 +50,7 @@ export const tauNuFijiOpsPlatform: Project = {
     },
   ],
   metaDescription:
-    "The app 23 brothers use every week for housing tasks. It was down for four months over a certificate that couldn't renew, and came back in August.",
+    "The app my chapter uses every week for housing tasks. It was down for four months over a certificate that couldn't renew, and came back in August.",
   ogDescription:
     "This one was down for four months, and I had the cause wrong the whole time.",
 };

@@ -8,11 +8,11 @@ export const frapp: Project = {
   role: "Solo build",
   builtWith: ["NestJS", "Next.js", "Expo", "Supabase"],
   blurb:
-    "Chat for fraternity chapters, with the events, tasks and dues built into it. It's live, but no chapter is on it yet.",
+    "Chat for fraternity chapters that puts everything in one place, so nobody has to chase down information. It's live, but no chapter is on it yet.",
   hook:
     "I keep finding out why the industry does things a certain way by running into the problem myself first.",
   intro: [
-    "Frapp is a chat app for fraternity chapters. Events, tasks, points and dues live inside the chat instead of in four other tools, so a brother can check into a meeting or get handed a chore without leaving the conversation. It's live at frapp.live and the billing is real. No chapter runs on it yet, including mine, and it's taking a lot longer than I expected.",
+    "Frapp is a chat app for fraternity chapters that puts everything in one place, so nobody has to chase down information. Events, tasks, and points live inside the chat, so a brother can check into a meeting or get handed a chore without leaving the conversation. It's live at frapp.live and the billing is real. No chapter runs on it yet, including mine, and it's taking a lot longer than I expected.",
   ],
   images: [
     {
@@ -60,7 +60,7 @@ export const frapp: Project = {
       marginSubhead: "Two tries before this one",
       paragraphs: [
         "Frapp isn't the first attempt at solving this. The first was a budget tracker I built for myself when I was chapter steward, mostly a glorified spreadsheet with a login screen. It quietly stopped mattering once I started thinking about the chapter's problems instead of just mine.",
-        "The second attempt was a full operations platform for my chapter's 23 brothers, with housing tasks, Discord-based accountability, and photo proof that chores actually got done. It worked. Brothers used it every week. Then a certificate problem between two hosting providers broke the whole thing with two weeks left in the semester, and it stayed down until August. [It's back up now](/projects/tau-nu-fiji-ops-platform), mostly because I go in every week and restart it by hand.",
+        "The second attempt was a full operations platform for my chapter's brothers, with housing tasks, Discord-based accountability, and photo proof that chores actually got done. It worked. Brothers used it every week. Then a certificate problem between two hosting providers broke the whole thing with two weeks left in the semester, and it stayed down until August. [It's back up now](/projects/tau-nu-fiji-ops-platform), mostly because I go in every week and restart it by hand.",
       ],
     },
     {

@@ -14,7 +14,7 @@ export const resume = {
             "B.S. Computer Science and B.S. Information Technology and Web Science · Troy, NY",
           dates: "Aug 2024 - May 2028",
           bullets: [
-            "GPA: 3.60",
+            "GPA: 3.57",
             "Relevant coursework: Intro to Algorithms, Data Structures, Principles of Software, Web Science Systems Development, Foundations of Computer Science, Computer Architecture & Operating Systems",
           ],
         },
@@ -28,10 +28,10 @@ export const resume = {
           detail: "Web & Geospatial Technology Intern · Chatham, MA",
           dates: "May 2025 - Dec 2025",
           bullets: [
-            "Architected and built a professional-grade web mapping application from a legacy system, reducing update deployment time across nine towns from hours to minutes.",
+            "Rebuilt East-SouthEast's web map from a separate copy of the code for each town into one config-driven app, then used it to expand the map from nine towns to all 15 on Cape Cod.",
             "Collected precise property and topographic survey data in the field using GPS receivers and total stations.",
             "Assisted with survey workflows by performing background data work and digitizing linework in Carlson Survey CAD software.",
-            "Digitized over 100 sewer plans in QGIS to build a new interactive map from scratch, making critical infrastructure data accessible to residents.",
+            "Digitized over 100 sewer plans in QGIS to build a new interactive map from scratch.",
           ],
         },
       ],
@@ -47,7 +47,7 @@ export const resume = {
             "Architected a multi-tenant SaaS backend with JWT-scoped tenant isolation across three composed guards and row-level security on 50 database tables, validated by a 12-case cross-tenant isolation test suite.",
             "Built a 20-screen React Native mobile app wired to a 180+ endpoint REST API, reaching 90% test coverage.",
             "Designed an adversarial AI evaluation harness (43 tests) enforcing citation grounding and prompt-injection defenses ahead of any model implementation.",
-            "Maintained 4,700+ passing tests across a ~300,000-line codebase built solo over 6.5 months.",
+            "Maintained 4,700+ passing tests across a codebase of about 300,000 lines, built solo over 6.5 months.",
           ],
         },
         {
@@ -55,7 +55,7 @@ export const resume = {
           detail: "Next.js 14, TypeScript, Appwrite, Discord API, AWS",
           href: "/projects/tau-nu-fiji-ops-platform",
           bullets: [
-            "Built a unified platform for a 23-member organization that digitizes facility management and secures academic archives using S3 pre-signed URLs, replacing manual trackers with a centralized architecture.",
+            "Built a unified platform for my fraternity chapter that digitizes facility management and secures academic archives using S3 pre-signed URLs, replacing manual trackers with a centralized architecture.",
             "Developed a cron-based scheduler that assigns weekly tasks and escalates overdue items from private DMs to public channels, enforcing accountability without manual follow-up.",
             "Engineered an RBAC system synced with live Discord roles, letting admins manage assignments and penalties directly via native Slash Commands.",
           ],
@@ -65,7 +65,7 @@ export const resume = {
           detail: "East-SouthEast, LLC internship",
           href: "/projects/gis-map",
           bullets: [
-            "Delivered a single, dynamic codebase serving 9 towns with JavaScript and Mapbox, replacing a legacy system where every town ran its own one-off code.",
+            "Delivered a single, dynamic codebase with JavaScript and Mapbox that covers all 15 Cape Cod towns, replacing a legacy system where each of the original nine towns ran its own one-off code.",
             "Built a dynamic legend, multi-page PDF report generator, and address search/bookmarking tools used to produce client-facing reports.",
             "Built a high-performance, cost-effective tile loader for USGS maps, bypassing expensive third-party APIs.",
           ],
@@ -86,11 +86,11 @@ export const resume = {
       entries: [
         {
           title: "Camps Newfound-Owatonna",
-          detail: "Camp Counselor & Challenge Course Instructor",
+          detail: "Cabin Counselor",
           dates: "June - Aug 2026",
           bullets: [
-            "Held 24/7 duty of care for up to 10 campers across two overnight sessions spanning 7 weeks, running a full daily schedule with no adult backup after lights-out.",
-            "Served as one of two certified instructors on the camp's high-ropes challenge course, coaching campers through fear-based challenges and de-escalating peer conflict throughout the summer.",
+            "Looked after up to 10 twelve-year-old campers with a co-counselor across two overnight sessions spanning 7 weeks, running the cabin's full daily schedule.",
+            "Moved from swimming to Rocks and Ropes partway through the summer and was certified to belay and run the zip line, high ropes, and low ropes, coaching campers through fear-based challenges and de-escalating peer conflict.",
           ],
         },
       ],
@@ -103,7 +103,7 @@ export const resume = {
           detail: "Phi Gamma Delta, Tau Nu Chapter",
           dates: "Jan 2026 - Present",
           bullets: [
-            "Direct an executive cabinet of 5 officers and 10+ committee chairs for a 23-member chapter, managing risk mitigation and relations with university administration and International Headquarters.",
+            "Direct an executive cabinet of 5 officers and 10+ committee chairs for the chapter, managing risk mitigation and relations with university administration and International Headquarters.",
           ],
         },
         {
@@ -111,7 +111,7 @@ export const resume = {
           detail: "Phi Gamma Delta, Tau Nu Chapter",
           dates: "Aug 2026 - Present",
           bullets: [
-            "Manage a $12,000 semester operating budget and weekly procurement logistics for the chapter's residential facility.",
+            "Manage the chapter's food budget (about $10,000 a semester) and the weekly grocery runs for the house.",
           ],
         },
         {
@@ -119,7 +119,7 @@ export const resume = {
           detail: "Phi Gamma Delta, Tau Nu Chapter",
           dates: "Jan - May 2026",
           bullets: [
-            "Built data-driven academic support systems that kept chapter GPA consistently above the university average.",
+            "Wrote the scholarship committee's plan, ran chapter study hours, and kept up the chapter's library of old exams and study guides.",
           ],
         },
         {

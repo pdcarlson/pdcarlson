@@ -2,7 +2,7 @@
 
 **Junior Developer**
 
-I grew up around Boston, now at RPI studying CS and ITWS, still figuring out what I specialize in. I'm building Frapp, an app that rolls the four or five tools Greek organizations run on into one.
+I grew up on Cape Cod, now at RPI studying CS and ITWS, still figuring out what I specialize in. I'm building Frapp, a chat app for fraternity chapters that puts everything in one place so nobody has to chase down information.
 
 What I'm doing right now with my personal projects is figuring out how to build effectively with AI. I'm learning where AI accelerates good work and where it quietly produces stuff that looks right and isn't. I use my personal projects as opportunities to experiment in lower risk scenarios.
 
@@ -12,8 +12,8 @@ Off the screen, I'm usually outside. Hiking when the weather's good, skiing in V
 
 ### Currently
 
-- **Frapp**: Greek life operations platform. TypeScript, NestJS, Next.js, Expo, Supabase.
-- **Interactive GIS Map**: Web mapping application for nine New England towns. JavaScript, Mapbox, QGIS, Python.
+- **Frapp**: Chat app for fraternity chapters. TypeScript, NestJS, Next.js, Expo, Supabase.
+- **Carlson Software**: Part-time software engineering intern, working on a Node.js server for GNSS receivers.
 
 ### Stack I reach for
 
@@ -24,11 +24,11 @@ Tools: Git, GitHub Actions, Mapbox GL JS, QGIS
 
 ### Studying
 
-Rensselaer Polytechnic Institute: Computer Science & Information Technology and Web Science. GPA 3.60 / 4.00.
+Rensselaer Polytechnic Institute: Computer Science & Information Technology and Web Science. GPA 3.57 / 4.00.
 
 ### Off the screen
 
-Chapter President: Tau Nu Chapter of Phi Gamma Delta. Running a 23-member chapter through a full operating year. Budget, recruitment, alumni, and most of the calls in between.
+Chapter President: Tau Nu Chapter of Phi Gamma Delta. Running my chapter through a full operating year. Budget, recruitment, alumni, and most of the calls in between.
 
 Eagle Scout, earned in 2023. Three benches in a Riverbay neighborhood that I planned, fundraised $1,250 for, got town board approval on, and led a volunteer crew to build.
 
