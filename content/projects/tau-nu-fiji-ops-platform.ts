@@ -52,7 +52,7 @@ export const tauNuFijiOpsPlatform: Project = {
   metaDescription:
     "The app my chapter uses every week for housing tasks. It was down for four months over a certificate that couldn't renew, and came back in August.",
   ogDescription:
-    "This one was down for four months, and I had the cause wrong the whole time.",
+    "The app my chapter uses every week for house chores. The write-up goes through what went wrong with it, including the four months it was down while I blamed the wrong thing.",
   ogLabel: "Housing tasks for my fraternity chapter.",
   ogShot: "og/tau-nu-fiji-ops-platform.png",
 };

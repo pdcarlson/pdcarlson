@@ -99,7 +99,7 @@ export const frapp: Project = {
   metaDescription:
     "A chat app for fraternity chapters, built solo with AI agents. It's live with no chapter on it yet. Mostly this is about the checks I added that could never fail.",
   ogDescription:
-    "I keep finding out why the industry does things a certain way by running into the problem myself first.",
+    "A chat app for fraternity chapters that puts everything in one place so nobody has to chase down information. The write-up covers what's built so far and what isn't yet.",
   ogLabel: "A chat app for fraternity chapters.",
   ogShot: "og/frapp-web.png",
   ogPhone: "og/frapp-phone.png",

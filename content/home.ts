@@ -46,6 +46,6 @@ export const home = {
   metaDescription:
     "Paul Carlson builds software for real organizations. A GIS map for every town on Cape Cod, a fraternity ops platform, and the chat app meant to replace it.",
   ogDescription:
-    "Software for real people, not class projects. A GIS map for every town on Cape Cod, a fraternity ops platform, and the chat app meant to replace it.",
+    "My portfolio site, with write-ups on Frapp, my chapter's chore app, and the GIS map I built at East-SouthEast.",
   ogLabel: "CS and ITWS at RPI.",
 };
